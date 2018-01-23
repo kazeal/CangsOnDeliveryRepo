@@ -1,0 +1,40 @@
+<h1 align="center">Orders</h1>
+<div class="table">
+
+    <table class="table">
+		
+        <thead>
+            <th>Order Id</th>
+        <th>Customer Id</th>
+        <th>Date</th>
+        <th>Total</th>
+		<th>Status</th>
+         <th>Remarks</th>
+        <th>Time</th>
+        <th>Packaging</th>
+        <th>Location</th>
+		
+		
+        </thead>
+        <tbody>
+           <tr *ngFor='let order of orders'>
+            <td>{{order.orderID}}</td>
+            <td>{{order.customerID}}</td>
+            <td>{{order.orderDate}}</td>
+            <td>{{order.orderTotal}}</td>
+            <td>{{order.orderStatus}}</td>
+            <td>{{order.orderRemarks}}</td>
+            <td>{{order.Location}}</td>
+            <td>{{order.orderTime}}</td>
+            <td>
+                <button class="btn btn-info" (click)="click($event,customer.customerID,customer.cusPassword,customer.cusFirstName,customer.cusMiddleName,customer.cusLastName,customer.number,customer.address,customer.verificationCode)" onclick="document.getElementById('edit').style.display='block'"><i class="fa fa-pencil"></i></button>
+     
+     <button class="btn btn-danger" (click)="click($event,customer.customerID,customer.cusPassword,customer.cusFirstName,customer.cusMiddleName,customer.cusLastName,customer.number,customer.address,customer.verificationCode)" onclick="document.getElementById('del').style.display='block'"><i class="fa fa-remove"></i></button>
+    </td>	 
+          
+        </tr>
+            
+        
+        </tbody>
+    </table>
+</div>

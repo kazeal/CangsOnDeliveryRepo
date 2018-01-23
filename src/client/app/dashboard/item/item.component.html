@@ -1,0 +1,290 @@
+<style>
+    /* The Modal (background) */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    padding-top: 60px;
+}
+
+/* Modal Content/Box */
+.modal-content {
+    background-color: #fefefe;
+    margin: 5px auto; /* 15% from the top and centered */
+    border: 1px solid #888;
+    width: 80%; /* Could be more or less, depending on screen size */
+}
+
+/* The Close Button */
+.close {
+    /* Position it in the top right corner outside of the modal */
+    position: absolute;
+    right: 25px;
+    top: 0; 
+    color: #000;
+    font-size: 35px;
+    font-weight: bold;
+}
+
+/* Close button on hover */
+.close:hover,
+.close:focus {
+    color: red;
+    cursor: pointer;
+}
+
+/* Add Zoom Animation */
+.animate {
+    -webkit-animation: animatezoom 0.6s;
+    animation: animatezoom 0.6s
+}
+
+@-webkit-keyframes animatezoom {
+    from {-webkit-transform: scale(0)} 
+    to {-webkit-transform: scale(1)}
+}
+
+@keyframes animatezoom {
+    from {transform: scale(0)} 
+    to {transform: scale(1)}
+}
+    </style>
+
+
+
+
+
+<h1 align="center">Items{{display}}</h1>
+<h3 align="right"><button class="btn btn-basic" (click)="clean()" onclick="document.getElementById('add').style.display='block'"><i class="fa fa-plus"></i></button></h3>
+
+
+
+<div class="table">
+    <table class="table">
+        <thead>
+        <th>Picture</th>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Quantity Stored</th>
+        <th>Price</th>
+        <th>Purchase Count</th>
+        <th>Options</th>
+
+        </thead>
+        <tbody>
+            <tr *ngFor='let item of items'>
+                <td><img [src]="'data:image/PNG;base64,'+ item.picture.split(' ').join('') | safeHtml" width="100" height="100"></td>
+                <td>{{item.itemID}}</td>
+                <td>{{item.itemName}}</td>
+                <td>{{item.itemQuantityStored}}</td>
+                <td>{{item.itemPrice}}</td>
+                <td>{{item.purchaseCount}}</td>
+                <td>
+                    <button class="btn btn-info" (click)="clickedit($event,item.itemID,item.itemName,item.itemQuantityStored,item.itemPrice,item.purchaseCount,item.picture)" onclick="document.getElementById('edit').style.display='block'"><i class="fa fa-pencil"></i></button>
+     
+                    <button class="btn btn-danger" (click)="clickdel($event,item.itemID,item.itemName)" onclick="document.getElementById('del').style.display='block'"><i class="fa fa-remove"></i></button>
+                </td>
+            </tr>
+            
+        
+        </tbody>
+    </table>
+</div>
+
+
+<!--add-->
+<!--FINISH PASSING ID TO MODAL-->
+<!-- The Modal -->
+<div id="add" class="modal">
+  <span onclick="document.getElementById('add').style.display='none'" 
+class="close" title="Close Modal">&times;</span>
+
+  <!-- Modal Content  (ngSubmit)="onSubmitadd(user.value)" -->
+  <form role="form" id="data2" class="modal-content animate" >
+				<div class="form-content">
+      <div class="container" align="center">
+      <br><br><br>
+      <div class="form-group">
+            <label><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Item Name</b></label>
+            <input type="text"  placeholder="Enter Item Name"   [(ngModel)]="itemName" name="itemName" required >
+            <br><br>
+      </div>
+      <div class="form-group">
+            <label><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Item Quantity Stored</b></label>
+            <input type="text" placeholder="Enter Quantity to be Stored"  [(ngModel)]="itemQuantityStored" name="itemQuantityStored" required >
+            <br><br>
+      </div>
+
+      <div class="form-group">
+            <label><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Price</b></label>
+            <input type="text" placeholder="Enter Price"  [(ngModel)]="itemPrice" name="itemPrice" required >
+            <br><br>
+      </div>
+
+      <div class="form-group">
+            <label><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Purchase Count</b></label>
+            <input type="text" [value]="purchaseCount"  [(ngModel)]="purchaseCount" name="purchaseCount" readonly >
+            <br><br>
+      </div>
+      <div class="form-group">
+            <label><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Purchase Count</b></label>
+            <input #pic type="file" (change)="onChange($event)" name="picture" required >
+            <br><br>
+      </div>
+       <div class="form-group"> 
+            <a class="btn rounded-btn" (click) ='onSubmitAdd($event, user.value)'>Register</a>
+     
+        </div>
+        <div class="form-group"> 
+            <a class="btn rounded-btn" (click) ='onClose()'>Cancel</a>
+     
+        </div>
+        </div>
+   </div>
+   </form>
+</div>
+
+<!--edit-->
+<!-- The Modal -->
+<div id="edit" class="modal">
+  <span onclick="document.getElementById('edit').style.display='none'" 
+class="close" title="Close Modal">&times;</span>
+
+  <!-- Modal Content -->
+  <form role="form" id="dataedit" class="modal-content animate" >
+				<div class="form-content">
+      <div class="container" align="center">
+      <br><br><br>
+       <div class="form-group">
+            <label><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Item ID</b></label>
+            <input type="text"  [value]="itemID" name="itemID" readonly>
+            <br><br>
+      </div>
+      <div class="form-group">
+            <label><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Item Name</b></label>
+            <input type="text" [(ngModel)]="itemName" [value]="itemName" name="itemName" readonly>
+            <br><br>
+      </div>
+      <div class="form-group">
+            <label><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Item Quantity Stored</b></label>
+            <input type="text" [value]="itemQuantityStored"  [(ngModel)]="itemQuantityStored" name="itemQuantityStored" required >
+            <br><br>
+      </div>
+
+      <div class="form-group">
+            <label><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Price</b></label>
+            <input type="text" [value]="itemPrice"  [(ngModel)]="itemPrice" name="itemPrice" required >
+            <br><br>
+      </div>
+
+      <div class="form-group">
+            <label><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PurchaseCount</b></label>
+            <input type="text" [value]="purchaseCount"  [(ngModel)]="purchaseCount" name="purchaseCount" readonly>
+            <br><br>
+      </div>
+       <div class="form-group"> 
+            <a class="btn rounded-btn" (click) ='onSubmitEdit($event, user.value)'>Save</a>
+     
+        </div>
+        </div>
+    
+    </div>
+     </form>
+</div>
+
+
+<!--delete-->
+<div id="del" class="modal" >
+  <span onclick="document.getElementById('del').style.display='none'" 
+class="close" title="Close Modal">&times;</span>
+ <form role="form" id="datadel" class="modal-content animate" >
+ <div class="container" align="center">
+  <!-- Modal Content --><br><br><br><br>
+    <h3 align="center">Are you sure you want<br> to delete this Customer?</h3><br>
+    <h4 align="center">Item ID:{{itemID}}</h4>
+    <h4 align="center">Item Name: {{itemName}}</h4>
+    <br><br>
+    <button class="btn btn-success" (click) ='onSubmitDel($event, user.value)'><i class="fa fa-check"></i></button>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <button class="btn btn-danger" onclick="document.getElementById('del').style.display='none'"><i class="fa fa-remove"></i></button>
+    <br><br><br><br>
+</div>
+</form>
+</div>
+
+
+
+
+
+
+
+
+<!-- The Modal 
+<div id="add" class="modal">
+  <span onclick="document.getElementById('add').style.display='none'" 
+class="close" title="Close Modal">&times;</span>
+-->
+  <!-- Modal Content 
+  <form id="data" class="modal-content animate" name="data" action="http://httpbin.org/post" method="POST" 
+    enctype="multipart/form-data">
+      <div class="container" align="center">
+      <br><br><br>
+      <label><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Item Name</b></label>
+      <input type="text" placeholder="Enter Username" name="name" required>
+    <br><br>
+      <label><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Quantity</b></label>
+      <input type="text" placeholder="Enter Quantity" name="qty" required>
+      <br><br>
+      <label><b>Purchase Count</b></label>
+      <input type="text" placeholder="Enter Purchase Count" name="price" value="0" required>
+      <br><br>
+      <label><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Price</b></label>
+      <input type="text" placeholder="Enter Price" name="price" required>
+      <br><br>
+      <label><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Picture</b></label>
+     <input type="file" id="file" name="file">
+     <input type="submit" name="inputtest" id="inputtest" value="submitimport">
+      </div>
+    
+<br><Br><Br><br>
+    <div class="container" style="background-color:#f1f1f1">
+      <button type="button" onclick="document.getElementById('id01').style.display='none'" class="cancelbtn">Cancel</button>
+  
+      
+    </div>
+  </form>
+</div>
+<script>
+
+    $('form#data').submit(function(){
+        var form = document.forms.namedItem("data"); 
+        var formdata = new FormData(form); 
+
+        $.ajax({
+            async: true,
+            type: "POST",
+            dataType: "json", 
+            contentType: false, 
+            url: 'http://httpbin.org/post',  
+            data: formdata,
+            processData: false, 
+            success: function (data) {
+                alert("success");
+                alert("Loading data....");              
+
+            },
+            timeout: 10000
+        });
+         return false; 
+       
+    });
+</script>
+-->
+     

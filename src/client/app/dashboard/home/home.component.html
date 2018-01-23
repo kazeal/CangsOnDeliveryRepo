@@ -1,9 +1,10 @@
+<!--
 <div class="animate">
     <div class="animate">
         <div class="row">
             <div class="col-sm-12">
                 <div class="card">
-                    <div class="card-header card-info card-inverse">
+                    <div class="card-header"> --><!--card-info card-inverse--> <!--
                         <h3 class="card-title">Carousel</h3>
                     </div>
                     <div class="card-block">
@@ -82,3 +83,27 @@
         </div>
     </div>
 </div>
+-->
+
+<!-- app.component.html 
+<input type="file"
+       ngFileSelect
+       [options]="options"
+       (onUpload)="handleUpload($event)"
+       (beforeUpload)="beforeUpload($event)">
+ -->
+<!-- drag & drop file example
+<style>
+  .file-over { border: dotted 3px red; } /* Default class applied to drop zones on over */
+</style> 
+<div ngFileDrop
+     [options]="options"
+     (onUpload)="handleUpload($event)"
+     [ngClass]="{'file-over': hasBaseDropZoneOver}"
+     (onFileOver)="fileOverBase($event)"
+     (beforeUpload)="beforeUpload($event)">
+</div>
+ 
+<div>
+Response: {{ uploadFile | json }}
+</div>-->

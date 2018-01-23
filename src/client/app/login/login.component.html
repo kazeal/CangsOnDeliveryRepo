@@ -1,19 +1,23 @@
 <div class="login-page animate">
 	<div class="row">
 		<div class="col-lg-4 col-lg-offset-4">
-        	<img src="assets/images/flat-avatar.png" class="user-avatar" />
-			<h1>Ani Angular2 <small>Free Edition</small></h1>
+        	<img src="assets/images/cangs.png" class="user-avatar" />
+			<h1>Cang's Inc.<br><small>Admin Page</small></h1>
+			{{error}}
 			<form role="form">
 				<div class="form-content">
+					
 					<div class="form-group">
-						<input type="text" class="form-control input-underline input-lg" id="" placeholder="Email">
-					</div>
+						<input type="text" [(ngModel)]='user' name='user' class="form-control input-underline input-lg" placeholder="Username">
+					</div> 
 					<div class="form-group">
-						<input type="password" class="form-control input-underline input-lg" id="" placeholder="Password">
+						<input type="password" [(ngModel)]='pass' name='pass' class="form-control input-underline input-lg" placeholder="Password">
+						
 					</div>
 				</div>
-				<a class="btn rounded-btn" [routerLink]="['dashboard', 'home']"> Log in </a>
-			</form>
+				
+				<a class="btn rounded-btn"(click)='changeGV($event)' (click) ='login($event, login.value)'> Log in </a>
+			</form><!-- [routerLink]="['dashboard', 'home']"-->
 		</div>	
 	</div>
 </div>
