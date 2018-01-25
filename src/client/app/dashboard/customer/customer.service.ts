@@ -13,10 +13,10 @@ export class CustomerService{
     post: any;
     head = new Headers();
     requestOptions = new RequestOptions();
-    private _apiUrl = 'http://192.168.0.24:41181';
-    private _customerAddUrl ='http://192.168.0.24:41181/customer/addCustomer';
-    private _customerEditUrl ='http://192.168.0.24:41181/customer/editCustomer';
-    private _customerDelUrl ='http://192.168.0.24:41181/customer/deleteCustomer';
+    private _apiUrl = 'http://192.168.0.24:1025';
+    private _customerAddUrl ='http://192.168.0.24:1025/customer/addCustomer';
+    private _customerEditUrl ='http://192.168.0.24:1025/customer/editCustomer';
+    private _customerDelUrl ='http://192.168.0.24:1025/customer/deleteCustomer';
     constructor(private _http: Http){
         //http://localhost:52282/customer/addCustomer
         //console.log("RUNNING");

@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
 import { HttpModule, Response, Headers, RequestOptions } from '@angular/http';
 import { ProductService } from './product.service';
 import { CommonModule } from '@angular/common';
@@ -8,17 +8,19 @@ import { Pipe, PipeTransform } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { AnonymousSubscription } from "rxjs/Subscription";
 import { Observable } from 'rxjs/Rx';
-import { NgZone } from '@angular/core';
+import { NgZone, ChangeDetectorRef } from '@angular/core';
+
+
 @Component({
 	moduleId: module.id,
     selector: 'item-page',
-    templateUrl: 'item.component.html'
+    templateUrl: 'item.component.html',
 }
 )
 
 export class ItemComponent implements OnInit{
 
-    picture: File;
+    picture: FileList;
     picturestring: string;
 	itemName:string;
 	itemQuantityStored:number;
@@ -30,10 +32,11 @@ export class ItemComponent implements OnInit{
 	public user: any =[];
 	public data: any= [];
 	public customers: any= [];
-    public items: any= [];
+    public items: any= {data:[]};
     public itemsnew: any= [];
-    filesToUpload: File;
-    public picturetest:string;
+    filesToUpload: File; //192.168.0.24:1025/UploadFile/coco.jpg
+    public picturetest:string ="https://www.petdrugsonline.co.uk/images/page-headers/cats-master-header";
+    public fileName:any;
     public test:any = [{
 				'itemID': 1, 
 				'itemName': "test", 
@@ -43,12 +46,45 @@ export class ItemComponent implements OnInit{
 				'picture': "test", 				
 		}];
     private timerSubscription: AnonymousSubscription;
-    private postsSubscription: AnonymousSubscription;
+    private postsSubscription: AnonymousSubscription;//FIX RELOAD DATA
+    
 
-
-	 constructor(public Data: ProductService, private _http: HttpModule, private ngzone:NgZone){
-         this.Data.getProducts().subscribe(data => this.items=data);
-         console.log(this.items);
+	 constructor(
+         public Data: ProductService,
+         private _http: HttpModule,
+         private sanitizer:DomSanitizer,
+         private chRef: ChangeDetectorRef,
+         private zone: NgZone
+           ){
+               let time = new Date();
+               let dd =time.getDay();
+               let mm =time.getMonth();
+               let yy =time.getFullYear();
+               let hh =time.getHours();
+               let ss =time.getSeconds();
+               //let t=time.get
+        console.log(dd + ", " + mm + " " + dd + ", " + yy + " " + hh + ":" + ss);
+        
+            this.Data.getProducts().subscribe(data => {
+                    zone.run(() => {
+                        this.items.data=data
+                        console.log(this.items.data);
+                        alert("inside");
+                        for(var i=0;i<this.items.data.length;i++)
+                        this.items.data[i].picture="http://"+this.items.data[i].picture;
+                        this.items.data[i].picture=this.sanitizer.bypassSecurityTrustUrl(this.items.data[i].picture);
+                        console.log("latestest");
+            
+                    });
+            });
+        
+        
+         
+         
+          
+                
+        
+       
         // console.log("new");
         // console.log(ngzone.runOutsideAngular);
 
@@ -76,13 +112,30 @@ export class ItemComponent implements OnInit{
         
     }
     clean(){
-        this.picture ="";
-        this.picturestring: string;
-        this.itemName:string;
-        this.itemQuantityStored:number;
-        this.itemPrice:number; 
-        this.purchaseCount:number =0;
-        this.itemID='';
+           this.picture =null;
+            this.picturestring="";
+            this.itemName="";
+            this.itemQuantityStored=null;
+            this.itemPrice=null; 
+            this.purchaseCount=0;
+            this.itemID=null;
+            this.Data.getProducts().subscribe(data => {
+                this.zone.run(() => {
+                    this.items.data=data
+                    console.log(this.items.data);
+                    alert("inside");
+                    for(var i=0;i<this.items.data.length;i++)
+                    this.items.data[i].picture="http://"+this.items.data[i].picture;
+                    this.items.data[i].picture=this.sanitizer.bypassSecurityTrustUrl(this.items.data[i].picture);
+                    console.log("latestest");
+            
+                    this.chRef.markForCheck();
+            });
+            
+        });
+        this.chRef.markForCheck();
+        
+        
     }//FINISH ADD REMOVING INITIAL VARIABLES AND REFRESH DATA
     clickdel(event:any,id:any,iname:string){
 	//	console.log(id);
@@ -178,17 +231,33 @@ export class ItemComponent implements OnInit{
     onSubmitAdd() {  
            // console.log(this.itemName);
         
+                
+                //console.log(this.data[0]);
+                console.log("why");
+               // this.Data.addItem(this.data[0],this.picture); 
+                
+                //this.fileName=this.Data.addPicture(this.picture);
+               
+               
                 this.data.push({
                     'itemName': this.itemName, 
                     'itemQuantityStored': this.itemQuantityStored, 
                     'itemPrice': this.itemPrice,
                     'purchaseCount': this.purchaseCount, 
-                    'picture': "asd", 
+                    'picture': "fileName", 
                    			
                 });
-                //console.log(this.data[0]);
-                console.log("why");
-                this.Data.addItem(this.data[0],this.picture);            
+                    this.Data.addItem(this.data[0],this.picture);   
+                    //console.log(this.fileName);
+                      
+                this.picture =null;
+                this.picturestring="";
+                this.itemName="";
+                this.itemQuantityStored=null;
+                this.itemPrice=null; 
+                this.purchaseCount=0;
+                this.itemID=null;
+                
     }
 
     onSubmitDel() {
@@ -196,16 +265,18 @@ export class ItemComponent implements OnInit{
         //console.log(this.data[0]);
         this.Data.delItem(this.itemID);
     }
-
-     ngOnInit() {
-        this.refreshData();
-    }
     
+     ngOnInit() {
+      //  this.refreshData();
+    }
+    /*
      private refreshData(): void {
+         this.zone.run(() => {
+         this.chRef.detectChanges();
         this.postsSubscription = this.Data.getProducts().subscribe(
 
         data  => {
-            this.items = data;
+            this.items.data = data;
             this.subscribeToData();
             console.log(this.items);
         },
@@ -216,6 +287,7 @@ export class ItemComponent implements OnInit{
             console.log("complete");
         }
         );
+        });
     }
     private subscribeToData(): void {
 
@@ -232,6 +304,7 @@ export class ItemComponent implements OnInit{
             }
     }
     
+    */
 }
 
 

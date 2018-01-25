@@ -17,12 +17,12 @@ export class EmployeeService{
     public addRights: any =[];
     public editRights: any =[];
     public static employeeID:any;
-    private _apiUrl = 'http://192.168.0.24:41181';
-    private _employeeAddUrl ='http://192.168.0.24:41181/employee/addEmployee';
-    private _employeeEditUrl ='http://192.168.0.24:41181/employee/editEmployee';
-     private _employeeEditRightsUrl ='http://192.168.0.24:41181/accessRights/editRights';
-    private _employeeDelUrl ='http://192.168.0.24:41181/employee/deleteEmployee';
-    private _employeeAddRightsUrl ='http://192.168.0.24:41181/accessRights/addAccessRights';
+    private _apiUrl = 'http://192.168.0.24:1025';
+    private _employeeAddUrl ='http://192.168.0.24:1025/employee/addEmployee';
+    private _employeeEditUrl ='http://192.168.0.24:1025/employee/editEmployee';
+     private _employeeEditRightsUrl ='http://192.168.0.24:1025/accessRights/editRights';
+    private _employeeDelUrl ='http://192.168.0.24:1025/employee/deleteEmployee';
+    private _employeeAddRightsUrl ='http://192.168.0.24:1025/accessRights/addAccessRights';
     constructor(private _http: Http){
         //http://localhost:52282/customer/addCustomer
         //console.log("RUNNING");

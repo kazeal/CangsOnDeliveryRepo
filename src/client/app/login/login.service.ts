@@ -14,8 +14,8 @@ import 'rxjs/add/operator/catch';
 export class LoginService{
     post: any;
     public rights:any =[];
-    private _loginUrl = 'http://192.168.0.24:41181/employee/all';
-    private _apiUrl = 'http://192.168.0.24:41181';
+    private _loginUrl = 'http://192.168.0.24:1025/employee/all';
+    private _apiUrl = 'http://192.168.0.24:1025';
     constructor(private _http: Http ){
         console.log("LOGIN");
         
@@ -27,7 +27,7 @@ export class LoginService{
     getEmployees(){
 
         return new Promise(resolve => {
-          this._http.get('http://192.168.0.24:41181/employee/all').map(res => res.json()).subscribe(data => {
+          this._http.get('http://192.168.0.24:1025/employee/all').map(res => res.json()).subscribe(data => {
           this.post = data;
           resolve(this.post);
           console.log(this.post);

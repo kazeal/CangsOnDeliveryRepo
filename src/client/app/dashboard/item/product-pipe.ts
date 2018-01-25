@@ -7,6 +7,6 @@ export class SafeHtml implements PipeTransform{
 
   transform(html :any) {
       
-    return  this.sanitizer.bypassSecurityTrustUrl(html);
+    return  this.sanitizer.bypassSecurityTrustResourceUrl(html);
   }
 }

@@ -8,19 +8,29 @@ import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/timeout';
 import 'rxjs/add/operator/delay';
 import { AnonymousSubscription } from "rxjs/Subscription";
-
+import { CookieService } from 'angular2-cookie/services/cookies.service';
 @Injectable()
 export class ProductService{
     filesToUpload: Array<File>;
     post: any;
+    
     public static imgstring:string;
-     private _apiUrl = 'http://192.168.0.24:41181';
-    private _productUrl = 'http://192.168.0.24:41181/item/all';
-    private _productAddUrl = 'http://192.168.0.24:41181/item/addItem';
-    private _productEditUrl = 'http://192.168.0.24:41181/item/editItem';
-    private _productDelUrl = 'http://192.168.0.24:41181/item/delItem';
+    public static fileName:any;
+    public log: any= [{
+        'logDate': "",
+        "logQuantity":"",
+        "logPrice":"",
+        "itemID":"",
+        "employeeID":"",
+    }];//logquantity,logdate,logprice,itemid,employeeid
+    private uploadURL = 'http://192.168.0.24:1025/item/uploadFile';
+     private _apiUrl = 'http://192.168.0.24:1025';
+    private _productUrl = 'http://192.168.0.24:1025/item/all';
+    private _productAddUrl = 'http://192.168.0.24:1025/item/addItem';
+    private _productEditUrl = 'http://192.168.0.24:1025/item/editItem';
+    private _productDelUrl = 'http://192.168.0.24:1025/item/delItem';
    // base64Img = require('base64-img');
-    constructor(private _http: Http){
+    constructor(private _http: Http,private _cookieService:CookieService){
         //console.log("RUNNING");
         //https://cangsapi.000webhostapp.com/index.php/Products/get_products
          //this.getProducts();
@@ -61,17 +71,48 @@ export class ProductService{
             
             
       }
+      addPicture(pic:FileList){
 
-      addItem(data:any,pic:File){
-       // console.log(data);
-       this.getBase64(pic["0"]);
-       setTimeout (() => {
-            //data["picture"]=this.getBase64(pic["0"]);
+            console.log(pic);
             
+                if(pic.length > 0) {
+                let file: File = pic[0];
+                let formData:FormData = new FormData();
+                console.log(file);
+                
+                formData.append('uploadFile', file, file.name);
+                let headers = new Headers();            
+                //headers.append('Content-Type', 'multipart/form-data');
+               
+                //headers.append('Content-Type', 'application/x-www-form-urlencoded');
+               // headers.append('Accept', 'application/json');
+                let options = new RequestOptions({ headers: headers });//https://httpbin.org/post
+                console.log(formData);
+                this._http.post(this.uploadURL, formData, options)
+                    .map(res => res.json())
+                    .catch(error => Observable.throw(error))
+                    .subscribe(
+                        data => ProductService.fileName=data,
+                        error => console.log(error)
+                    )
+                }
+           
+
+      }
+
+      addItem(data:any,pic:FileList){
+       // console.log(data);
+      // this.getBase64(pic["0"]);
+       this.addPicture(pic);
+       setTimeout (() => {
+           console.log(ProductService.fileName);
+            data["picture"]="192.168.0.24:1025/UploadFile/"+ProductService.fileName;
+           // ProductService.fileName=null;
            // console.log(ProductService.imgstring);
-            data["picture"]=ProductService.imgstring;
+           // data["picture"]=ProductService.imgstring;
            // console.log(data);
             //console.log(data["picture"].length);
+            console.log(data);
              let headers = new Headers();
             headers.append('Content-Type', 'application/x-www-form-urlencoded');
             let reqopt = new RequestOptions({
@@ -83,37 +124,10 @@ export class ProductService{
                 alert(this.response);
             });
                   
-        }, 2000)
+        }, 3000)
                  
        
-        //FINISH UPLOAD
-
-
-        /*
-         this._http.post(this._productAddUrl,JSON.stringify(data), reqopt).subscribe(function(res){
-             this.response=res;
-             alert(this.response);
-          });
-        */  
-        /*
-         return new Promise((resolve, reject) => {
-            var formData: any = new FormData();
-            var xhr = new XMLHttpRequest();
-            console.log(data.picture["0"]);
-            formData.append(data.itemName,data.itemQuantityStored,data.itemPrice,data.purchaseCount,data.picture["0"])
-            xhr.onreadystatechange = function () {
-                if (xhr.readyState == 4) {
-                    if (xhr.status == 200) {
-                        resolve(JSON.parse(xhr.response));
-                    } else {
-                        reject(xhr.response);
-                    }
-                }
-            }
-            xhr.open("POST", this._productAddUrl, true);
-            xhr.send(formData);
-        });
-        */
+    
  
        
           
@@ -125,11 +139,22 @@ export class ProductService{
         let reqopt = new RequestOptions({
             headers: headers
         })
-        
-        
+        var call = this;
+        this.log['logQuantity']=data['itemQuantityStored'];
+        this.log['logDate']=data['itemQuantityStored'];
+        this.log['logPrice']=data['itemPrice'];
+        this.log['itemID']=data['itemID'];
+        this.log['employeeId']=this._cookieService.get('employeeID');
+
+        //logquantity,logdate,logprice,itemid,employeeid
          this._http.post(this._productEditUrl,JSON.stringify(data), reqopt).subscribe(function(res){
              this.response=res;
              alert(this.response);
+             call._http.post(this._productEditUrl,JSON.stringify(data), reqopt).subscribe(function(res){
+                 
+                 
+             });
+            
           });
           
      }
@@ -166,3 +191,5 @@ export class ProductService{
 
     
 }
+
+
