@@ -123,7 +123,7 @@ export class LoginComponent {
 						
 						this.router.navigateByUrl("/dashboard/home");			
 						this.error="";
-					}, 3000)
+					}, 2000)
 			 }
 		 }
 		 else

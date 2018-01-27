@@ -66,7 +66,8 @@
 
 
 
-<h3 align="right" *ngIf="addCustomer"><button class="btn btn-basic" onclick="document.getElementById('add').style.display='block'"><i class="fa fa-plus"></i></button></h3>
+<h1 align="center">Customers</h1>
+<h3 align="right" *ngIf="addCustomer"><button class="btn btn-basic" (click)="clear()" onclick="document.getElementById('add').style.display='block'"><i class="fa fa-plus"></i></button></h3>
 <div class="table">
 
     <table class="table">
@@ -130,55 +131,38 @@ class="close" title="Close Modal">&times;</span>
 class="close" title="Close Modal">&times;</span>
 
   <!-- Modal Content -->
-  <form role="form" id="dataedit" class="modal-content animate" >
+  <form [formGroup]="complexForm" role="form" id="dataedit" class="modal-content animate" >
 				<div class="form-content">
       <div class="container" align="center">
       <br><br><br>
-       <div class="form-group">
-            <label><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Customer ID</b></label>
-            <input type="text"  [value]="customerID" name="customerID" readonly>
-            <br><br>
-      </div>
       <div class="form-group">
             <label><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;First Name</b></label>
-            <input type="text" [(ngModel)]="cusFirstName" [value]="cusFirstName" name="cusFirstName" required >
+            <input type="text" [formControl]="complexForm.controls['firstName']" [(ngModel)]="cusFirstName" [value]="cusFirstName" name="cusFirstName" required >
             <br><br>
       </div>
       <div class="form-group">
             <label><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Middle Name</b></label>
-            <input type="text" [value]="cusMiddleName"  [(ngModel)]="cusMiddleName" name="cusMiddleName" required >
+            <input type="text" [formControl]="complexForm.controls['middleName']" [value]="cusMiddleName"  [(ngModel)]="cusMiddleName" name="cusMiddleName" required >
             <br><br>
       </div>
 
       <div class="form-group">
             <label><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Last Name</b></label>
-            <input type="text" [value]="cusLastName"  [(ngModel)]="cusLastName" name="cusLastName" required >
-            <br><br>
-      </div>
-
-      <div class="form-group">
-            <label><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Password</b></label>
-            <input type="password" [value]="cusPassword"  [(ngModel)]="cusPassword" name="password" readonly>
+            <input type="text" [formControl]="complexForm.controls['lastName']" [value]="cusLastName"  [(ngModel)]="cusLastName" name="cusLastName" required >
             <br><br>
       </div>
       <div class="form-group">
             <label><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Number</b></label>
-            <input type="text" [value]="number"  [(ngModel)]="number" name="number" required >
+            <input type="text" [formControl]="complexForm.controls['number']" [value]="number"  [(ngModel)]="number" name="number" required >
             <br><br>
       </div>
       <div class="form-group">
             <label><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Address</b></label>
-            <input type="text" [value]="verificationCode" [(ngModel)]="verificationCode" name="verificationCode" required >
-            <br><br>
-      </div>
-      <div class="form-group">
-            <label><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Address</b></label>
-            <input type="text" [value]="address" [(ngModel)]="address" name="address" required >
+            <input type="text" [formControl]="complexForm.controls['address']" [value]="address" [(ngModel)]="address" name="address" required >
             <br><br>
       </div>
        <div class="form-group"> 
-            <a class="btn rounded-btn" (click) ='onSubmitEdit($event, user.value)'>Save</a>
-     
+             <button [disabled]="!complexForm.valid" class="btn btn-primary" (click) ='onSubmitEdit($event, user.value)'>Save</button>    
         </div>
         </div>
     
@@ -199,47 +183,40 @@ class="close" title="Close Modal">&times;</span>
 class="close" title="Close Modal">&times;</span>
 
   <!-- Modal Content  (ngSubmit)="onSubmitadd(user.value)" -->
-  <form role="form" id="dataadd" class="modal-content animate" >
+  <form [formGroup]="complexForm" role="form" id="dataadd" class="modal-content animate" >
 				<div class="form-content">
       <div class="container" align="center">
       <br><br><br>
       <div class="form-group">
             <label><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;First Name</b></label>
-            <input type="text"  placeholder="Enter First Name"   [(ngModel)]="cusFirstName" name="cusFirstName" required >
+            <input type="text"  [formControl]="complexForm.controls['firstName']"  placeholder="Enter First Name"   [(ngModel)]="cusFirstName" name="cusFirstName" required >
             <br><br>
       </div>
       <div class="form-group">
             <label><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Middle Name</b></label>
-            <input type="text" placeholder="Enter Middle Name"  [(ngModel)]="cusMiddleName" name="cusMiddleName" required >
+            <input type="text"  [formControl]="complexForm.controls['middleName']" placeholder="Enter Middle Name"  [(ngModel)]="cusMiddleName" name="cusMiddleName" required >
             <br><br>
       </div>
 
       <div class="form-group">
             <label><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Last Name</b></label>
-            <input type="text" placeholder="Enter Last Name"  [(ngModel)]="cusLastName" name="cusLastName" required >
+            <input type="text"  [formControl]="complexForm.controls['lastName']" placeholder="Enter Last Name"  [(ngModel)]="cusLastName" name="cusLastName" required >
             <br><br>
       </div>
-
-      <div class="form-group">
-            <label><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Password</b></label>
-            <input type="password" placeholder="Enter Password"  [(ngModel)]="cusPassword" name="password" required >
-            <br><br>
-      </div>
-
       <div class="form-group">
             <label><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Number</b></label>
-            <input type="text" placeholder="Enter Phone Number"  [(ngModel)]="number" name="number" required >
+            <input type="text"  [formControl]="complexForm.controls['number']" placeholder="Enter Phone Number"  [(ngModel)]="number" name="number" required >
             <br><br>
       </div>
 
       <div class="form-group">
             <label><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Address</b></label>
-            <input type="text" placeholder="Enter Address" [(ngModel)]="address" name="address" required >
+            <input type="text"  [formControl]="complexForm.controls['address']" placeholder="Enter Address" [(ngModel)]="address" name="address" required >
             <br><br>
       </div>
        <div class="form-group"> 
-            <a class="btn rounded-btn" (click) ='onSubmitAdd($event, user.value)'>Register</a>
-     
+            <button [disabled]="!complexForm.valid" class="btn btn-primary" (click) ='onSubmitAdd($event, user.value)'>Register</button>
+           
         </div>
         </div>
    </div>

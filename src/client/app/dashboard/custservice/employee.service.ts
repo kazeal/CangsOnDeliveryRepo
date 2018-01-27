@@ -124,10 +124,10 @@ export class EmployeeService{
             })     
                 this._http.post(this._employeeAddUrl,JSON.stringify(data), reqopt).subscribe(function(res){
                     this.response=res;
-                    alert("work?");
+                      alert("Employee Successfully Added!");
                     console.log(this.response._body);
                     EmployeeService.employeeID=this.response._body;  
-                    console.log(this.employeeID);                  
+                  //  console.log(this.employeeID);                  
                 this.addRights.length=0;
                 });
                 setTimeout (() => {
@@ -150,7 +150,7 @@ export class EmployeeService{
                                 console.log(this.addRights);
                                 this._http.post(this._employeeAddRightsUrl,JSON.stringify(this.addRights), reqopt).subscribe(function(res:any){
                                         this.response=res;      
-                                        alert("it worked");
+                                       
                                 });
                                 this.addRights =[];
                                 
@@ -304,7 +304,7 @@ export class EmployeeService{
         
          this._http.post(this._employeeEditUrl,JSON.stringify(data), reqopt).subscribe(function(res){
              this.response=res;
-             alert(this.response);
+             alert("Employee Successfully Updated!");
           });
           
      }
@@ -320,7 +320,7 @@ export class EmployeeService{
         
          this._http.put(url,null, reqopt).subscribe(function(res){
              this.response=res;
-             alert(this.response);
+             alert("Employee Successfully Deleted!");
         });
       }
   

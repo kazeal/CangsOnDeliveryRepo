@@ -16,18 +16,14 @@ export class ProductService{
     
     public static imgstring:string;
     public static fileName:any;
-    public log: any= [{
-        'logDate': "",
-        "logQuantity":"",
-        "logPrice":"",
-        "itemID":"",
-        "employeeID":"",
-    }];//logquantity,logdate,logprice,itemid,employeeid
+    public log:any=[];//logquantity,logdate,logprice,itemid,employeeid
     private uploadURL = 'http://192.168.0.24:1025/item/uploadFile';
      private _apiUrl = 'http://192.168.0.24:1025';
     private _productUrl = 'http://192.168.0.24:1025/item/all';
+    private _productStatisticsUrl = 'http://192.168.0.24:1025/item/itemStatistics';
     private _productAddUrl = 'http://192.168.0.24:1025/item/addItem';
     private _productEditUrl = 'http://192.168.0.24:1025/item/editItem';
+    private _productUpdateUrl = 'http://192.168.0.24:1025/updateItem/addUpdateItem';
     private _productDelUrl = 'http://192.168.0.24:1025/item/delItem';
    // base64Img = require('base64-img');
     constructor(private _http: Http,private _cookieService:CookieService){
@@ -49,7 +45,19 @@ export class ProductService{
         });
         }
     */
-    }
+}
+    getItemStatistics(){
+            return this._http.get(this._productStatisticsUrl).map((res:Response) => res.json());
+            /*
+            return new Promise(resolve => {
+            return this._http.get(this._productUrl).map(res => res.json()).subscribe(data => {
+            this.post = data;
+            resolve(this.post);
+            console.log(this.post);
+            });
+            }
+        */
+        }
      private pause() {
         setTimeout (() => {
         console.log("Hello from setInterval");
@@ -138,25 +146,38 @@ export class ProductService{
         headers.append('Content-Type', 'application/x-www-form-urlencoded');
         let reqopt = new RequestOptions({
             headers: headers
-        })
-        var call = this;
-        this.log['logQuantity']=data['itemQuantityStored'];
-        this.log['logDate']=data['itemQuantityStored'];
-        this.log['logPrice']=data['itemPrice'];
-        this.log['itemID']=data['itemID'];
-        this.log['employeeId']=this._cookieService.get('employeeID');
-
-        //logquantity,logdate,logprice,itemid,employeeid
+        })   
+        let time = new Date();
+        console.log(time);
+        let mm =time.getMonth();
+        let dd =time.getDate();
+        let yy =time.getFullYear();
+        let hh =time.getHours();
+        let ss =time.getSeconds();
+        data['picture']=data['picture'].replace('http://','');
+        let timestamp=mm+1 + "/" + dd + "/" + yy + " " + hh + ":" + ss;
+        this.log.push({
+            'logDate':timestamp,
+            'logQuantity':data['itemQuantityStored'],
+            'logPrice':data['itemPrice'],
+            'itemID':data['itemID'],
+            'employeeID':this._cookieService.get('employeeID'),
+        });
+        
+        
+        
+        console.log(this.log);
+        console.log("test3");
+       
          this._http.post(this._productEditUrl,JSON.stringify(data), reqopt).subscribe(function(res){
              this.response=res;
-             alert(this.response);
-             call._http.post(this._productEditUrl,JSON.stringify(data), reqopt).subscribe(function(res){
-                 
-                 
-             });
-            
+             alert(this.response);            
           });
-          
+         
+          this._http.post(this._productUpdateUrl,JSON.stringify(this.log[0]), reqopt).subscribe(function(res){
+                 this.response=res;
+                 alert(this.response);
+          });
      }
       delItem(data:any){
          

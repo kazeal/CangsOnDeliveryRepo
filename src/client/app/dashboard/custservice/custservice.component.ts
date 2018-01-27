@@ -3,6 +3,7 @@ import { EmployeeService } from './employee.service';
 import { HttpModule, Response, Headers, RequestOptions } from '@angular/http';
 import { Md5 } from 'ts-md5/dist/md5';
 import { CookieService } from 'angular2-cookie/services/cookies.service';
+import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 /**
 *	This class represents the lazy loaded HomeComponent.
 */
@@ -77,8 +78,25 @@ export class CustServiceComponent {
 			
 	}
 	];
-	constructor(public emp: EmployeeService,private _http: HttpModule, private _cookieService:CookieService){
+	complexForm : FormGroup;
+	complexeditForm : FormGroup;
+	constructor(public fb: FormBuilder,public fb2: FormBuilder, public emp: EmployeeService,private _http: HttpModule, private _cookieService:CookieService){
+		  
+		  this.complexForm = fb.group({
 		
+	    	'firstName' : [null, Validators.compose([Validators.required, Validators.pattern("[a-zA-Z][a-zA-Z ]+")])],
+			'middleName' : [null, Validators.compose([Validators.required, Validators.pattern("[a-zA-Z][a-zA-Z ]+")])],
+	    	'lastName': [null, Validators.compose([Validators.required, Validators.pattern("[a-zA-Z][a-zA-Z ]+")])],
+	    	'password' : [null, Validators.compose([Validators.required, Validators.minLength(8), Validators.maxLength(16)])],
+			'type' : [null, Validators.required],
+		  })
+		  this.complexeditForm = fb2.group({
+		
+	    	'firstName' : [null, Validators.compose([Validators.required, Validators.pattern("[a-zA-Z][a-zA-Z ]+")])],
+			'middleName' : [null, Validators.compose([Validators.required, Validators.pattern("[a-zA-Z][a-zA-Z ]+")])],
+	    	'lastName': [null, Validators.compose([Validators.required, Validators.pattern("[a-zA-Z][a-zA-Z ]+")])],
+	    	'type' : [null, Validators.required],
+		  })
 		  if(this._cookieService.get('7') == "true")
 		  this.addEmployee=true;
 		  if(this._cookieService.get('8') == "true")
@@ -142,7 +160,7 @@ export class CustServiceComponent {
           this.editRights=result;
 		  console.log(this.editRights);
        
-    	});
+    });
 		setTimeout (() => {
 			this.empFirstName=fname;
 			this.empMiddleName=mname;
@@ -232,8 +250,58 @@ export class CustServiceComponent {
 			console.log(this.oldRights);
 			
 		}, 2000)	
-	}
-
+	} 
+	clear(){
+			this.editRights =[];
+			this.edAddCustomer=false;
+			this.edEditCustomer=false;
+			this.edDelCustomer=false;
+			this.edAddEmployee=false; 
+			this.edEditEmployee=false;
+			this.edDelEmployee=false;
+			this.edAddItem=false;
+			this.edEditItem=false;
+			this.edDelItem=false;
+			this.edViewItem=false;
+			this.edViewTransactionHistory=false;
+			this.edViewItemStatistics=false;
+			this.empFirstName="";
+			this.empMiddleName="";
+			this.empLastName="";
+			this.empPassword="";
+			this.empType="";
+			this.rights = [{
+				0:false,
+				1:false,
+				2:false,
+				3:false,
+				4:false,
+				5:false,
+				6:false,
+				7:false,
+				8:false,
+				9:false,
+				10:false,
+				11:false,
+			}
+			];
+			this.oldRights = [{
+			0:false,
+			1:false,
+			2:false,
+			3:false,
+			4:false,
+			5:false,
+			6:false,
+			7:false,
+			8:false,
+			9:false,
+			10:false,
+			11:false,
+				
+			}
+			];	
+  	}
 
 	onSubmitEdit() {	
 			this.data.push({
@@ -246,7 +314,56 @@ export class CustServiceComponent {
 			});
 			console.log(this.data[0]);
 			this.emp.editEmployee(this.data[0]);
-			this.emp.editRight(this.employeeID,this.rights[0],this.oldRights[0]);	
+			this.emp.editRight(this.employeeID,this.rights[0],this.oldRights[0]);
+			this.editRights =[];
+			this.edAddCustomer=false;
+			this.edEditCustomer=false;
+			this.edDelCustomer=false;
+			this.edAddEmployee=false; 
+			this.edEditEmployee=false;
+			this.edDelEmployee=false;
+			this.edAddItem=false;
+			this.edEditItem=false;
+			this.edDelItem=false;
+			this.edViewItem=false;
+			this.edViewTransactionHistory=false;
+			this.edViewItemStatistics=false;
+			this.empFirstName="";
+			this.empMiddleName="";
+			this.empLastName="";
+			this.empPassword="";
+			this.empType="";
+			this.rights = [{
+				0:false,
+				1:false,
+				2:false,
+				3:false,
+				4:false,
+				5:false,
+				6:false,
+				7:false,
+				8:false,
+				9:false,
+				10:false,
+				11:false,
+			}
+			];
+			this.oldRights = [{
+			0:false,
+			1:false,
+			2:false,
+			3:false,
+			4:false,
+			5:false,
+			6:false,
+			7:false,
+			8:false,
+			9:false,
+			10:false,
+			11:false,
+				
+			}
+			];	
   }
    onChange(element: HTMLInputElement)
    {
@@ -315,6 +432,56 @@ export class CustServiceComponent {
 				10:false,	
 			}
 			];
+			this.editRights =[];
+			this.edAddCustomer=false;
+			this.edEditCustomer=false;
+			this.edDelCustomer=false;
+			this.edAddEmployee=false; 
+			this.edEditEmployee=false;
+			this.edDelEmployee=false;
+			this.edAddItem=false;
+			this.edEditItem=false;
+			this.edDelItem=false;
+			this.edViewItem=false;
+			this.edViewTransactionHistory=false;
+			this.edViewItemStatistics=false;
+			this.empFirstName="";
+			this.empMiddleName="";
+			this.empLastName="";
+			this.empPassword="";
+			this.empType="";
+			this.rights = [{
+				0:false,
+				1:false,
+				2:false,
+				3:false,
+				4:false,
+				5:false,
+				6:false,
+				7:false,
+				8:false,
+				9:false,
+				10:false,
+				11:false,
+			}
+			];
+			this.oldRights = [{
+				0:false,
+				1:false,
+				2:false,
+				3:false,
+				4:false,
+				5:false,
+				6:false,
+				7:false,
+				8:false,
+				9:false,
+				10:false,
+				11:false,
+				
+			}
+			];
+			console.log("working");	
 			//this.emp.addEmployeeRights(this.employeeID,this.rights[0]);
 			/*	
 		*/
@@ -333,6 +500,55 @@ export class CustServiceComponent {
 			});
 			console.log(this.data[0]);
 			this.emp.delEmployee(this.data[0]);
+			this.editRights =[];
+			this.edAddCustomer=false;
+			this.edEditCustomer=false;
+			this.edDelCustomer=false;
+			this.edAddEmployee=false; 
+			this.edEditEmployee=false;
+			this.edDelEmployee=false;
+			this.edAddItem=false;
+			this.edEditItem=false;
+			this.edDelItem=false;
+			this.edViewItem=false;
+			this.edViewTransactionHistory=false;
+			this.edViewItemStatistics=false;
+			this.empFirstName="";
+			this.empMiddleName="";
+			this.empLastName="";
+			this.empPassword="";
+			this.empType="";
+			this.rights = [{
+				0:false,
+				1:false,
+				2:false,
+				3:false,
+				4:false,
+				5:false,
+				6:false,
+				7:false,
+				8:false,
+				9:false,
+				10:false,
+				11:false,
+			}
+			];
+			this.oldRights = [{
+			0:false,
+			1:false,
+			2:false,
+			3:false,
+			4:false,
+			5:false,
+			6:false,
+			7:false,
+			8:false,
+			9:false,
+			10:false,
+			11:false,
+				
+			}
+			];
 	
   }
 }

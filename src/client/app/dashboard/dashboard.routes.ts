@@ -7,6 +7,7 @@ import { AdminRoutes } from './admin/index';
 import { CustomerRoutes } from './customer/index';
 import { CustServiceRoutes } from './custservice/index';
 import { OrderRoutes } from './order/index';
+import { ItemStatisticsRoutes } from './itemstatistics/index';
 import { DashboardGuard } from './dashboard-guard.service';
 
 
@@ -24,7 +25,8 @@ export const DashboardRoutes: Route[] = [
 			...CustomerRoutes,
 			...CustServiceRoutes,
 			...AdminRoutes,
-			...OrderRoutes
+			...OrderRoutes,
+			...ItemStatisticsRoutes
 			
     	]
   	}

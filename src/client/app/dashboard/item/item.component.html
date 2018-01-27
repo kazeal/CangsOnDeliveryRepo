@@ -58,7 +58,7 @@
     </style>
 
 
-
+<button class="btn btn-basic" (click)="clean()"><i class="fa fa-pencil"></i></button>
 <h1 align="center">Items</h1>
 <h3 align="right"><button class="btn btn-basic" (click)="clean()" onclick="document.getElementById('add').style.display='block'"><i class="fa fa-plus"></i></button></h3>
 
@@ -106,30 +106,24 @@
 class="close" title="Close Modal">&times;</span>
 
   <!-- Modal Content  (ngSubmit)="onSubmitadd(user.value)" -->
-  <form role="form" id="data2" class="modal-content animate" >
+  <form [formGroup]="complexForm" role="form" id="data2" class="modal-content animate" >
 				<div class="form-content">
       <div class="container" align="center">
       <br><br><br>
       <div class="form-group">
             <label><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Item Name</b></label>
-            <input type="text"  placeholder="Enter Item Name"   [(ngModel)]="itemName" name="itemName" required >
+            <input type="text" [formControl]="complexForm.controls['itemName']"  placeholder="Enter Item Name"   [(ngModel)]="itemName" name="itemName" required >
             <br><br>
       </div>
       <div class="form-group">
             <label><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Item Quantity Stored</b></label>
-            <input type="text" placeholder="Enter Quantity to be Stored"  [(ngModel)]="itemQuantityStored" name="itemQuantityStored" required >
+            <input type="text" [formControl]="complexForm.controls['itemQuantityStored']" placeholder="Enter Quantity to be Stored"  [(ngModel)]="itemQuantityStored" name="itemQuantityStored" required >
             <br><br>
       </div>
 
       <div class="form-group">
             <label><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Price</b></label>
-            <input type="text" placeholder="Enter Price"  [(ngModel)]="itemPrice" name="itemPrice" required >
-            <br><br>
-      </div>
-
-      <div class="form-group">
-            <label><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Purchase Count</b></label>
-            <input type="text" [value]="purchaseCount"  [(ngModel)]="purchaseCount" name="purchaseCount" readonly >
+            <input type="text" [formControl]="complexForm.controls['itemPrice']" placeholder="Enter Price"  [(ngModel)]="itemPrice" name="itemPrice" required >
             <br><br>
       </div>
       <div class="form-group">
@@ -138,12 +132,8 @@ class="close" title="Close Modal">&times;</span>
             <br><br>
       </div>
        <div class="form-group"> 
-            <a class="btn rounded-btn" (click) ='onSubmitAdd($event, user.value)'>Register</a>
-     
-        </div>
-        <div class="form-group"> 
-            <a class="btn rounded-btn" (click) ='onClose()'>Cancel</a>
-     
+            <button [disabled]="!complexForm.valid || !valid" class="btn btn-primary" (click) ='onSubmitAdd($event, user.value)'>Add</button>    
+        
         </div>
         </div>
    </div>
@@ -206,7 +196,7 @@ class="close" title="Close Modal">&times;</span>
  <form role="form" id="datadel" class="modal-content animate" >
  <div class="container" align="center">
   <!-- Modal Content --><br><br><br><br>
-    <h3 align="center">Are you sure you want<br> to delete this Customer?</h3><br>
+    <h3 align="center">Are you sure you want<br> to delete this Item?</h3><br>
     <h4 align="center">Item ID:{{itemID}}</h4>
     <h4 align="center">Item Name: {{itemName}}</h4>
     <br><br>

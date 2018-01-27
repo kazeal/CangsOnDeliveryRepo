@@ -1,11 +1,12 @@
 import { Component } from '@angular/core';
 import { CustomerService } from './customer.service';
 import { NgForm } from '@angular/forms'
-import { FormsModule }   from '@angular/forms';
+import { FormsModule, ReactiveFormsModule }   from '@angular/forms';
 import { HttpModule, Response, Headers, RequestOptions } from '@angular/http';
 import { Md5 } from 'ts-md5/dist/md5';
 import { CookieService } from 'angular2-cookie/services/cookies.service';
 import { UUID } from 'angular2-uuid';
+import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 /**
 *	This class represents the lazy loaded HomeComponent.
 */
@@ -32,13 +33,24 @@ export class CustomerComponent {
 	
 	
 	public pusheditems:{[cusFirstName: string]: any;};
-	
+	complexForm : FormGroup;
 	//testid:number;
 	public user: any =[];
 	 public data: any= [];
 	 public customers: any= [];
-	 constructor(public cust: CustomerService,private _http: HttpModule, private _cookieService:CookieService){
-         
+	 constructor(
+		 public cust: CustomerService,
+		 private _http: HttpModule,
+		 public fb: FormBuilder,
+		 private _cookieService:CookieService){
+         this.complexForm = fb.group({
+		
+	    	'firstName' : [null, Validators.compose([Validators.required, Validators.pattern("[a-zA-Z][a-zA-Z ]+")])],
+			'middleName' : [null, Validators.compose([Validators.required, Validators.pattern("[a-zA-Z][a-zA-Z ]+")])],
+	    	'lastName': [null, Validators.compose([Validators.required, Validators.pattern("[a-zA-Z][a-zA-Z ]+")])],
+	    	'number' : [null, Validators.compose([Validators.required, Validators.minLength(11), Validators.maxLength(11), Validators.pattern("[0-9][0-9 ]+")])],
+	    	'address' : [null, Validators.required],
+		  })
 		  this.cust.getCustomers().then(result => {
           this.customers=result;
 		  console.log(this.customers);
@@ -64,12 +76,17 @@ export class CustomerComponent {
 		this.customerID=id;
 		//console.log(id);
 	}
-	 onSubmit(f: NgForm) {
-		 alert("test2");
-    console.log(f.value);  // { first: '', last: '' }
-    console.log(f.valid);  // false
+	
+	clear(){
+			this.cusPassword="";
+			this.cusFirstName="";
+			this.cusMiddleName="";
+			this.cusLastName="";
+			this.number="";
+			this.address="";
+			this.verificationCode="";
+			this.customerID=null;
   }
-
   onSubmitEdit() {
 	  
 		//this.verificationCode="asdqwe123adsd";
@@ -87,13 +104,23 @@ export class CustomerComponent {
 			});
 			console.log(this.data[0]);
 			this.cust.editCustomer(this.data[0]);
-	
+			this.cusPassword="";
+			this.cusFirstName="";
+			this.cusMiddleName="";
+			this.cusLastName="";
+			this.number="";
+			this.address="";
+			this.verificationCode="";
+			this.customerID=null;
   }
 
    onSubmitAdd() {
 	   	let uuid = UUID.UUID();	
 		this.verificationCode=uuid.slice(0,-23);
-		console.log(this.cusFirstName);
+		let uuid2 = UUID.UUID();
+		console.log(uuid2);	
+		this.cusPassword=uuid2.slice(0,-28);
+		console.log(this.cusPassword);
 	
 			this.data.push({
 				'cusPassword': Md5.hashStr(this.cusPassword), 
@@ -105,7 +132,15 @@ export class CustomerComponent {
 				'verificationCode': this.verificationCode				
 			});
 			console.log(this.data[0]);
-			this.cust.addCustomer(this.data[0]);
+			this.cust.addCustomer(this.data[0], this.cusPassword);
+			this.cusPassword="";
+			this.cusFirstName="";
+			this.cusMiddleName="";
+			this.cusLastName="";
+			this.number="";
+			this.address="";
+			this.verificationCode="";
+			
 	
   }
 
@@ -125,6 +160,16 @@ export class CustomerComponent {
 			});
 			console.log(this.data[0]);
 			this.cust.delCustomer(this.data[0]);
+			this.cusPassword="";
+			this.cusFirstName="";
+			this.cusMiddleName="";
+			this.cusLastName="";
+			this.number="";
+			this.address="";
+			this.verificationCode="";
+			this.customerID=null;
+			
+			
 	
   }
 }

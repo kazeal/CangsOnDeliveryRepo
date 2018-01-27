@@ -10,108 +10,54 @@ import { OrderService } from './order.service';
 
 @Component({
 	moduleId: module.id,
-	selector: 'custservice-cmp',
+	selector: 'order-cmp',
 	templateUrl: 'order.component.html'
 })
 
 export class OrderComponent{
 
-	cusFirstName:string;
-	cusMiddleName:string;
-	cusLastName:string;
-	cusPassword:string;
-	number:string;
-	address:string;
-	verificationCode:string;
+	orderID:string;
+	date:string;
+	total:string;
+	status:string;
+	remarks:string;
+	time:string;
+	packaging:string;
+	location:string;
 	public customerID:number;
 	i:number=0;
-	
-	public pusheditems:{[cusFirstName: string]: any;};
 
 	//testid:number;
 	public user: any =[];
 	 public data: any= [];
 	 public orders: any= [];
+	 public statuses: any= [
+		 "pending","verified","canceled","delivered",
+		
+	 ];
+	 
 	 constructor(public ord: OrderService,private _http: HttpModule){
          
-		  this.ord.getOrders().then(result => {
-          this.orders=result;
+		  this.ord.getOrders().subscribe(data => {
+          this.orders=data;
 		  console.log(this.orders);
        
     });
     }
-
-	click(event:any, id:number,pass:string,fname:string,mname:string,lname:string,number:string,address:string,vercode:string){
-		console.log(id);
-		this.cusPassword=pass;
-		this.cusFirstName=fname;
-		this.cusMiddleName=mname;
-		this.cusLastName=lname;
-		this.number=number;
-		this.address=address;
-		this.verificationCode=vercode;
-		this.customerID=id;
-		//console.log(id);
+	onChange(element: HTMLInputElement,event:any,orderID:number,customerID:number,orderDate:string,orderTotal:number,orderStatus:string,orderRemarks:string,orderTime:string,packaging:string,location:string)
+	{
+		this.data.push({
+				'orderID': orderID, 
+				'orderDate': orderDate, 
+				'orderTotal': orderTotal, 
+				'orderStatus': element.value,
+				'orderRemarks': orderRemarks, 
+				'location': orderTime,
+				'orderTime': packaging,
+				'packaging': location, 
+				'customerID': customerID,  				
+			});
+		this.ord.updateOrderStatus(this.data[0]);
 	}
-	 onSubmit(f: NgForm) {
-		 alert("test2");
-    console.log(f.value);  // { first: '', last: '' }
-    console.log(f.valid);  // false
-  }
 
-  onSubmitEdit() {
-		this.verificationCode="asdqwe123adsd";
-		console.log(this.customerID);
-	
-			this.data.push({
-				'customerID': this.customerID, 
-				'cusPassword': this.cusPassword, 
-				'number': this.number, 
-				'address': this.address,
-				'cusLastName': this.cusLastName, 
-				'cusMiddleName': this.cusMiddleName, 
-				'cusFirstName': this.cusFirstName,				
-				'verificationCode': this.verificationCode				
-			});
-			console.log(this.data[0]);
-			this.cust.editCustomer(this.data[0]);
-	
-  }
-
-   onSubmitAdd() {
-		this.verificationCode="asdqwe123adsd";
-		console.log(this.cusFirstName);
-	
-			this.data.push({
-				'cusPassword': Md5.hashStr(this.cusPassword), 
-				'number': this.number, 
-				'address': this.address,
-				'cusLastName': this.cusLastName, 
-				'cusMiddleName': this.cusMiddleName, 
-				'cusFirstName': this.cusFirstName,				
-				'verificationCode': this.verificationCode				
-			});
-			console.log(this.data[0]);
-			this.cust.addCustomer(this.data[0]);
-	
-  }
-
-  onSubmitDel() {
-		this.verificationCode="asdqwe123adsd";
-		console.log(this.customerID);
-	
-			this.data.push({
-				'customerID': this.customerID, 
-				'cusPassword': this.cusPassword, 
-				'number': this.number, 
-				'address': this.address,
-				'cusLastName': this.cusLastName, 
-				'cusMiddleName': this.cusMiddleName, 
-				'cusFirstName': this.cusFirstName,				
-				'verificationCode': this.verificationCode				
-			});
-			console.log(this.data[0]);
-			this.cust.delCustomer(this.data[0]);
-	
-  }
 }

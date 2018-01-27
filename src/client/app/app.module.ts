@@ -25,11 +25,13 @@ import { NgForm } from '@angular/forms'
 //import { Ng2UploaderModule } from 'ng2-uploader';
 import { DashboardGuard } from './dashboard/dashboard-guard.service';
 import { SafeHtml } from './dashboard/item/product-pipe';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
 	imports: [
 		BrowserModule,
 		FormsModule,
+		ReactiveFormsModule,
 		HttpModule,
 		RouterModule.forRoot(routes),
 		LoginModule,
@@ -51,6 +53,7 @@ import { SafeHtml } from './dashboard/item/product-pipe';
 		EmployeeService,
 		OrderService,
 		DashboardGuard,
+		
 		{
 		provide: APP_BASE_HREF,
 		useValue: '<%= APP_BASE %>',

@@ -4,7 +4,7 @@ import { CustServiceComponent } from './custservice.component';
 import { CarouselModule } from 'ng2-bootstrap/ng2-bootstrap';
 
 import { NgForm } from '@angular/forms'
-import { FormsModule }   from '@angular/forms';
+import { FormsModule, ReactiveFormsModule }   from '@angular/forms';
 import { HttpModule } from '@angular/http';
 
 @NgModule({
@@ -13,9 +13,13 @@ import { HttpModule } from '@angular/http';
         CarouselModule,
         FormsModule,
         HttpModule,
+        ReactiveFormsModule,
          ],
     declarations: [CustServiceComponent],
-    exports: [CustServiceComponent]
+    exports: [
+        CustServiceComponent,
+        FormsModule,
+        ReactiveFormsModule,]
 })
 
 export class CustServiceModule { }

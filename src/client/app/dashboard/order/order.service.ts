@@ -13,10 +13,10 @@ export class OrderService{
     post: any;
     head = new Headers();
     requestOptions = new RequestOptions();
-    private _orderUrl = 'http://192.168.0.24:52282/orders/all';
-    private _orderAddUrl ='http://192.168.0.24:52282/orders/addOrder';
-    private _orderEditUrl ='http://192.168.0.24:52282/orders/editOrder';
-    private _orderDelUrl ='http://192.168.0.24:52282/orders/deleteOrder';
+    private _orderUrl = 'http://192.168.0.24:1025/orders/all';
+    private _orderAddUrl ='http://192.168.0.24:1025/orders/addOrder';
+    private _orderEditUrl ='http://192.168.0.24:1025/orders/editOrder';
+    private _orderDelUrl ='http://192.168.0.24:1025/orders/deleteOrder';
     constructor(private _http: Http){
         //http://localhost:52282/customer/addCustomer
         //console.log("RUNNING");
@@ -26,7 +26,8 @@ export class OrderService{
     }
      
     getOrders(){
-        //
+         return this._http.get(this._orderUrl).map((res:Response) => res.json());
+        /*
         return new Promise(resolve => {
           this._http.get(this._orderUrl).map(res => res.json()).subscribe(data => {
           this.post = data;
@@ -35,65 +36,24 @@ export class OrderService{
         });
         }
      )};
-     addCustomer(data:any){
-         
-        let headers = new Headers();
-        headers.append('Content-Type', 'application/x-www-form-urlencoded');
-        let reqopt = new RequestOptions({
-            headers: headers
-        })
-        
-        
-         this._http.post(this._orderAddUrl,JSON.stringify(data), reqopt).subscribe(function(res){
-             this.response=res;
-             alert(this.response);
-          });
-          
-     }
-     editCustomer(data:any){
-         
-        let headers = new Headers();
-        headers.append('Content-Type', 'application/x-www-form-urlencoded');
-        let reqopt = new RequestOptions({
-            headers: headers
-        })
-        
-        
-         this._http.post(this._orderEditUrl,JSON.stringify(data), reqopt).subscribe(function(res){
-             this.response=res;
-             alert(this.response);
-          });
-          
-     }
-      delCustomer(data:any){
-         
-        let headers = new Headers();
-        headers.append('Content-Type', 'application/x-www-form-urlencoded');
-        let reqopt = new RequestOptions({
-            headers: headers
-        })
-        
-        
-         this._http.post(this._orderDelUrl,JSON.stringify(data), reqopt).subscribe(function(res){
-             this.response=res;
-             alert(this.response);
-          });
-          
-     }
-        /*
-    getProducts(): Observable<Response>{
-        console.log("INSIDE GET PRODUCTS");
-        return this._http.get(this._productUrl)
-                .map((response: Response) =>  <Response>response.json())
-               .do( data => console.log('All: ' + JSON.stringify(data)))
-                .catch(this.handleError);
-
-    }*/
-
-    private handleError(error: Response){
-        console.error(error);
-        return Observable.throw(error.json().error || 'Server error');
+     */
     }
+    updateOrderStatus(data:any){
+          let headers = new Headers();
+            headers.append('Content-Type', 'application/x-www-form-urlencoded');
+            let reqopt = new RequestOptions({
+                headers: headers
+            })
+            
+            
+            this._http.post(this._orderEditUrl,JSON.stringify(data), reqopt).subscribe(function(res){
+                this.response=res;
+                alert(this.response);
+            });
+        
+    }
+
+  
 
     
 }

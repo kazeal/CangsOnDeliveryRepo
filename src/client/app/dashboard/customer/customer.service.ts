@@ -35,7 +35,7 @@ export class CustomerService{
         });
         }
      )};
-     addCustomer(data:any){
+     addCustomer(data:any, password:any){
          
         let headers = new Headers();
         headers.append('Content-Type', 'application/x-www-form-urlencoded');
@@ -46,7 +46,8 @@ export class CustomerService{
         
          this._http.post(this._customerAddUrl,JSON.stringify(data), reqopt).subscribe(function(res){
              this.response=res;
-             alert(this.response);
+             console.log(this.response._body);
+             alert("Action Successful!\n" + "This is your username: " + this.response._body + "\nThis is your Temporary password: " + password + "\nThis is your Verification Code: " + data['verificationCode']);
           });
           
      }

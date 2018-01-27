@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { FormsModule }   from '@angular/forms';
+import { FormsModule, ReactiveFormsModule }   from '@angular/forms';
 
 import { HomeModule } from './home/home.module';
 import { ItemModule } from './item/item.module';
@@ -11,7 +11,8 @@ import { DashboardComponent } from './dashboard.component';
 import { AdminComponent } from './admin/admin.component';
 import { CustomerComponent } from './customer/customer.component';
 import { CustServiceComponent } from './custservice/custservice.component';
-import { OrderComponent } from './order/order.component'
+import { OrderComponent } from './order/order.component';
+import { ItemStatisticsComponent } from './itemstatistics/itemstatistics.component';
 import { SidebarComponent } from '../shared/index';
 
 @NgModule({
@@ -21,7 +22,8 @@ import { SidebarComponent } from '../shared/index';
     	HomeModule,
     	BSComponentModule,
         ItemModule,
-        FormsModule
+        FormsModule,
+        ReactiveFormsModule
     ],
     declarations: [
         DashboardComponent,
@@ -29,7 +31,8 @@ import { SidebarComponent } from '../shared/index';
         AdminComponent, 
         CustomerComponent,
         CustServiceComponent,
-        OrderComponent
+        OrderComponent,
+        ItemStatisticsComponent
         ],
     exports: [
         DashboardComponent,
@@ -37,6 +40,7 @@ import { SidebarComponent } from '../shared/index';
         AdminComponent,
         CustomerComponent,
         CustServiceComponent,
+        ItemStatisticsComponent,
         OrderComponent
              ]
 })

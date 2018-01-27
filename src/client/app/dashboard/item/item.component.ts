@@ -9,7 +9,8 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { AnonymousSubscription } from "rxjs/Subscription";
 import { Observable } from 'rxjs/Rx';
 import { NgZone, ChangeDetectorRef } from '@angular/core';
-
+import { Location } from '@angular/common';
+import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 
 @Component({
 	moduleId: module.id,
@@ -47,32 +48,32 @@ export class ItemComponent implements OnInit{
 		}];
     private timerSubscription: AnonymousSubscription;
     private postsSubscription: AnonymousSubscription;//FIX RELOAD DATA
-    
-
+    complexForm : FormGroup;
+    valid:boolean=false;
 	 constructor(
          public Data: ProductService,
          private _http: HttpModule,
          private sanitizer:DomSanitizer,
          private chRef: ChangeDetectorRef,
-         private zone: NgZone
+         private zone: NgZone,
+         public fb: FormBuilder,
+         private location: Location,//FINISH ITEM ADD AND EDIT VALIDATION
            ){
-               let time = new Date();
-               let dd =time.getDay();
-               let mm =time.getMonth();
-               let yy =time.getFullYear();
-               let hh =time.getHours();
-               let ss =time.getSeconds();
-               //let t=time.get
-        console.log(dd + ", " + mm + " " + dd + ", " + yy + " " + hh + ":" + ss);
-        
+            this.complexForm = fb.group({
+                'itemName' : [null, Validators.compose([Validators.required, Validators.pattern("[a-zA-Z][a-zA-Z ]+")])],
+                'itemQuantityStored' : [null, Validators.compose([Validators.required, Validators.minLength(1), Validators.maxLength(6), Validators.pattern("[0-9][0-9 ]+")])],
+                'itemPrice': [null, Validators.compose([Validators.required, Validators.minLength(1), Validators.maxLength(6), Validators.pattern("[0-9][0-9 ]+")])],
+               // 'picture' : [null],
+            })
             this.Data.getProducts().subscribe(data => {
                     zone.run(() => {
-                        this.items.data=data
+                        this.items.data=data;
                         console.log(this.items.data);
-                        alert("inside");
+                        //alert("inside");
                         for(var i=0;i<this.items.data.length;i++)
                         this.items.data[i].picture="http://"+this.items.data[i].picture;
-                        this.items.data[i].picture=this.sanitizer.bypassSecurityTrustUrl(this.items.data[i].picture);
+                        this.sanitizer.bypassSecurityTrustUrl(this.items.data[i].picture);
+                        //this.items.data[i].picture=
                         console.log("latestest");
             
                     });
@@ -111,7 +112,13 @@ export class ItemComponent implements OnInit{
        // });
         
     }
+    load() {
+        location.reload()
+    }
+
     clean(){
+        console.log("working");
+        /*
            this.picture =null;
             this.picturestring="";
             this.itemName="";
@@ -119,21 +126,33 @@ export class ItemComponent implements OnInit{
             this.itemPrice=null; 
             this.purchaseCount=0;
             this.itemID=null;
+            */
+            this.items.data.push({
+				'itemID': 1, 
+				'itemName': "test", 
+				'itemQuantityStored': 1, 
+				'itemPrice': 1,
+				'purchaseCount': 1, 
+				'picture': "https://192.168.0.24:1025/UploadFile/mrchips.jpg", 				
+		    });
+        console.log("working");
+            /*
             this.Data.getProducts().subscribe(data => {
                 this.zone.run(() => {
-                    this.items.data=data
+                    this.items.data = Object.assign({},data)
                     console.log(this.items.data);
-                    alert("inside");
-                    for(var i=0;i<this.items.data.length;i++)
+                  // alert("inside");
+                    for(var i=0;i<this.items.data.length-1;i++)
                     this.items.data[i].picture="http://"+this.items.data[i].picture;
                     this.items.data[i].picture=this.sanitizer.bypassSecurityTrustUrl(this.items.data[i].picture);
                     console.log("latestest");
             
-                    this.chRef.markForCheck();
+                
             });
             
         });
-        this.chRef.markForCheck();
+      
+      */
         
         
     }//FINISH ADD REMOVING INITIAL VARIABLES AND REFRESH DATA
@@ -190,9 +209,30 @@ export class ItemComponent implements OnInit{
 
      onChange(fileInput: any)
     {
-       this.picture = fileInput.target.files;
-       //this.picture=element.value;
-       console.log(element);
+        this.picture = fileInput.target.files;
+        let file = this.picture[0];
+        let extension = file.name.match(/(?<=\.)\w+$/g)[0].toLowerCase(); 
+
+        if (extension === 'jpg' || extension === 'png' || extension === 'jpeg') {
+           //this.complexForm.controls.picture._status
+        }
+        else {
+            fileInput.target.value = '';
+            alert('Wrong file extension! Please Upload a Picture.');
+        }
+        if(!this.complexForm.valid)
+        {
+            console.log(this.complexForm.controls);
+        }
+        if(this.complexForm.get('itemName').status == "VALID" && this.complexForm.get('itemPrice').status == "VALID" && this.complexForm.get('itemQuantityStored').status == "VALID")
+        {
+              console.log(this.complexForm.get('itemName').status);
+              console.log(this.complexForm.get('itemQuantityStored').status);
+              console.log(this.complexForm.get('itemPrice').status);
+              this.valid=true;
+        }
+        else
+        this.valid=false; 
     }
 
     onSubmitEdit() { 
@@ -243,13 +283,13 @@ export class ItemComponent implements OnInit{
                     'itemName': this.itemName, 
                     'itemQuantityStored': this.itemQuantityStored, 
                     'itemPrice': this.itemPrice,
-                    'purchaseCount': this.purchaseCount, 
+                    'purchaseCount': 0, 
                     'picture': "fileName", 
                    			
                 });
                     this.Data.addItem(this.data[0],this.picture);   
                     //console.log(this.fileName);
-                      
+                    /* 
                 this.picture =null;
                 this.picturestring="";
                 this.itemName="";
@@ -257,7 +297,11 @@ export class ItemComponent implements OnInit{
                 this.itemPrice=null; 
                 this.purchaseCount=0;
                 this.itemID=null;
-                
+               
+                setTimeout (() => {
+                location.reload();
+            }, 5000)
+            */
     }
 
     onSubmitDel() {

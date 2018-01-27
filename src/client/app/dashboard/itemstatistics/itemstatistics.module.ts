@@ -1,34 +1,30 @@
 import { NgModule } from '@angular/core';
 import { HttpModule } from '@angular/http';
-import { ItemComponent } from './item.component';
+import { ItemStatisticsComponent } from './itemstatistics.component';
 import { SafeHtml } from './product-pipe';
-import { BlankPageComponent2 } from './blankPage.component2';
+
 import { ProductService } from './product.service';
 import { CommonModule } from '@angular/common';
 import { NgForm } from '@angular/forms'
-import { FormsModule, ReactiveFormsModule }   from '@angular/forms';
+import { FormsModule }   from '@angular/forms';
 
 @NgModule({
     imports: [
         CommonModule,
         HttpModule,
         FormsModule,
-        ReactiveFormsModule,
         
     ],
     declarations: [
-        ItemComponent,
+        ItemStatisticsComponent,
         SafeHtml,
          ],
     providers: [
 		ProductService
 	],
-    exports: [ItemComponent,
-              FormsModule,
-              ReactiveFormsModule,
-              CommonModule]
+    exports: [ItemStatisticsComponent, CommonModule]
 })
 
-export class ItemModule { 
+export class ItemStatistics { 
     
 }
