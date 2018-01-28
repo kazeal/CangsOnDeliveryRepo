@@ -1,13 +1,11 @@
 import { Injectable } from '@angular/core';
-
 import { Http, Response, Headers, RequestOptions } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/catch';
-
-
-
+//https://cangsapi.000webhostapp.com/index.php/Products/get_products
+         
 @Injectable()
 export class EmployeeService{
     post: any;
@@ -17,30 +15,17 @@ export class EmployeeService{
     public addRights: any =[];
     public editRights: any =[];
     public static employeeID:any;
-    private _apiUrl = 'http://192.168.0.24:1025';
+    private _apiUrl = 'http://192.168.0.24:1025';//http://192.168.0.24:1025 //http://192.168.1.153:1025
     private _employeeAddUrl ='http://192.168.0.24:1025/employee/addEmployee';
     private _employeeEditUrl ='http://192.168.0.24:1025/employee/editEmployee';
      private _employeeEditRightsUrl ='http://192.168.0.24:1025/accessRights/editRights';
     private _employeeDelUrl ='http://192.168.0.24:1025/employee/deleteEmployee';
     private _employeeAddRightsUrl ='http://192.168.0.24:1025/accessRights/addAccessRights';
-    constructor(private _http: Http){
-        //http://localhost:52282/customer/addCustomer
-        //console.log("RUNNING");
-        //https://cangsapi.000webhostapp.com/index.php/Products/get_products
-         //this.getProducts();
-
-    }
+    constructor(private _http: Http){}
      
     getEmployee(){
-        //
-        return new Promise(resolve => {
-          this._http.get(this._apiUrl + "/employee/all").map(res => res.json()).subscribe(data => {
-          this.post = data;
-          resolve(this.post);
-          console.log(this.post);
-        });
-        }
-     )};
+        return this._http.get(this._apiUrl + "/employee/all").map((res:Response) => res.json());
+    }
      getOneEmployee(employeeID: any): any{
 
             let headers = new Headers();
@@ -50,13 +35,12 @@ export class EmployeeService{
             })
             
             var url = this._apiUrl + "/employee/getOneEmployee/"+ employeeID;
-           
+
             return new Promise(resolve => {
-            this._http.get(url).map(res => res.json()).subscribe(data => {
-                this.post = data;
-                resolve(this.post);
-                console.log(this.post);
-                 
+                this._http.get(url).map(res => res.json()).subscribe(data => {
+                    this.post = data;
+                    resolve(this.post);
+                    console.log(this.post);
                 });
             }  
      )};
@@ -71,52 +55,48 @@ export class EmployeeService{
             var url = this._apiUrl + "/accessRights/getRights/"+ employeeID;
            
             return new Promise(resolve => {
-            this._http.get(url).map(res => res.json()).subscribe(data => {
-                this.post = data;
-                resolve(this.post);
-                console.log(this.post);
-                 
+                this._http.get(url).map(res => res.json()).subscribe(data => {
+                    this.post = data;
+                    resolve(this.post);
+                    console.log(this.post);
                 });
             }  
      )};
      editRight(empID:any,newRights:any, oldRights:any){
          
-        let headers = new Headers();
-        headers.append('Content-Type', 'application/x-www-form-urlencoded');
-        let reqopt = new RequestOptions({
-            headers: headers
-        })      
-        for(var i=0;i<11;i++)
-        {
-            //console.log("New Rights" + i+1 + " :" + newRights[i]);
-            //console.log("Old Rights" + i+1 + " :" + oldRights[i])
-            if(newRights[i] == oldRights[i])
+            let headers = new Headers();
+            headers.append('Content-Type', 'application/x-www-form-urlencoded');
+            let reqopt = new RequestOptions({
+                headers: headers
+            })      
+            for(var i=0;i<11;i++)
             {
-                console.log("inside true");
-            }
-            else
-            {
+                //console.log("New Rights" + i+1 + " :" + newRights[i]);
+                //console.log("Old Rights" + i+1 + " :" + oldRights[i])
+                if(newRights[i] == oldRights[i])
+                {
+                    console.log("inside true");
+                }
+                else
+                {
                     console.log("inside false");
-                           this.editRights=({
-                                    'employeeID': empID, 
-                                    'levelNum': i+1, 		
-                           });
-                           console.log(this.editRights);
-                           
-                           this._http.post(this._employeeEditRightsUrl,JSON.stringify(this.editRights), reqopt).subscribe(function(res){
-                                this.response=res;
-                                alert(this.response);
-                           });   
-                            
-                           this.editRights =[];           
-            }
-        }
-        
-         
-          
+                    this.editRights=({
+                        'employeeID': empID, 
+                        'levelNum': i+1, 		
+                    });
+                    console.log(this.editRights);
+                    
+                    this._http.post(this._employeeEditRightsUrl,JSON.stringify(this.editRights), reqopt).subscribe(function(res){
+                        this.response=res;
+                        //alert(this.response);
+                    });   
+                    this.editRights =[];           
+                }
+            }     
      }
      
      addEmployee(data:any,rights:any){
+
             let headers = new Headers();
             headers.append('Content-Type', 'application/x-www-form-urlencoded');
             let reqopt = new RequestOptions({
@@ -295,33 +275,39 @@ export class EmployeeService{
      }
      editEmployee(data:any){
          
-        let headers = new Headers();
-        headers.append('Content-Type', 'application/x-www-form-urlencoded');
-        let reqopt = new RequestOptions({
-            headers: headers
-        })
-        
-        
-         this._http.post(this._employeeEditUrl,JSON.stringify(data), reqopt).subscribe(function(res){
-             this.response=res;
-             alert("Employee Successfully Updated!");
-          });
+            let headers = new Headers();
+            headers.append('Content-Type', 'application/x-www-form-urlencoded');
+            let reqopt = new RequestOptions({
+                headers: headers
+            })
+            
+            this._http.post(this._employeeEditUrl,JSON.stringify(data), reqopt).subscribe(function(res){
+                this.response=res;
+                alert("Employee Successfully Updated!");
+            });
           
      }
       delEmployee(data:any){
          
-        let headers = new Headers();
-        headers.append('Content-Type', 'application/x-www-form-urlencoded');
-        let reqopt = new RequestOptions({
-            headers: headers
-        })
+            let headers = new Headers();
+            headers.append('Content-Type', 'application/x-www-form-urlencoded');
+            let reqopt = new RequestOptions({
+                headers: headers
+            })
 
-        var url = this._apiUrl + "/employee/delete/"+ data.employeeID;
-        
-         this._http.put(url,null, reqopt).subscribe(function(res){
-             this.response=res;
-             alert("Employee Successfully Deleted!");
-        });
+            var url = this._apiUrl + "/employee/delete/"+ data.employeeID;
+            
+            this._http.put(url,null, reqopt).subscribe(function(res){
+                this.response=res;
+                alert("Employee Successfully Deleted!");
+            });
+            var url2 = this._apiUrl + "/accessRights/deleteAccessRights/"+ data.employeeID;
+           
+            this._http.put(url2,null, reqopt).subscribe(function(res){
+                this.response=res;
+               //alert("Employee Successfully Deleted!");
+            });
+           
       }
   
 }

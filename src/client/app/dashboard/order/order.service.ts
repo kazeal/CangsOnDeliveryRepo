@@ -1,59 +1,52 @@
 import { Injectable } from '@angular/core';
-
+import { CookieService } from 'angular2-cookie/services/cookies.service';
 import { Http, Response, Headers, RequestOptions } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/catch';
 
-
-
 @Injectable()
 export class OrderService{
     post: any;
-    head = new Headers();
-    requestOptions = new RequestOptions();
-    private _orderUrl = 'http://192.168.0.24:1025/orders/all';
-    private _orderAddUrl ='http://192.168.0.24:1025/orders/addOrder';
-    private _orderEditUrl ='http://192.168.0.24:1025/orders/editOrder';
-    private _orderDelUrl ='http://192.168.0.24:1025/orders/deleteOrder';
-    constructor(private _http: Http){
-        //http://localhost:52282/customer/addCustomer
-        //console.log("RUNNING");
-        //https://cangsapi.000webhostapp.com/index.php/Products/get_products
-         //this.getProducts();
-
-    }
+    public log:any=[];
+    private _apiUrl = 'http://192.168.0.24:1025';
+    constructor(private _http: Http, private _cookieService:CookieService){}
      
-    getOrders(){
-         return this._http.get(this._orderUrl).map((res:Response) => res.json());
-        /*
-        return new Promise(resolve => {
-          this._http.get(this._orderUrl).map(res => res.json()).subscribe(data => {
-          this.post = data;
-          resolve(this.post);
-          console.log(this.post);
-        });
-        }
-     )};
-     */
-    }
+    getOrders(){return this._http.get(this._apiUrl + "/orders/all").map((res:Response) => res.json());}
+
     updateOrderStatus(data:any){
-          let headers = new Headers();
-            headers.append('Content-Type', 'application/x-www-form-urlencoded');
-            let reqopt = new RequestOptions({
-                headers: headers
-            })
-            
-            
-            this._http.post(this._orderEditUrl,JSON.stringify(data), reqopt).subscribe(function(res){
+
+        let headers = new Headers();
+        headers.append('Content-Type', 'application/x-www-form-urlencoded');
+        let reqopt = new RequestOptions({
+            headers: headers
+        })
+        let time = new Date();
+        console.log(time);
+        let mm =time.getMonth();
+        let dd =time.getDate();
+        let yy =time.getFullYear();
+        let hh =time.getHours();
+        let ss =time.getSeconds();
+        let timestamp=mm+1 + "/" + dd + "/" + yy + " " + hh + ":" + ss;
+
+        this.log.push({
+            'orstatStatus':data['orderStatus'],
+            'orstatRemarks':this._cookieService.get('employeeName'),
+            'orstatDate':timestamp,
+            'employeeID':this._cookieService.get('employeeID'),
+            'orderID':data['orderID'],
+        });
+
+        this._http.post(this._apiUrl + "/orders/editOrder",JSON.stringify(data), reqopt).subscribe(function(res){
+            this.response=res;
+            alert("Order Successfully Updated!");
+        });
+
+        this._http.post(this._apiUrl + "/UpdateOrderStatus/addUpdateStatus",JSON.stringify(this.log[0]), reqopt).subscribe(function(res){
                 this.response=res;
-                alert(this.response);
-            });
-        
-    }
+        });
 
-  
-
-    
-}
+    }//updateOrderStatus
+}//Class

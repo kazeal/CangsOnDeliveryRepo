@@ -19,7 +19,7 @@
     background-color: #fefefe;
     margin: 5px auto; /* 15% from the top and centered */
     border: 1px solid #888;
-    width: 80%; /* Could be more or less, depending on screen size */
+    width: 40%; /* Could be more or less, depending on screen size */
 }
 
 /* The Close Button */
@@ -28,8 +28,8 @@
     position: absolute;
     right: 25px;
     top: 0; 
-    color: #000;
-    font-size: 35px;
+    color: red;
+    font-size: 50px;
     font-weight: bold;
 }
 
@@ -61,176 +61,151 @@
 
 
 <h1 align="center">Employees</h1>
-<h3 align="right" *ngIf="addEmployee"><button class="btn btn-basic" (click)="clear()" onclick="document.getElementById('add').style.display='block'"><i class="fa fa-plus"></i></button></h3>
+<h3 align="right" *ngIf="addEmployee">
+    <button class="btn btn-basic" (click)="clear()" onclick="document.getElementById('add').style.display='block'">
+        <i class="fa fa-plus"></i>
+    </button>
+</h3>
 <div class="table">
-
-    <table class="table">
-		
+    <table class="table">		
         <thead>
             <th>Employee ID</th>
             <th>Last Name</th>
-        <th>First Name</th>
-        <th>Middle Name</th>
-        <th>Type</th>
-		<th>Options</th>
-		
+            <th>First Name</th>
+            <th>Middle Name</th>
+            <th>Type</th>
+            <th>Options</th>
         </thead>
         <tbody>
              <tr *ngFor='let employee of employees'>
-            <td>{{employee.employeeID}}</td>
-            <td>{{employee.empLastName}}</td>
-            <td>{{employee.empFirstName}}</td>
-            <td>{{employee.empMiddleName}}</td>
-            <td>{{employee.empType}}</td>
-            <td>
-                <button *ngIf="editEmployee" class="btn btn-info" (click)="click($event,employee.employeeID,employee.empPassword,employee.empFirstName,employee.empMiddleName,employee.empLastName,employee.empType)" onclick="document.getElementById('edit').style.display='block'"><i class="fa fa-pencil"></i></button>
-     
-     <button  *ngIf="delEmployee" class="btn btn-danger" (click)="click($event,employee.employeeID,employee.empPassword,employee.empFirstName,employee.empMiddleName,employee.empLastName,employee.empType)" onclick="document.getElementById('del').style.display='block'"><i class="fa fa-remove"></i></button>
-    </td>
-        </tr>
-            
-        
+                 <td>{{employee.employeeID}}</td>
+                 <td>{{employee.empLastName}}</td>
+                 <td>{{employee.empFirstName}}</td>
+                 <td>{{employee.empMiddleName}}</td>
+                 <td>{{employee.empType}}</td>
+                 <td>
+                    <button *ngIf="editEmployee" class="btn btn-info" (click)="click($event,employee.employeeID,employee.empPassword,employee.empFirstName,employee.empMiddleName,employee.empLastName,employee.empType)" onclick="document.getElementById('edit').style.display='block'">
+                        <i class="fa fa-pencil"></i>
+                    </button>
+                    <button  *ngIf="delEmployee" class="btn btn-danger" (click)="click($event,employee.employeeID,employee.empPassword,employee.empFirstName,employee.empMiddleName,employee.empLastName,employee.empType)" onclick="document.getElementById('del').style.display='block'">
+                        <i class="fa fa-remove"></i>
+                    </button>
+                </td>
+            </tr> 
         </tbody>
     </table>
 </div>
 
 <!--add-->
-<!--FINISH PASSING ID TO MODAL-->
 <!-- The Modal -->
 <div id="add" class="modal">
-  <span onclick="document.getElementById('add').style.display='none'" 
-class="close" title="Close Modal">&times;</span>
-
-  <!-- Modal Content  (ngSubmit)="onSubmitadd(user.value)" -->
-  <form [formGroup]="complexForm" role="form" id="dataadd" class="modal-content animate" >
-				<div class="form-content">
-      <div class="container" align="center">
-      <br><br><br>
-      <div class="form-group">
-            <label><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;First Name</b></label>
-            <input type="text" [formControl]="complexForm.controls['firstName']"  placeholder="Enter First Name"   [(ngModel)]="empFirstName" name="empFirstName" required >
-            <br><br>
-      </div>
-      <div class="form-group">
-            <label><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Middle Name</b></label>
-            <input type="text" [formControl]="complexForm.controls['middleName']" placeholder="Enter Middle Name"  [(ngModel)]="empMiddleName" name="empMiddleName" required >
-            <br><br>
-      </div>
-
-      <div class="form-group">
-            <label><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Last Name</b></label>
-            <input type="text" [formControl]="complexForm.controls['lastName']" placeholder="Enter Last Name"  [(ngModel)]="empLastName" name="empLastName" required >
-            <br><br>
-      </div>
-
-      <div class="form-group">
-            <label><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Password</b></label>
-            <input type="password" [formControl]="complexForm.controls['password']" placeholder="Enter Password"  [(ngModel)]="empPassword" name="empPassword" required >
-            <br><br>
-      </div>
-
-      <div class="form-group">
-            <label><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Type</b></label>
-            <input type="text" [formControl]="complexForm.controls['type']" placeholder="Enter Employee Type"  [(ngModel)]="empType" name="empType" required >
-            <br><br>
-      </div>
-   
-       <div class="form-group"> 
-            <input #right1 type="checkbox" checked="{{edAddCustomer}}" (change)="onChange(right1)" value="Add Customer" />Add Customer
-            <input #right2 type="checkbox" checked="{{edEditCustomer}}" (change)="onChange(right2)" value="Edit Customer" />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Edit Customer<br>
-            <input #right3 type="checkbox" checked="{{edDelCustomer}}" (change)="onChange(right3)" value="Delete Customer" />Delete Customer
-            <input #right4 type="checkbox" checked="{{edAddEmployee}}" (change)="onChange(right4)" value="Add Employee" />Add Employee<br>
-            <input #right5 type="checkbox" checked="{{edEditEmployee}}" (change)="onChange(right5)" value="Edit Employee" />Edit Employee
-            <input #right6 type="checkbox" checked="{{edDelEmployee}}" (change)="onChange(right6)" value="Delete Employee" />Delete Employee<br>
-            <input #right7 type="checkbox" checked="{{edAddItem}}" (change)="onChange(right7)" value="Add Item" />Add Items
-            <input #right8 type="checkbox" checked="{{edEditItem}}" (change)="onChange(right8)" value="Edit Item" />Edit Items<br>
-            <input #right9 type="checkbox" checked="{{edDelItem}}" (change)="onChange(right9)" value="Delete Item" />Delete Items
-            <input #right10 type="checkbox" checked="{{edViewTransactionHistory}}" (change)="onChange(right10)" value="View Transaction History" />View Transaction History<br>
-            <input #right11 type="checkbox" checked="{{edViewItemStatistics}}"(change)="onChange(right11)" value="View Item Statistics" />View Item Statistics
-            
-      </div>
-       <div class="form-group"> 
-            <button [disabled]="!complexForm.valid" class="btn btn-primary" (click) ='onSubmitAdd($event, user.value)'>Save</button>          
-        </div>
-      </div>
-   </div>
-   </form>
+    <span onclick="document.getElementById('add').style.display='none'" class="close" title="Close Modal">&times;</span>
+        <!-- Modal Content  (ngSubmit)="onSubmitadd(user.value)" -->
+        <form [formGroup]="complexForm" role="form" id="dataadd" class="modal-content animate" >
+		    <div class="form-content">
+                <div class="container" align="center"><br><br>
+                    <div align="left" class="form-group">
+                        <label><b>First Name</b></label>
+                        <input type="text" class="form-control input-underline input-lg" [formControl]="complexForm.controls['firstName']"  placeholder="Enter First Name"   [(ngModel)]="empFirstName" name="empFirstName" required >
+                    </div>
+                    <div align="left" class="form-group">
+                            <label><b>Middle Name</b></label>
+                            <input type="text" class="form-control input-underline input-lg" [formControl]="complexForm.controls['middleName']" placeholder="Enter Middle Name"  [(ngModel)]="empMiddleName" name="empMiddleName" required >                           
+                    </div>
+                    <div align="left" class="form-group">
+                            <label><b>Last Name</b></label>
+                            <input type="text" class="form-control input-underline input-lg" [formControl]="complexForm.controls['lastName']" placeholder="Enter Last Name"  [(ngModel)]="empLastName" name="empLastName" required >       
+                    </div>
+                    <div align="left" class="form-group">
+                            <label><b>Password</b></label>
+                            <input type="password" class="form-control input-underline input-lg" [formControl]="complexForm.controls['password']" placeholder="Enter Password"  [(ngModel)]="empPassword" name="empPassword" required >       
+                    </div>
+                    <div align="left" class="form-group">
+                            <label><b>Type</b></label>
+                            <input type="text" class="form-control input-underline input-lg" [formControl]="complexForm.controls['type']" placeholder="Enter Employee Type"  [(ngModel)]="empType" name="empType" required >     
+                    </div> 
+                    <div align="left"  class="form-group"> 
+                            &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp; <input #right1 type="checkbox" (change)="onChange(right1)" value="Add Customer" />Add Customer
+                            &emsp;&emsp;&emsp; <input #right2 type="checkbox" (change)="onChange(right2)" value="Edit Customer" />Edit Customer<br>
+                            &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp; <input #right3 type="checkbox"  (change)="onChange(right3)" value="Delete Customer" />Delete Customer
+                            &nbsp;&nbsp;&nbsp;&emsp; <input #right4 type="checkbox" (change)="onChange(right4)" value="Add Employee" />Add Employee<br>
+                            &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp; <input #right5 type="checkbox" (change)="onChange(right5)" value="Edit Employee" />Edit Employee
+                            &emsp;&emsp;&emsp; <input #right6 type="checkbox"  (change)="onChange(right6)" value="Delete Employee" />Delete Employee<br>
+                            &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp; <input #right7 type="checkbox"  (change)="onChange(right7)" value="Add Item" />Add Items
+                            &nbsp;&nbsp;&nbsp;&nbsp;&emsp;&emsp;&emsp;&emsp; <input #right8 type="checkbox"  (change)="onChange(right8)" value="Edit Item" />Edit Items<br>
+                            &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp; <input #right9 type="checkbox"  (change)="onChange(right9)" value="Delete Item" />Delete Items
+                            &nbsp;&nbsp;&nbsp;&emsp;&emsp;&emsp; <input #right10 type="checkbox"  (change)="onChange(right10)" value="View Transaction History" />View Transaction History<br>
+                            &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp; <input #right11 type="checkbox" (change)="onChange(right11)" value="View Item Statistics" />View Item Statistics                          
+                    </div>
+                    <div class="form-group"> 
+                            <button [disabled]="!complexForm.valid" class="btn btn-primary" (click) ='onSubmitAdd()'>Save</button>          
+                    </div>
+                </div>
+            </div>
+        </form>
 </div>
-
 
 <!--delete-->
 <div id="del" class="modal">
-  <span onclick="document.getElementById('del').style.display='none'" 
-class="close" title="Close Modal">&times;</span>
- <form role="form" id="datadel" class="modal-content animate" >
- <div class="container" align="center">
-  <!-- Modal Content --><br><br><br><br>
-    <h3 align="center">Are you sure you want<br> to delete this Employee?</h3><br>
-    <h4 align="center">Employee ID:{{employeeID}}</h4>
-    <h4 align="center">Name:{{empLastName}}, {{empFirstName}} {{empMiddleName}}</h4>
-    <br><br>
-    <button class="btn btn-success" (click) ='onSubmitDel($event, user.value)'><i class="fa fa-check"></i></button>
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    <button class="btn btn-danger" onclick="document.getElementById('del').style.display='none'"><i class="fa fa-remove"></i></button>
-    <br><br><br><br>
+    <span onclick="document.getElementById('del').style.display='none'" class="close" title="Close Modal">&times;</span>
+        <form role="form" id="datadel" class="modal-content animate" >
+            <div class="container" align="center"><br><br><br><br>
+                <!-- Modal Content -->
+                <h3 align="center">Are you sure you want<br> to delete this Employee?</h3><br>
+                <h4 align="center">Employee ID: {{employeeID}}</h4>
+                <h4 align="center">Name: {{empLastName}}, {{empFirstName}} {{empMiddleName}}</h4><br><br>            
+                <button class="btn btn-success" (click) ='onSubmitDel()'>
+                    <i class="fa fa-check"></i>
+                </button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <button class="btn btn-danger" onclick="document.getElementById('del').style.display='none'">
+                    <i class="fa fa-remove"></i>
+                </button><br><br><br><br>
+            </div>
+        </form>
 </div>
-</form>
-</div>
-
-
 
 <!--edit-->
 <!-- The Modal -->
 <div id="edit" class="modal">
-  <span onclick="document.getElementById('edit').style.display='none'" 
-class="close" title="Close Modal">&times;</span>
-
-  <!-- Modal Content -->
-  <form role="form" id="dataedit" class="modal-content animate"  >
-				<div class="form-content">
-      <div class="container" align="center">
-      <br><br><br>
-      <div class="form-group">
-            <label><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;First Name</b></label>
-            <input type="text" [formControl]="complexeditForm.controls['firstName']"  [value]="empFirstName"   [(ngModel)]="empFirstName" name="empFirstName" required >
-            <br><br>
-      </div>
-      <div class="form-group">
-            <label><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Middle Name</b></label>
-            <input type="text" [formControl]="complexeditForm.controls['middleName']" [value]="empMiddleName"  [(ngModel)]="empMiddleName" name="empMiddleName" required >
-            <br><br>
-      </div>
-
-      <div class="form-group">
-            <label><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Last Name</b></label>
-            <input type="text" [formControl]="complexeditForm.controls['lastName']" [value]="empLastName"  [(ngModel)]="empLastName" name="empLastName" required >
-            <br><br>
-      </div>
-      <div class="form-group">
-            <label><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Employee Type</b></label>
-            <input type="text" [formControl]="complexeditForm.controls['type']" [value]="empType"  [(ngModel)]="empType" name="empType" required >
-            <br><br>
-      </div>
-      <div class="form-group"> 
-            <input #rightedit1 type="checkbox" name="edAddCustomer" [checked]="edAddCustomer"  [(ngModel)]="edAddCustomer" (change)="onChange(rightedit1)" value="Add Customer" />Add Customer
-            <input #rightedit2 type="checkbox" name="edEditCustomer" [checked]="edEditCustomer"  [(ngModel)]="edEditCustomer" (change)="onChange(rightedit2)" value="Edit Customer" />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Edit Customer<br>
-            <input #rightedit3 type="checkbox" name="edDelCustomer" [checked]="edDelCustomer"  [(ngModel)]="edDelCustomer" (change)="onChange(rightedit3)" value="Delete Customer" />Delete Customer
-            <input #rightedit4 type="checkbox" name="edAddEmployee" [checked]="edAddEmployee"  [(ngModel)]="edAddEmployee" (change)="onChange(rightedit4)" value="Add Employee" />Add Employee<br>
-            <input #rightedit5 type="checkbox" name="edEditEmployee" [checked]="edEditEmployee"  [(ngModel)]="edEditEmployee" (change)="onChange(rightedit5)" value="Edit Employee" />Edit Employee
-            <input #rightedit6 type="checkbox" name="edDelEmployee" [checked]="edDelEmployee"  [(ngModel)]="edDelEmployee" (change)="onChange(rightedit6)" value="Delete Employee" />Delete Employee<br>
-            <input #rightedit7 type="checkbox" name="edAddItem" [checked]="edAddItem" [(ngModel)]="edAddItem" (change)="onChange(rightedit7)" value="Add Item" />Add Items
-            <input #rightedit8 type="checkbox" name="edEditItem" [checked]="edEditItem" [(ngModel)]="edEditItem" (change)="onChange(rightedit8)" value="Edit Item" />Edit Items<br>
-            <input #rightedit9 type="checkbox" name="edDelItem" [checked]="edDelItem" [(ngModel)]="edDelItem" (change)="onChange(rightedit9)" value="Delete Item" />Delete Items
-            <input #rightedit10 type="checkbox" name="edViewTransactionHistory" [checked]="edViewTransactionHistory" [(ngModel)]="edViewTransactionHistory" (change)="onChange(rightedit10)" value="View Transaction History" />View Transaction History<br>
-            <input #rightedit11 type="checkbox" name="edViewItemStatistics" [checked]="edViewItemStatistics" [(ngModel)]="edViewItemStatistics" (change)="onChange(rightedit11)" value="View Item Statistics" />View Item Statistics
-            
-      </div>
-       <div class="form-group"> 
-            <button [disabled]="!complexeditForm.valid" class="btn btn-primary" (click) ='onSubmitEdit($event, user.value)'>Save</button>              
-        </div>
-         
-        </div>
-    
-    </div>
-     </form>
+    <span onclick="document.getElementById('edit').style.display='none'" class="close" title="Close Modal">&times;</span>
+        <!-- Modal Content -->
+        <form role="form" id="dataedit" class="modal-content animate"  >
+		    <div class="form-content">
+                <div class="container" align="center"><br><br>
+                    <div align="left" class="form-group">
+                            <label><b>First Name</b></label>
+                            <input type="text" class="form-control input-underline input-lg" [formControl]="complexeditForm.controls['firstName']"  [value]="empFirstName"   [(ngModel)]="empFirstName" name="empFirstName" required >                          
+                    </div>
+                    <div align="left" class="form-group">
+                            <label><b>Middle Name</b></label>
+                            <input type="text" class="form-control input-underline input-lg" [formControl]="complexeditForm.controls['middleName']" [value]="empMiddleName"  [(ngModel)]="empMiddleName" name="empMiddleName" required >
+                            
+                    </div>
+                    <div align="left" class="form-group">
+                            <label><b>Last Name</b></label>
+                            <input type="text" class="form-control input-underline input-lg" [formControl]="complexeditForm.controls['lastName']" [value]="empLastName"  [(ngModel)]="empLastName" name="empLastName" required >                    
+                    </div>
+                    <div align="left" class="form-group">
+                            <label><b>Employee Type</b></label>
+                            <input type="text" class="form-control input-underline input-lg" [formControl]="complexeditForm.controls['type']" [value]="empType"  [(ngModel)]="empType" name="empType" required >
+                    </div>
+                    <div align="left" class="form-group"> 
+                            &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp; <input #rightedit1 type="checkbox" name="edAddCustomer" [checked]="edAddCustomer"  [(ngModel)]="edAddCustomer" (change)="onChange(rightedit1)" value="Add Customer" />Add Customer
+                            &emsp;&emsp;&emsp; <input #rightedit2 type="checkbox" name="edEditCustomer" [checked]="edEditCustomer"  [(ngModel)]="edEditCustomer" (change)="onChange(rightedit2)" value="Edit Customer" />Edit Customer<br>
+                            &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp; <input #rightedit3 type="checkbox" name="edDelCustomer" [checked]="edDelCustomer"  [(ngModel)]="edDelCustomer" (change)="onChange(rightedit3)" value="Delete Customer" />Delete Customer
+                            &nbsp;&nbsp;&nbsp;&emsp; <input #rightedit4 type="checkbox" name="edAddEmployee" [checked]="edAddEmployee"  [(ngModel)]="edAddEmployee" (change)="onChange(rightedit4)" value="Add Employee" />Add Employee<br>
+                            &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp; <input #rightedit5 type="checkbox" name="edEditEmployee" [checked]="edEditEmployee"  [(ngModel)]="edEditEmployee" (change)="onChange(rightedit5)" value="Edit Employee" />Edit Employee
+                            &emsp;&emsp;&emsp; <input #rightedit6 type="checkbox" name="edDelEmployee" [checked]="edDelEmployee"  [(ngModel)]="edDelEmployee" (change)="onChange(rightedit6)" value="Delete Employee" />Delete Employee<br>
+                            &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp; <input #rightedit7 type="checkbox" name="edAddItem" [checked]="edAddItem" [(ngModel)]="edAddItem" (change)="onChange(rightedit7)" value="Add Item" />Add Items
+                            &nbsp;&nbsp;&nbsp;&nbsp;&emsp;&emsp;&emsp;&emsp; <input #rightedit8 type="checkbox" name="edEditItem" [checked]="edEditItem" [(ngModel)]="edEditItem" (change)="onChange(rightedit8)" value="Edit Item" />Edit Items<br>
+                            &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp; <input #rightedit9 type="checkbox" name="edDelItem" [checked]="edDelItem" [(ngModel)]="edDelItem" (change)="onChange(rightedit9)" value="Delete Item" />Delete Items
+                            &nbsp;&nbsp;&nbsp;&emsp;&emsp;&emsp; <input #rightedit10 type="checkbox" name="edViewTransactionHistory" [checked]="edViewTransactionHistory" [(ngModel)]="edViewTransactionHistory" (change)="onChange(rightedit10)" value="View Transaction History" />View Transaction History<br>
+                            &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp; <input #rightedit11 type="checkbox" name="edViewItemStatistics" [checked]="edViewItemStatistics" [(ngModel)]="edViewItemStatistics" (change)="onChange(rightedit11)" value="View Item Statistics" />View Item Statistics                       
+                    </div>
+                    <div class="form-group"> 
+                            <button [disabled]="!complexeditForm.valid" class="btn btn-primary" (click) ='onSubmitEdit()'>Save</button>              
+                    </div>
+                </div>  
+            </div>
+        </form>
 </div>

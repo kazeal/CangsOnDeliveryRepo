@@ -7,48 +7,32 @@ import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/catch';
 
 
-
+//https://cangsapi.000webhostapp.com/index.php/Products/get_products  
 @Injectable()
 export class CustomerService{
     post: any;
     head = new Headers();
     requestOptions = new RequestOptions();
     private _apiUrl = 'http://192.168.0.24:1025';
-    private _customerAddUrl ='http://192.168.0.24:1025/customer/addCustomer';
-    private _customerEditUrl ='http://192.168.0.24:1025/customer/editCustomer';
-    private _customerDelUrl ='http://192.168.0.24:1025/customer/deleteCustomer';
-    constructor(private _http: Http){
-        //http://localhost:52282/customer/addCustomer
-        //console.log("RUNNING");
-        //https://cangsapi.000webhostapp.com/index.php/Products/get_products
-         //this.getProducts();
+    constructor(private _http: Http){}
 
-    }
-     
     getCustomers(){
-        //
-        return new Promise(resolve => {
-          this._http.get(this._apiUrl + "/customer/all").map(res => res.json()).subscribe(data => {
-          this.post = data;
-          resolve(this.post);
-          console.log(this.post);
-        });
-        }
-     )};
+        return this._http.get(this._apiUrl + "/customer/all").map((res:Response) => res.json());
+       
+     }
      addCustomer(data:any, password:any){
-         
+    
         let headers = new Headers();
         headers.append('Content-Type', 'application/x-www-form-urlencoded');
         let reqopt = new RequestOptions({
             headers: headers
-        })
-        
-        
-         this._http.post(this._customerAddUrl,JSON.stringify(data), reqopt).subscribe(function(res){
-             this.response=res;
-             console.log(this.response._body);
-             alert("Action Successful!\n" + "This is your username: " + this.response._body + "\nThis is your Temporary password: " + password + "\nThis is your Verification Code: " + data['verificationCode']);
-          });
+        }) 
+
+        this._http.post(this._apiUrl + "/customer/addCustomer",JSON.stringify(data), reqopt).subscribe(function(res){
+            this.response=res;
+            console.log(this.response._body);
+            alert("Customer Successfully Added!\n" + "This is your username: " + this.response._body + "\nThis is your Temporary password: " + password + "\nThis is your Verification Code: " + data['verificationCode']);
+        });
           
      }
      editCustomer(data:any){
@@ -58,12 +42,11 @@ export class CustomerService{
         let reqopt = new RequestOptions({
             headers: headers
         })
-        
-        
-         this._http.post(this._customerEditUrl,JSON.stringify(data), reqopt).subscribe(function(res){
-             this.response=res;
-             alert(this.response);
-          });
+
+        this._http.post(this._apiUrl + "/customer/editCustomer",JSON.stringify(data), reqopt).subscribe(function(res){
+            this.response=res;
+            alert("Customer Successfully Updated!");
+        });
           
      }
       delCustomer(data:any){
@@ -73,29 +56,12 @@ export class CustomerService{
         let reqopt = new RequestOptions({
             headers: headers
         })
-
         var url = this._apiUrl + "/customer/delete/"+ data.customerID;
         
          this._http.put(url,null, reqopt).subscribe(function(res){
              this.response=res;
-             alert(this.response);
+             alert("Customer Successfully Deleted!");
         });
           
-     }
-        /*
-    getProducts(): Observable<Response>{
-        console.log("INSIDE GET PRODUCTS");
-        return this._http.get(this._productUrl)
-                .map((response: Response) =>  <Response>response.json())
-               .do( data => console.log('All: ' + JSON.stringify(data)))
-                .catch(this.handleError);
-
-    }*/
-
-    private handleError(error: Response){
-        console.error(error);
-        return Observable.throw(error.json().error || 'Server error');
-    }
-
-    
+     }   
 }
