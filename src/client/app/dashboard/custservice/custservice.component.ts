@@ -363,7 +363,8 @@ export class CustServiceComponent implements OnInit {
 				11:false,
 					
 				}
-				];	
+				];
+				document.getElementById('edit').style.display='none';	
 	}
 	onChange(element: HTMLInputElement)
 	{
@@ -483,8 +484,8 @@ export class CustServiceComponent implements OnInit {
 				];
 				console.log("working");	
 				//this.emp.addEmployeeRights(this.employeeID,this.rights[0]);
-				/*	
-			*/
+					
+				document.getElementById('add').style.display='none';
 
 		
 	}
@@ -551,7 +552,7 @@ export class CustServiceComponent implements OnInit {
 					
 				}
 				];
-		
+				document.getElementById('del').style.display='none';
 	}
 	 ngOnInit() {
         this.refreshData();

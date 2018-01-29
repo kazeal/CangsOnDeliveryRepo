@@ -104,25 +104,35 @@
         <form [formGroup]="complexForm" role="form" id="dataadd" class="modal-content animate" >
 		    <div class="form-content">
                 <div class="container" align="center"><br><br>
-                    <div align="left" class="form-group">
-                        <label><b>First Name</b></label>
-                        <input type="text" class="form-control input-underline input-lg" [formControl]="complexForm.controls['firstName']"  placeholder="Enter First Name"   [(ngModel)]="empFirstName" name="empFirstName" required >
+                    <div align="left" class="form-group" [ngClass]="{'has-error':!complexForm.controls['firstName'].valid && complexForm.controls['firstName'].touched}">
+                            <label><b>First Name</b></label>
+                            <input type="text" class="form-control input-underline input-lg" [formControl]="complexForm.controls['firstName']"  placeholder="Enter First Name"   [(ngModel)]="empFirstName" name="empFirstName" required >
+                            <div *ngIf="complexForm.controls['firstName'].hasError('required') && complexForm.controls['firstName'].touched" class="alert alert-danger">You must include a first name.</div>
+                            <div *ngIf="complexForm.controls['firstName'].hasError('pattern') && complexForm.controls['firstName'].touched" class="alert alert-danger">Symbols and numbers are not allowed</div>
                     </div>
-                    <div align="left" class="form-group">
+                    <div align="left" class="form-group" [ngClass]="{'has-error':!complexForm.controls['middleName'].valid && complexForm.controls['middleName'].touched}">
                             <label><b>Middle Name</b></label>
                             <input type="text" class="form-control input-underline input-lg" [formControl]="complexForm.controls['middleName']" placeholder="Enter Middle Name"  [(ngModel)]="empMiddleName" name="empMiddleName" required >                           
+                            <div *ngIf="complexForm.controls['middleName'].hasError('required') && complexForm.controls['middleName'].touched" class="alert alert-danger">You must include a middle name.</div>
+                            <div *ngIf="complexForm.controls['middleName'].hasError('pattern') && complexForm.controls['middleName'].touched" class="alert alert-danger">Symbols and numbers are not allowed</div>
                     </div>
-                    <div align="left" class="form-group">
+                    <div align="left" class="form-group" [ngClass]="{'has-error':!complexForm.controls['lastName'].valid && complexForm.controls['lastName'].touched}">
                             <label><b>Last Name</b></label>
                             <input type="text" class="form-control input-underline input-lg" [formControl]="complexForm.controls['lastName']" placeholder="Enter Last Name"  [(ngModel)]="empLastName" name="empLastName" required >       
+                            <div *ngIf="complexForm.controls['lastName'].hasError('required') && complexForm.controls['lastName'].touched" class="alert alert-danger">You must include a last name.</div>           
+                            <div *ngIf="complexForm.controls['lastName'].hasError('pattern') && complexForm.controls['lastName'].touched" class="alert alert-danger">Symbols and numbers are not allowed</div> 
                     </div>
-                    <div align="left" class="form-group">
+                    <div align="left" class="form-group" [ngClass]="{'has-error':!complexForm.controls['password'].valid && complexForm.controls['password'].touched}">
                             <label><b>Password</b></label>
                             <input type="password" class="form-control input-underline input-lg" [formControl]="complexForm.controls['password']" placeholder="Enter Password"  [(ngModel)]="empPassword" name="empPassword" required >       
+                            <div *ngIf="complexForm.controls['password'].hasError('required') && complexForm.controls['password'].touched" class="alert alert-danger">You must include a password.</div>           
+                            <div *ngIf="complexForm.controls['password'].hasError('minlength') && complexForm.controls['password'].touched" class="alert alert-danger">Password must be atleast 8 characters.</div>
+                            <div *ngIf="complexForm.controls['password'].hasError('maxlength') && complexForm.controls['password'].touched" class="alert alert-danger">Password must not exceed 16 characters.</div>
                     </div>
-                    <div align="left" class="form-group">
+                    <div align="left" class="form-group" [ngClass]="{'has-error':!complexForm.controls['type'].valid && complexForm.controls['type'].touched}">
                             <label><b>Type</b></label>
                             <input type="text" class="form-control input-underline input-lg" [formControl]="complexForm.controls['type']" placeholder="Enter Employee Type"  [(ngModel)]="empType" name="empType" required >     
+                            <div *ngIf="complexForm.controls['type'].hasError('required') && complexForm.controls['type'].touched" class="alert alert-danger">You must include an employee type.</div>           
                     </div> 
                     <div align="left"  class="form-group"> 
                             &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp; <input #right1 type="checkbox" (change)="onChange(right1)" value="Add Customer" />Add Customer
@@ -172,22 +182,28 @@
         <form role="form" id="dataedit" class="modal-content animate"  >
 		    <div class="form-content">
                 <div class="container" align="center"><br><br>
-                    <div align="left" class="form-group">
+                    <div align="left" class="form-group" [ngClass]="{'has-error':!complexForm.controls['firstName'].valid && complexForm.controls['firstName'].touched}">
                             <label><b>First Name</b></label>
                             <input type="text" class="form-control input-underline input-lg" [formControl]="complexeditForm.controls['firstName']"  [value]="empFirstName"   [(ngModel)]="empFirstName" name="empFirstName" required >                          
+                            <div *ngIf="complexForm.controls['firstName'].hasError('required') && complexForm.controls['firstName'].touched" class="alert alert-danger">You must include a first name.</div>
+                            <div *ngIf="complexForm.controls['firstName'].hasError('pattern') && complexForm.controls['firstName'].touched" class="alert alert-danger">Symbols and numbers are not allowed</div>
                     </div>
-                    <div align="left" class="form-group">
+                    <div align="left" class="form-group" [ngClass]="{'has-error':!complexForm.controls['middleName'].valid && complexForm.controls['middleName'].touched}">
                             <label><b>Middle Name</b></label>
                             <input type="text" class="form-control input-underline input-lg" [formControl]="complexeditForm.controls['middleName']" [value]="empMiddleName"  [(ngModel)]="empMiddleName" name="empMiddleName" required >
-                            
+                            <div *ngIf="complexForm.controls['middleName'].hasError('required') && complexForm.controls['middleName'].touched" class="alert alert-danger">You must include a middle name.</div>
+                            <div *ngIf="complexForm.controls['middleName'].hasError('pattern') && complexForm.controls['middleName'].touched" class="alert alert-danger">Symbols and numbers are not allowed</div>
                     </div>
-                    <div align="left" class="form-group">
+                    <div align="left" class="form-group" [ngClass]="{'has-error':!complexForm.controls['lastName'].valid && complexForm.controls['lastName'].touched}">
                             <label><b>Last Name</b></label>
                             <input type="text" class="form-control input-underline input-lg" [formControl]="complexeditForm.controls['lastName']" [value]="empLastName"  [(ngModel)]="empLastName" name="empLastName" required >                    
+                            <div *ngIf="complexForm.controls['lastName'].hasError('required') && complexForm.controls['lastName'].touched" class="alert alert-danger">You must include a last name.</div>           
+                            <div *ngIf="complexForm.controls['lastName'].hasError('pattern') && complexForm.controls['lastName'].touched" class="alert alert-danger">Symbols and numbers are not allowed</div> 
                     </div>
-                    <div align="left" class="form-group">
+                    <div align="left" class="form-group" [ngClass]="{'has-error':!complexForm.controls['type'].valid && complexForm.controls['type'].touched}">
                             <label><b>Employee Type</b></label>
                             <input type="text" class="form-control input-underline input-lg" [formControl]="complexeditForm.controls['type']" [value]="empType"  [(ngModel)]="empType" name="empType" required >
+                            <div *ngIf="complexForm.controls['type'].hasError('required') && complexForm.controls['type'].touched" class="alert alert-danger">You must include an employee type.</div>           
                     </div>
                     <div align="left" class="form-group"> 
                             &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp; <input #rightedit1 type="checkbox" name="edAddCustomer" [checked]="edAddCustomer"  [(ngModel)]="edAddCustomer" (change)="onChange(rightedit1)" value="Add Customer" />Add Customer

@@ -9,8 +9,8 @@ import 'rxjs/add/operator/catch';
 @Injectable()
 export class OrderService{
     post: any;
-    public log:any=[];
-    private _apiUrl = 'http://192.168.0.24:1025';
+    public log:any=[];//192.168.0.24:1025
+    private _apiUrl = 'http://192.168.1.153:1025';//
     constructor(private _http: Http, private _cookieService:CookieService){}
      
     getOrders(){return this._http.get(this._apiUrl + "/orders/all").map((res:Response) => res.json());}

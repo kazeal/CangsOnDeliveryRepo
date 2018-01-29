@@ -22,7 +22,7 @@ export class AdminComponent {
 	public data:any = [];
 	constructor(public emp: EmployeeService, private _cookieService:CookieService){
 
-		  this.emp.getEmployee().then(result => {
+		  this.emp.getEmployee().subscribe(result => {
           this.employees=result;
 		  console.log(this.employees); 
     	});
@@ -51,6 +51,9 @@ export class AdminComponent {
 						'empFirstName': this.oneEmployee[0]["empFirstName"], 			
 						});
 						this.emp.editEmployee(this.data[0]);
+						this.newPass='';
+						this.oldPass='';
+						this.newPass2='';
 					}, 2000)	
 			 }
 			 else

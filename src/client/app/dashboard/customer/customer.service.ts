@@ -13,7 +13,7 @@ export class CustomerService{
     post: any;
     head = new Headers();
     requestOptions = new RequestOptions();
-    private _apiUrl = 'http://192.168.0.24:1025';
+    private _apiUrl = 'http://192.168.1.153:1025';//192.168.0.24
     constructor(private _http: Http){}
 
     getCustomers(){

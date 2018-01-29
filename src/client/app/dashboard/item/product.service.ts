@@ -15,9 +15,9 @@ export class ProductService{
     post: any;
     public static imgstring:string;
     public static fileName:any;
-    public log:any=[];//logquantity,logdate,logprice,itemid,employeeid
-    private uploadURL = 'http://192.168.0.24:1025/item/uploadFile';
-     private _apiUrl = 'http://192.168.0.24:1025';
+    public log:any=[];
+    private uploadURL = 'http://192.168.0.24:1025/item/uploadFile';//192.168.1.153:1025
+     private _apiUrl = 'http://192.168.1.153:1025';//192.168.0.24:1025
    
     constructor(private _http: Http,private _cookieService:CookieService){
         //https://cangsapi.000webhostapp.com/index.php/Products/get_products
@@ -49,23 +49,16 @@ export class ProductService{
             }
     }
     addItem(data:any,pic:FileList){
-       // console.log(data);
-      // this.getBase64(pic["0"]);
        this.addPicture(pic);
        setTimeout (() => {
            console.log(ProductService.fileName);
             data["picture"]="192.168.0.24:1025/UploadFile/"+ProductService.fileName;
-           // ProductService.fileName=null;
-           // console.log(ProductService.imgstring);
-           // data["picture"]=ProductService.imgstring;
-           // console.log(data);
-            //console.log(data["picture"].length);
             console.log(data);
              let headers = new Headers();
             headers.append('Content-Type', 'application/x-www-form-urlencoded');
             let reqopt = new RequestOptions({
                 headers: headers
-            })               //this._productAddUrl                       //
+            })              
             
             this._http.post(this._apiUrl + "/item/addItem",JSON.stringify(data), reqopt).subscribe(function(res){
                 this.response=res;

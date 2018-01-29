@@ -18,7 +18,6 @@ import { Observable } from 'rxjs/Rx';
 
 export class CustomerComponent implements OnInit {
 	
-	modal:boolean =true;
 	addCustomer:boolean=false;
 	editCustomer:boolean=false;
 	delCustomer:boolean=false;
@@ -60,8 +59,8 @@ export class CustomerComponent implements OnInit {
 		 	this.editCustomer=true;
 		  if(this._cookieService.get('3') == "true")
 			this.delCustomer=true;   
-		  var test = document.getElementById("modal");
-		  console.log(test);
+		 
+		  console.log("1");
     }
 	click(event:any, id:number,pass:string,fname:string,mname:string,lname:string,number:string,address:string,vercode:string){
 		console.log(id);
@@ -107,11 +106,11 @@ export class CustomerComponent implements OnInit {
 			this.address="";
 			this.verificationCode="";
 			this.customerID=null;
-			this.modal=false;
-			this.modal=true;
+			document.getElementById('edit').style.display='none';
 	}
 
 	onSubmitAdd() {
+		 	
 			let uuid = UUID.UUID();	
 			this.verificationCode=uuid.slice(0,-23);
 			let uuid2 = UUID.UUID();
@@ -137,12 +136,8 @@ export class CustomerComponent implements OnInit {
 			this.number="";
 			this.address="";
 			this.verificationCode="";
-			this.modal=false;
-			setTimeout (() => {
-				this.modal=true;
-			 }, 500);
-			
-		}
+			document.getElementById('add').style.display='none';
+	}
 
 	onSubmitDel() {
 			
@@ -167,9 +162,8 @@ export class CustomerComponent implements OnInit {
 			this.number="";
 			this.address="";
 			this.verificationCode="";
-			this.customerID=null;		
-			this.modal=false;
-			this.modal=true;	
+			this.customerID=null;			
+			document.getElementById('del').style.display='none';
 	}
 	 ngOnInit() {
         this.refreshData();
@@ -218,6 +212,7 @@ export class CustomerComponent implements OnInit {
                     // console.log(this.items.data);                
                     // console.log("latestest");      
             //this.items.data = data;
+			console.log(this.complexForm.controls['number'].hasError('pattern'))
             this.subscribeToData();
             console.log(this.customers);
         },
