@@ -115,7 +115,7 @@ export class ProductService{
             headers: headers
         })
 
-        var url = this._apiUrl + "/item/deleteItem"+ data;
+        var url = this._apiUrl + "/item/deleteItem/"+ data;
         
          this._http.put(url,null, reqopt).subscribe(function(res){
              this.response=res;

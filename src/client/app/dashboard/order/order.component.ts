@@ -51,9 +51,9 @@ export class OrderComponent implements OnInit{
 				'orderTotal': orderTotal, 
 				'orderStatus': element.value,
 				'orderRemarks': orderRemarks, 
-				'location': orderTime,
-				'orderTime': packaging,
-				'packaging': location, 
+				'location': location,
+				'orderTime': orderTime,
+				'packaging': packaging, 
 				'customerID': customerID,  				
 			});
 		this.ord.updateOrderStatus(this.data[0]);
