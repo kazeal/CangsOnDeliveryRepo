@@ -3,7 +3,7 @@ import { CustServiceComponent } from './index';
 
 export const CustServiceRoutes: Route[] = [
   	{
-    	path: 'custservice',
+    	path: 'employee',
     	component: CustServiceComponent
   	}
 ];
