@@ -16,8 +16,8 @@ export class ProductService{
     public static imgstring:string;
     public static fileName:any;
     public log:any=[];
-    private uploadURL = 'http://192.168.0.24:1025/item/uploadFile';//192.168.1.153:1025
-     private _apiUrl = 'http://192.168.1.153:1025';//192.168.0.24:1025
+    
+     private _apiUrl = 'http://192.168.0.24:1025';//192.168.0.24:1025
    
     constructor(private _http: Http,private _cookieService:CookieService){
         //https://cangsapi.000webhostapp.com/index.php/Products/get_products
@@ -115,7 +115,7 @@ export class ProductService{
             headers: headers
         })
 
-        var url = this._apiUrl + "/item/deleteItem/"+ data;
+        var url = this._apiUrl + "/item/deleteItem"+ data;
         
          this._http.put(url,null, reqopt).subscribe(function(res){
              this.response=res;

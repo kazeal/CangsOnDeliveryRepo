@@ -41,8 +41,8 @@
                             </a>
                         </li>
                     
-                        <li>     
-                            <a [routerLink]="['customer']">                             
+                        <li *ngIf="addCustomer || editCustomer || delCustomer">     
+                            <a [routerLink]="['customer']" >                             
                                 <span>&nbsp; Customer</span>
                             </a>
                         </li>

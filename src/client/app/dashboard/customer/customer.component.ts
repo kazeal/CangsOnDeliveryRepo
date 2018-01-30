@@ -39,7 +39,7 @@ export class CustomerComponent implements OnInit {
 		 public cust: CustomerService,
 		 private _http: HttpModule,
 		 public fb: FormBuilder,
-		  private chRef: ChangeDetectorRef,
+		 private chRef: ChangeDetectorRef,
          private zone: NgZone,
 		 private _cookieService:CookieService
 		 ){
@@ -106,6 +106,7 @@ export class CustomerComponent implements OnInit {
 			this.address="";
 			this.verificationCode="";
 			this.customerID=null;
+			this.complexForm.reset();
 			document.getElementById('edit').style.display='none';
 	}
 
@@ -136,6 +137,7 @@ export class CustomerComponent implements OnInit {
 			this.number="";
 			this.address="";
 			this.verificationCode="";
+			this.complexForm.reset();
 			document.getElementById('add').style.display='none';
 	}
 
@@ -162,7 +164,8 @@ export class CustomerComponent implements OnInit {
 			this.number="";
 			this.address="";
 			this.verificationCode="";
-			this.customerID=null;			
+			this.customerID=null;	
+			this.complexForm.reset();		
 			document.getElementById('del').style.display='none';
 	}
 	 ngOnInit() {
@@ -227,7 +230,7 @@ export class CustomerComponent implements OnInit {
     }
     private subscribeToData(): void {
 
-        this.timerSubscription = Observable.timer(5000)
+        this.timerSubscription = Observable.timer(3000)
             .subscribe(() => this.refreshData());
     }
      public ngOnDestroy(): void {

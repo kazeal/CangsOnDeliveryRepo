@@ -15,12 +15,7 @@ export class EmployeeService{
     public addRights: any =[];
     public editRights: any =[];
     public static employeeID:any;
-    private _apiUrl = 'http://192.168.1.153:1025';//http://192.168.0.24:1025 //http://192.168.1.153:1025
-    private _employeeAddUrl ='http://192.168.0.24:1025/employee/addEmployee';
-    private _employeeEditUrl ='http://192.168.0.24:1025/employee/editEmployee';
-     private _employeeEditRightsUrl ='http://192.168.0.24:1025/accessRights/editRights';
-    private _employeeDelUrl ='http://192.168.0.24:1025/employee/deleteEmployee';
-    private _employeeAddRightsUrl ='http://192.168.0.24:1025/accessRights/addAccessRights';
+    private _apiUrl = 'http://192.168.0.24:1025';//http://192.168.0.24:1025 //http://192.168.1.153:1025
     constructor(private _http: Http){}
      
     getEmployee(){
@@ -86,7 +81,7 @@ export class EmployeeService{
                     });
                     console.log(this.editRights);
                     
-                    this._http.post(this._employeeEditRightsUrl,JSON.stringify(this.editRights), reqopt).subscribe(function(res){
+                    this._http.post(this._apiUrl + '/accessRights/editRights',JSON.stringify(this.editRights), reqopt).subscribe(function(res){
                         this.response=res;
                         //alert(this.response);
                     });   
@@ -102,7 +97,7 @@ export class EmployeeService{
             let reqopt = new RequestOptions({
                 headers: headers
             })     
-                this._http.post(this._employeeAddUrl,JSON.stringify(data), reqopt).subscribe(function(res){
+                this._http.post(this._apiUrl + '/employee/addEmployee',JSON.stringify(data), reqopt).subscribe(function(res){
                     this.response=res;
                       alert("Employee Successfully Added!");
                     console.log(this.response._body);
@@ -128,7 +123,7 @@ export class EmployeeService{
                                     'levelNum': 1, 		
                                 });
                                 console.log(this.addRights);
-                                this._http.post(this._employeeAddRightsUrl,JSON.stringify(this.addRights), reqopt).subscribe(function(res:any){
+                                this._http.post(this._apiUrl + '/accessRights/addAccessRights',JSON.stringify(this.addRights), reqopt).subscribe(function(res:any){
                                         this.response=res;      
                                        
                                 });
@@ -142,7 +137,7 @@ export class EmployeeService{
                                     'employeeID': EmployeeService.employeeID, 
                                     'levelNum': 2, 		
                                 });
-                                this._http.post(this._employeeAddRightsUrl,JSON.stringify(this.addRights[0]), reqopt).subscribe(function(res:any){
+                                this._http.post(this._apiUrl + '/accessRights/addAccessRights',JSON.stringify(this.addRights[0]), reqopt).subscribe(function(res:any){
                                         this.response=res;
                                         
                                     });
@@ -156,7 +151,7 @@ export class EmployeeService{
                                     'employeeID': EmployeeService.employeeID, 
                                     'levelNum': 3, 		
                                 });
-                                this._http.post(this._employeeAddRightsUrl,JSON.stringify(this.addRights[0]), reqopt).subscribe(function(res:any){
+                                this._http.post(this._apiUrl + '/accessRights/addAccessRights',JSON.stringify(this.addRights[0]), reqopt).subscribe(function(res:any){
                                         this.response=res;
                                     });
                                         console.log(this.addRights);
@@ -169,7 +164,7 @@ export class EmployeeService{
                                     'employeeID': EmployeeService.employeeID, 
                                     'levelNum': 4, 		
                                 });
-                                this._http.post(this._employeeAddRightsUrl,JSON.stringify(this.addRights[0]), reqopt).subscribe(function(res:any){
+                                this._http.post(this._apiUrl + '/accessRights/addAccessRights',JSON.stringify(this.addRights[0]), reqopt).subscribe(function(res:any){
                                         this.response=res;
                                     });
                                         console.log(this.addRights);
@@ -182,7 +177,7 @@ export class EmployeeService{
                                     'employeeID': EmployeeService.employeeID, 
                                     'levelNum': 5, 		
                                 });
-                                this._http.post(this._employeeAddRightsUrl,JSON.stringify(this.addRights[0]), reqopt).subscribe(function(res:any){
+                                this._http.post(this._apiUrl + '/accessRights/addAccessRights',JSON.stringify(this.addRights[0]), reqopt).subscribe(function(res:any){
                                         this.response=res;
                                     });
                                         console.log(this.addRights);
@@ -195,7 +190,7 @@ export class EmployeeService{
                                     'employeeID': EmployeeService.employeeID, 
                                     'levelNum': 6, 		
                                 });
-                                this._http.post(this._employeeAddRightsUrl,JSON.stringify(this.addRights[0]), reqopt).subscribe(function(res:any){
+                                this._http.post(this._apiUrl + '/accessRights/addAccessRights',JSON.stringify(this.addRights[0]), reqopt).subscribe(function(res:any){
                                         this.response=res;
                                     });
                                         console.log(this.addRights);
@@ -208,7 +203,7 @@ export class EmployeeService{
                                     'employeeID': EmployeeService.employeeID, 
                                     'levelNum': 7, 		
                                 });
-                                this._http.post(this._employeeAddRightsUrl,JSON.stringify(this.addRights[0]), reqopt).subscribe(function(res:any){
+                                this._http.post(this._apiUrl + '/accessRights/addAccessRights',JSON.stringify(this.addRights[0]), reqopt).subscribe(function(res:any){
                                         this.response=res;
                                 });
                                     console.log(this.addRights);
@@ -221,7 +216,7 @@ export class EmployeeService{
                                     'employeeID': EmployeeService.employeeID, 
                                     'levelNum': 8, 		
                                 });
-                                this._http.post(this._employeeAddRightsUrl,JSON.stringify(this.addRights[0]), reqopt).subscribe(function(res:any){
+                                this._http.post(this._apiUrl + '/accessRights/addAccessRights',JSON.stringify(this.addRights[0]), reqopt).subscribe(function(res:any){
                                         this.response=res;
                                     });
                                         console.log(this.addRights);
@@ -235,7 +230,7 @@ export class EmployeeService{
                                     'employeeID': EmployeeService.employeeID, 
                                     'levelNum': 9, 		
                                 });
-                                this._http.post(this._employeeAddRightsUrl,JSON.stringify(this.addRights[0]), reqopt).subscribe(function(res:any){
+                                this._http.post(this._apiUrl + '/accessRights/addAccessRights',JSON.stringify(this.addRights[0]), reqopt).subscribe(function(res:any){
                                         this.response=res;
                                 });
                                     console.log(this.addRights);
@@ -249,7 +244,7 @@ export class EmployeeService{
                                     'employeeID': EmployeeService.employeeID, 
                                     'levelNum': 10, 		
                                 });
-                                this._http.post(this._employeeAddRightsUrl,JSON.stringify(this.addRights[0]), reqopt).subscribe(function(res:any){
+                                this._http.post(this._apiUrl + '/accessRights/addAccessRights',JSON.stringify(this.addRights[0]), reqopt).subscribe(function(res:any){
                                         this.response=res;
                                     });
                                         console.log(this.addRights);
@@ -262,7 +257,7 @@ export class EmployeeService{
                                     'employeeID': EmployeeService.employeeID, 
                                     'levelNum': 11, 		
                                 });
-                                this._http.post(this._employeeAddRightsUrl,JSON.stringify(this.addRights[0]), reqopt).subscribe(function(res:any){
+                                this._http.post(this._apiUrl + '/accessRights/addAccessRights',JSON.stringify(this.addRights[0]), reqopt).subscribe(function(res:any){
                                         this.response=res;
                                     });
                                         console.log(this.addRights);
@@ -281,7 +276,7 @@ export class EmployeeService{
                 headers: headers
             })
             
-            this._http.post(this._employeeEditUrl,JSON.stringify(data), reqopt).subscribe(function(res){
+            this._http.post(this._apiUrl + '/employee/editEmployee',JSON.stringify(data), reqopt).subscribe(function(res){
                 this.response=res;
                 alert("Employee Successfully Updated!");
             });

@@ -6,7 +6,7 @@ import { BlankPageComponent2 } from './blankPage.component2';
 import { ProductService } from './product.service';
 import { CommonModule } from '@angular/common';
 import { NgForm } from '@angular/forms'
-import { FormsModule, ReactiveFormsModule }   from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
     imports: [

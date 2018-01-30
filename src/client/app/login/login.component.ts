@@ -98,6 +98,7 @@ export class LoginComponent {
 		 {
 			 if(this.logindetails==true)
 			 { 
+				  this.error="Logging in...";
 				     this.log.getRights(this.inputuser).then(result => {
 							this.rights=result;
 							console.log(this.rights);							

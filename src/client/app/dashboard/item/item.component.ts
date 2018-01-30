@@ -37,7 +37,6 @@ export class ItemComponent implements OnInit, OnChanges{
     public itemsnew: any= [];
     public validpic:boolean =false;
     filesToUpload: File; //192.168.0.24:1025/UploadFile/coco.jpg
-    public picturetest:string ="https://www.petdrugsonline.co.uk/images/page-headers/cats-master-header";
     public fileName:any;
     public test:any = [{
 				'itemID': 1, 
@@ -61,13 +60,13 @@ export class ItemComponent implements OnInit, OnChanges{
          public fb: FormBuilder,
          private location: Location,
            ){
-               console.log("test9");
+               console.log("test11");
                var regex = new RegExp(/^\d+(?:\.\d{0,2})$/);
                var regex2 = /^\d+(?:\.\d{0,2})$/;
                console.log(regex.test("123.123"));
                 this.complexForm = fb.group({
                     'itemName' : [null, Validators.required],
-                    'itemQuantityStored' : [null, Validators.compose([Validators.required,Validators.minLength(1), Validators.maxLength(10), Validators.pattern("[0-9][0-9 ]+")])],
+                    'itemQuantityStored' : [null, Validators.compose([Validators.required, Validators.maxLength(10), Validators.pattern("[0-9 ]+")])],
                     'itemPrice': [null, Validators.compose([Validators.required, Validators.pattern("^\\d+(?:\\.\\d{2})$")])],
                 // 'picture' : [null],
                 })
@@ -92,6 +91,7 @@ export class ItemComponent implements OnInit, OnChanges{
                 console.log(byteArray);
                 */
             // });
+            console.log("Test");
         
         }
         load() {
@@ -100,15 +100,15 @@ export class ItemComponent implements OnInit, OnChanges{
 
         clean(){
         
-                /*
-           this.picture =null;
+               
+            this.picture =null;
             this.picturestring="";
             this.itemName="";
             this.itemQuantityStored=null;
             this.itemPrice=null; 
             this.purchaseCount=0;
             this.itemID=null;
-            */
+           
             /*
             this.Data.getProducts().subscribe(data => {
                  console.log(this.items.data.length);
@@ -224,6 +224,7 @@ export class ItemComponent implements OnInit, OnChanges{
                 this.itemPrice=null; 
                 this.purchaseCount=0;
                 this.itemID=null;
+               
                 document.getElementById('edit').style.display='none';
 	
         }
@@ -237,8 +238,7 @@ export class ItemComponent implements OnInit, OnChanges{
                     'picture': "fileName", 
                    			
                 });
-                    this.Data.addItem(this.data[0],this.picture);   
-                    //console.log(this.fileName);
+                this.Data.addItem(this.data[0],this.picture);   
                 console.log(this.data[0]);
                 this.data.pop();
                 this.picture =null;
@@ -247,6 +247,7 @@ export class ItemComponent implements OnInit, OnChanges{
                 this.itemQuantityStored=null;
                 this.itemPrice=null; 
                 this.purchaseCount=0;
+                this.complexForm.reset();
                 document.getElementById('add').style.display='none';
            
         }
@@ -261,6 +262,7 @@ export class ItemComponent implements OnInit, OnChanges{
                 this.itemPrice=null; 
                 this.purchaseCount=0;
                 this.itemID=null;
+                
                 document.getElementById('del').style.display='none';
         }
         ngOnChanges(changes:any) {
@@ -328,7 +330,7 @@ export class ItemComponent implements OnInit, OnChanges{
         }
         private subscribeToData(): void {
 
-                this.timerSubscription = Observable.timer(5000)
+                this.timerSubscription = Observable.timer(3000)
                 .subscribe(() => this.refreshData());
         }
         public ngOnDestroy(): void {

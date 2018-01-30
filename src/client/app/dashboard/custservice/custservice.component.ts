@@ -110,6 +110,56 @@ export class CustServiceComponent implements OnInit {
 					this.employees=result;
 				});
 		}
+		clickdel(event:any, id:number,fname:string,mname:string,lname:string){
+			this.employeeID=id;
+			this.empFirstName=fname;
+			this.empMiddleName=mname;
+			this.empLastName=lname;
+			this.editRights =[];
+			this.edAddCustomer=false;
+			this.edEditCustomer=false;
+			this.edDelCustomer=false;
+			this.edAddEmployee=false; 
+			this.edEditEmployee=false;
+			this.edDelEmployee=false;
+			this.edAddItem=false;
+			this.edEditItem=false;
+			this.edDelItem=false;
+			this.edViewItem=false;
+			this.edViewTransactionHistory=false;
+			this.edViewItemStatistics=false;
+			this.rights = [{
+				0:false,
+				1:false,
+				2:false,
+				3:false,
+				4:false,
+				5:false,
+				6:false,
+				7:false,
+				8:false,
+				9:false,
+				10:false,
+				11:false,
+			}
+			];
+			this.oldRights = [{
+			0:false,
+			1:false,
+			2:false,
+			3:false,
+			4:false,
+			5:false,
+			6:false,
+			7:false,
+			8:false,
+			9:false,
+			10:false,
+			11:false,
+				
+			}
+			];
+		}
 		click(event:any, id:number,pass:string,fname:string,mname:string,lname:string,type:string){
 			console.log(id);
 			this.editRights =[];
@@ -364,6 +414,7 @@ export class CustServiceComponent implements OnInit {
 					
 				}
 				];
+				this.complexForm.reset();
 				document.getElementById('edit').style.display='none';	
 	}
 	onChange(element: HTMLInputElement)
@@ -484,7 +535,7 @@ export class CustServiceComponent implements OnInit {
 				];
 				console.log("working");	
 				//this.emp.addEmployeeRights(this.employeeID,this.rights[0]);
-					
+				this.complexForm.reset();
 				document.getElementById('add').style.display='none';
 
 		
@@ -552,6 +603,7 @@ export class CustServiceComponent implements OnInit {
 					
 				}
 				];
+				this.complexForm.reset();
 				document.getElementById('del').style.display='none';
 	}
 	 ngOnInit() {
@@ -604,7 +656,7 @@ export class CustServiceComponent implements OnInit {
     }
     private subscribeToData(): void {
 
-        this.timerSubscription = Observable.timer(5000)
+        this.timerSubscription = Observable.timer(3000)
             .subscribe(() => this.refreshData());
     }
      public ngOnDestroy(): void {

@@ -72,16 +72,17 @@ export class OrderComponent implements OnInit{
                     console.log(this.orders.length);
                     var i =0;
                     for (let order of data)
-                    {                         
+                    {          
+                            console.log(order);               
                             this.orders[i]=({
                                 'orderID': order.orderID, 
 								'orderDate': order.orderDate, 
 								'orderTotal':order.orderTotal, 
 								'orderStatus': order.orderStatus,
 								'orderRemarks': order.orderRemarks, 
-								'location': order.orderTime,
-								'orderTime': order.packaging,
-								'packaging': order.location, 
+								'location': order.location,
+								'orderTime': order.orderTime,
+								'packaging': order.packaging, 
 								'customerID': order.customerID, 				
                             });
                             i=i+1;//FINISH REFRESH DATA AND ERROR TRAPPING FOR ITEM PRICE

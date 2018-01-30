@@ -10,16 +10,20 @@ export class DashboardGuard implements CanActivate{
        canActivate(): boolean{
          /*
          console.log(this._cookieService.getAll());
-         
-         if(!this._cookieService.get('employeeID'))
+         console.log(this._cookieService.get('employeeID'));
+         if(this._cookieService.get('employeeID') == null)
          {
-              //console.log("working");
-              this._router.navigate(['']);
-               return true;
+              console.log("working");
+              this._router.navigate(['http://localhost:5555/']);
+              return false;
          }
          else
-          return false;
-        */
+         {
+            console.log("working2");
+            return true;
+         }
+          */
+        
         return true;
          
            
