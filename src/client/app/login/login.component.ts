@@ -6,6 +6,9 @@ import { CookieService } from 'angular2-cookie/services/cookies.service';
 import { Md5 } from 'ts-md5/dist/md5';
 import { LoginService } from './login.service';
 import { UUID } from 'angular2-uuid';
+import { Observable } from 'rxjs/Rx';
+import { NgZone, ChangeDetectorRef } from '@angular/core';
+import { AnonymousSubscription } from "rxjs/Subscription";
 /**
 *	This class represents the lazy loaded LoginComponent.
 */
@@ -30,9 +33,13 @@ export class LoginComponent {
 	 public inputusername: string ='';
 	 public rights:any =[];
 	 public admin:boolean=false;
+	 private timerSubscription: AnonymousSubscription;
+     private postsSubscription: AnonymousSubscription;
 	constructor(private router: Router, 
 	            private appService: AppService,
 				private _cookieService:CookieService,
+				private chRef: ChangeDetectorRef,
+         		private zone: NgZone,
 				private _md5: Md5, private log: LoginService
 	 			){
 				
@@ -59,7 +66,7 @@ export class LoginComponent {
 				  this._cookieService.remove('employeePassword');
 				  this._cookieService.remove('admin');
 				 console.log(this._cookieService.getAll());
-				 this.log.getEmployees().then(result => {
+				 this.log.getEmployees().subscribe(result => {
 					this.emp=result;
 				    //console.log("INSIDE");
 				 });
@@ -136,12 +143,68 @@ export class LoginComponent {
 		 //
 	} 
 
-	changeGV(val:boolean){
-      this.appService.setMyGV(true);
+	 ngOnInit() {
+        this.refreshData();
     }
+    
+     private refreshData(): void {
+         this.zone.run(() => {
+         this.chRef.detectChanges();
+        this.postsSubscription = this.log.getEmployees().subscribe(
 
-    showGV(){
-      alert("GV: " + this.appService.getMyGV());
+        data  => {
+                    console.log(this.emp.length);
+                    var i =0;
+                    for (let emps of data)
+                    {          
+                          //  console.log(emps);               
+                            this.emp[i]=({
+                                'employeeID': emps.employeeID,
+								'empPassword': emps.empPassword, 
+								'empType': emps.empType, 
+								'empLastName': emps.empLastName, 
+								'empMiddleName': emps.empMiddleName,
+								'empFirstName': emps.empFirstName,  				
+                            });
+                            i=i+1;
+                            
+                    
+                    }
+                    if(i < this.emp.length)
+                    {
+                        let dif = this.emp.length - i;
+                        let test;
+                        for(dif;dif>0;dif--)
+                        {
+                                test=this.emp.pop();
+                                console.log(test);
+                        }
+                    }
+                    i=0;   
+            this.subscribeToData();
+            console.log(this.emp);
+        },
+        function (error) {
+            console.log(error);
+        },
+        function () {
+            console.log("complete");
+        }
+        );
+        });
     }
+    private subscribeToData(): void {
 
+        this.timerSubscription = Observable.timer(5000)
+            .subscribe(() => this.refreshData());
+    }
+     public ngOnDestroy(): void {
+
+            if (this.postsSubscription) {
+            this.postsSubscription.unsubscribe();
+            }
+            if (this.timerSubscription) {
+            this.timerSubscription.unsubscribe();
+            }
+    }
 }

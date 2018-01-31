@@ -85,10 +85,9 @@ export class OrderComponent implements OnInit{
 								'packaging': order.packaging, 
 								'customerID': order.customerID, 				
                             });
-                            i=i+1;//FINISH REFRESH DATA AND ERROR TRAPPING FOR ITEM PRICE
+                            i=i+1;
                             
-                            //console.log(item);
-                            //console.log(i);
+                    
                     }
                     if(i < this.orders.length)
                     {

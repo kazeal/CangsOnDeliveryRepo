@@ -21,7 +21,7 @@
             <td>{{order.orderID}}</td>
             <td>{{order.customerID}}</td>
             <td>{{order.orderDate}}</td>
-            <td>{{order.orderTotal}}</td>
+            <td>₱{{order.orderTotal}}</td>
             <td>
                 <select #stat [(ngModel)]="order.orderStatus" (change)="onChange(stat,$event,order.orderID,order.customerID,order.orderDate,order.orderTotal,order.orderStatus,order.orderRemarks,order.orderTime,order.packaging,order.location)">
                     <option  value="canceled">canceled</option>

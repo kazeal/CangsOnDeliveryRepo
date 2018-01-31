@@ -8,7 +8,7 @@ export class DashboardGuard implements CanActivate{
                     
         }
        canActivate(): boolean{
-         /*
+         
          console.log(this._cookieService.getAll());
          console.log(this._cookieService.get('employeeID'));
          if(this._cookieService.get('employeeID') == null)
@@ -22,9 +22,9 @@ export class DashboardGuard implements CanActivate{
             console.log("working2");
             return true;
          }
-          */
+          
         
-        return true;
+        //return true;
          
            
        }

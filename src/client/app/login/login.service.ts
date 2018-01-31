@@ -23,17 +23,7 @@ export class LoginService{
 
     }
      
-    getEmployees(){
-
-        return new Promise(resolve => {
-          this._http.get(this._apiUrl +'/employee/all').map(res => res.json()).subscribe(data => {
-          this.post = data;
-          resolve(this.post);
-          console.log(this.post);
-           console.log("LOGINGET");
-        });
-        }
-     )};
+    getEmployees(){ return this._http.get(this._apiUrl + "/employee/all").map((res:Response) => res.json()); }
      
      getRights(employeeID: any): any{
 
