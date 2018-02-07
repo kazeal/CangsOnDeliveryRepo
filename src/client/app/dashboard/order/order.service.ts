@@ -13,7 +13,7 @@ export class OrderService{
     private _apiUrl = 'http://192.168.0.24:1025';//
     constructor(private _http: Http, private _cookieService:CookieService){}
      
-    getOrders(){return this._http.get(this._apiUrl + "/orders/all").map((res:Response) => res.json());}
+    getOrders(){return this._http.get(this._apiUrl + "/orders/filterStatusCD").map((res:Response) => res.json());}
 
     updateOrderStatus(data:any){
 
@@ -41,7 +41,7 @@ export class OrderService{
 
         this._http.post(this._apiUrl + "/orders/editOrder",JSON.stringify(data), reqopt).subscribe(function(res){
             this.response=res;
-            alert("Order Successfully Updated!");
+            alert("The Order has been Successfully Updated!");
         });
 
         this._http.post(this._apiUrl + "/UpdateOrderStatus/addUpdateStatus",JSON.stringify(this.log[0]), reqopt).subscribe(function(res){

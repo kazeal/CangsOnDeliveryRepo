@@ -52,6 +52,7 @@ export class CustServiceComponent implements OnInit {
 			11:false,
 		}
 		];
+		filter:string='';
 		public data: any= [];
 		public employees: any= [];
 		public editRights: any= [];
@@ -87,7 +88,6 @@ export class CustServiceComponent implements OnInit {
 				this.complexForm = fb.group({
 			
 				'firstName' : [null, Validators.compose([Validators.required, Validators.pattern("[a-zA-Z][a-zA-Z ]+")])],
-				'middleName' : [null, Validators.compose([Validators.required, Validators.pattern("[a-zA-Z][a-zA-Z ]+")])],
 				'lastName': [null, Validators.compose([Validators.required, Validators.pattern("[a-zA-Z][a-zA-Z ]+")])],
 				'password' : [null, Validators.compose([Validators.required, Validators.minLength(8), Validators.maxLength(16)])],
 				'type' : [null, Validators.required],
@@ -95,7 +95,6 @@ export class CustServiceComponent implements OnInit {
 				this.complexeditForm = fb2.group({
 			
 				'firstName' : [null, Validators.compose([Validators.required, Validators.pattern("[a-zA-Z][a-zA-Z ]+")])],
-				'middleName' : [null, Validators.compose([Validators.required, Validators.pattern("[a-zA-Z][a-zA-Z ]+")])],
 				'lastName': [null, Validators.compose([Validators.required, Validators.pattern("[a-zA-Z][a-zA-Z ]+")])],
 				'type' : [null, Validators.required],
 				})
@@ -222,6 +221,7 @@ export class CustServiceComponent implements OnInit {
 				console.log(this.oldRights[0]);
 				
 				for (let editRight of this.editRights) {
+					console.log(editRight);
 					for(var i=0; i<13;i++)
 					{
 						if(editRight.levelNum == 1 )
@@ -300,8 +300,88 @@ export class CustServiceComponent implements OnInit {
 				console.log(this.oldRights);
 				
 			}, 2000)	
-		} 
+		}
+		uncheckedit(){
+			document.getElementById('re1').checked=false;	
+			document.getElementById('re2').checked=false;
+			document.getElementById('re3').checked=false;
+			document.getElementById('re4').checked=false;
+			document.getElementById('re5').checked=false;
+			document.getElementById('re6').checked=false;
+			document.getElementById('re7').checked=false;
+			document.getElementById('re8').checked=false;	
+			document.getElementById('re9').checked=false;
+			document.getElementById('re10').checked=false;
+			document.getElementById('re11').checked=false;	
+			this.rights = [{
+					0:false,
+					1:false,
+					2:false,
+					3:false,
+					4:false,
+					5:false,
+					6:false,
+					7:false,
+					8:false,
+					9:false,
+					10:false,
+					11:false,
+				}
+				];
+				
+				this.editRights =[];
+				console.log(this.rights[0]);
+				console.log(this.oldRights[0]);
+		}
+		uncheck(){
+			
+			document.getElementById('r1').checked=false;	
+			document.getElementById('r2').checked=false;
+			document.getElementById('r3').checked=false;
+			document.getElementById('r4').checked=false;
+			document.getElementById('r5').checked=false;
+			document.getElementById('r6').checked=false;
+			document.getElementById('r7').checked=false;
+			document.getElementById('r8').checked=false;	
+			document.getElementById('r9').checked=false;
+			document.getElementById('r10').checked=false;
+			document.getElementById('r11').checked=false;	
+			this.rights[0] = [{
+					0:false,
+					1:false,
+					2:false,
+					3:false,
+					4:false,
+					5:false,
+					6:false,
+					7:false,
+					8:false,
+					9:false,
+					10:false,
+					11:false,
+				}
+				];
+				this.oldRights[0] = [{
+				0:false,
+				1:false,
+				2:false,
+				3:false,
+				4:false,
+				5:false,
+				6:false,
+				7:false,
+				8:false,
+				9:false,
+				10:false,
+				11:false,
+					
+					}
+				];
+				this.editRights =[];
+
+		}
 		clear(){
+			this.complexForm.reset();
 				this.editRights =[];
 				this.edAddCustomer=false;
 				this.edEditCustomer=false;
@@ -320,7 +400,7 @@ export class CustServiceComponent implements OnInit {
 				this.empLastName="";
 				this.empPassword="";
 				this.empType="";
-				this.rights = [{
+				this.rights[0] = [{
 					0:false,
 					1:false,
 					2:false,
@@ -335,7 +415,7 @@ export class CustServiceComponent implements OnInit {
 					11:false,
 				}
 				];
-				this.oldRights = [{
+				this.oldRights[0] = [{
 				0:false,
 				1:false,
 				2:false,
@@ -417,6 +497,122 @@ export class CustServiceComponent implements OnInit {
 				this.complexForm.reset();
 				document.getElementById('edit').style.display='none';	
 	}
+	onChangeInput(element: HTMLInputElement)
+	{
+		var type:string;
+		type=element.value.toLocaleLowerCase();
+		if(type == "admin" || type == "administrator")
+		{
+			document.getElementById('r1').checked=true;	
+			document.getElementById('r2').checked=true;
+			document.getElementById('r3').checked=true;
+			document.getElementById('r4').checked=true;
+			document.getElementById('r5').checked=true;
+			document.getElementById('r6').checked=true;
+			document.getElementById('r7').checked=true;
+			document.getElementById('r8').checked=true;	
+			document.getElementById('r9').checked=true;
+			document.getElementById('r10').checked=true;
+			document.getElementById('r11').checked=true;
+			this.rights[0][0]=true; 
+			this.rights[0][1]=true; 
+			this.rights[0][2]=true; 
+			this.rights[0][6]=true; 
+			this.rights[0][7]=true;
+			this.rights[0][8]=true; 
+			this.rights[0][3]=true; 
+			this.rights[0][4]=true; 
+			this.rights[0][5]=true; 
+			this.rights[0][9]=true; 
+			this.rights[0][10]=true; 
+		}
+		if(type == "customer service" || type == "customerservice")
+		{
+			document.getElementById('r1').checked=true;	
+			document.getElementById('r2').checked=true;
+			document.getElementById('r10').checked=true;
+			document.getElementById('r3').checked=false;
+			document.getElementById('r4').checked=false;
+			document.getElementById('r5').checked=false;
+			document.getElementById('r6').checked=false;
+			document.getElementById('r7').checked=false;
+			document.getElementById('r8').checked=false;	
+			document.getElementById('r9').checked=false;
+			document.getElementById('r11').checked=false;
+			this.rights[0][0]=true; 
+			this.rights[0][1]=true; 
+			this.rights[0][2]=false; 
+			this.rights[0][6]=false; 
+			this.rights[0][7]=false;
+			this.rights[0][8]=false; 
+			this.rights[0][3]=false; 
+			this.rights[0][4]=false; 
+			this.rights[0][5]=false; 
+			this.rights[0][9]=true; 
+			this.rights[0][10]=false; 
+			
+		}
+		//console.log(element);
+		//console.log("test");
+	}
+	onChangeInputEdit(element: HTMLInputElement)
+	{
+		var type:string;
+		type=element.value.toLocaleLowerCase();
+		if(type == "admin" || type == "administrator")
+		{
+			document.getElementById('re1').checked=true;	
+			document.getElementById('re2').checked=true;
+			document.getElementById('re3').checked=true;
+			document.getElementById('re4').checked=true;
+			document.getElementById('re5').checked=true;
+			document.getElementById('re6').checked=true;
+			document.getElementById('re7').checked=true;
+			document.getElementById('re8').checked=true;	
+			document.getElementById('re9').checked=true;
+			document.getElementById('re10').checked=true;
+			document.getElementById('re11').checked=true;
+			this.rights[0][0]=true; 
+			this.rights[0][1]=true; 
+			this.rights[0][2]=true; 
+			this.rights[0][6]=true; 
+			this.rights[0][7]=true;
+			this.rights[0][8]=true; 
+			this.rights[0][3]=true; 
+			this.rights[0][4]=true; 
+			this.rights[0][5]=true; 
+			this.rights[0][9]=true; 
+			this.rights[0][10]=true; 
+		}
+		if(type == "customer service" || type == "customerservice")
+		{
+			document.getElementById('re1').checked=true;	
+			document.getElementById('re2').checked=true;
+			document.getElementById('re10').checked=true;
+			document.getElementById('re3').checked=false;
+			document.getElementById('re4').checked=false;
+			document.getElementById('re5').checked=false;
+			document.getElementById('re6').checked=false;
+			document.getElementById('re7').checked=false;
+			document.getElementById('re8').checked=false;	
+			document.getElementById('re9').checked=false;
+			document.getElementById('re11').checked=false;
+
+			this.rights[0][0]=true; 
+			this.rights[0][1]=true; 
+			this.rights[0][2]=false; 
+			this.rights[0][6]=false; 
+			this.rights[0][7]=false;
+			this.rights[0][8]=false; 
+			this.rights[0][3]=false; 
+			this.rights[0][4]=false; 
+			this.rights[0][5]=false; 
+			this.rights[0][9]=true; 
+			this.rights[0][10]=false; 
+		}
+		//console.log(element);
+		//console.log("test");
+	}
 	onChange(element: HTMLInputElement)
 	{
 		switch(element.value)
@@ -467,24 +663,9 @@ export class CustServiceComponent implements OnInit {
 					'empMiddleName': this.empMiddleName,
 					'empFirstName': this.empFirstName, 			
 				});
-				//console.log(this.data[0]);
+				console.log(this.rights[0]);
 				this.emp.addEmployee(this.data[0],this.rights[0]);
 				this.data.pop();
-				this.rights = [{
-					0:false,
-					1:false,
-					2:false,
-					3:false,
-					4:false,
-					5:false,
-					6:false,
-					7:false,
-					8:false,
-					9:false,
-					10:false,	
-				}
-				];
-				this.editRights =[];
 				this.edAddCustomer=false;
 				this.edEditCustomer=false;
 				this.edDelCustomer=false;
@@ -502,42 +683,59 @@ export class CustServiceComponent implements OnInit {
 				this.empLastName="";
 				this.empPassword="";
 				this.empType="";
-				this.rights = [{
-					0:false,
-					1:false,
-					2:false,
-					3:false,
-					4:false,
-					5:false,
-					6:false,
-					7:false,
-					8:false,
-					9:false,
-					10:false,
-					11:false,
-				}
-				];
-				this.oldRights = [{
-					0:false,
-					1:false,
-					2:false,
-					3:false,
-					4:false,
-					5:false,
-					6:false,
-					7:false,
-					8:false,
-					9:false,
-					10:false,
-					11:false,
-					
-				}
-				];
 				console.log("working");	
 				//this.emp.addEmployeeRights(this.employeeID,this.rights[0]);
 				this.complexForm.reset();
 				document.getElementById('add').style.display='none';
-
+				setTimeout (() => {
+						this.rights = [{
+							0:false,
+							1:false,
+							2:false,
+							3:false,
+							4:false,
+							5:false,
+							6:false,
+							7:false,
+							8:false,
+							9:false,
+							10:false,	
+						}
+						];
+						this.editRights =[];
+						this.rights = [{
+							0:false,
+							1:false,
+							2:false,
+							3:false,
+							4:false,
+							5:false,
+							6:false,
+							7:false,
+							8:false,
+							9:false,
+							10:false,
+							11:false,
+						}
+						];
+						this.oldRights = [{
+							0:false,
+							1:false,
+							2:false,
+							3:false,
+							4:false,
+							5:false,
+							6:false,
+							7:false,
+							8:false,
+							9:false,
+							10:false,
+							11:false,
+							
+						}
+						];
+				
+				}, 3000)
 		
 	}
 
@@ -616,7 +814,7 @@ export class CustServiceComponent implements OnInit {
         this.postsSubscription = this.emp.getEmployee().subscribe(
 
         data  => {
-                    console.log(this.employees.length);
+                   // console.log(this.employees.length);
                     var i =0;
                     for (let emps of data)
                     {                                                 
@@ -638,18 +836,18 @@ export class CustServiceComponent implements OnInit {
                         for(dif;dif>0;dif--)
                         {
                                 test=this.employees.pop();
-                                console.log(test);
+                                //console.log(test);
                         }
                     }
                     i=0;   
             this.subscribeToData();
-            console.log(this.employees);
+            //console.log(this.employees);
         },
         function (error) {
             console.log(error);
         },
         function () {
-            console.log("complete");
+           //console.log("complete");
         }
         );
         });

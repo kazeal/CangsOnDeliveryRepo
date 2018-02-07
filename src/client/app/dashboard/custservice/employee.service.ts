@@ -66,11 +66,12 @@ export class EmployeeService{
             })      
             for(var i=0;i<11;i++)
             {
-                //console.log("New Rights" + i+1 + " :" + newRights[i]);
-                //console.log("Old Rights" + i+1 + " :" + oldRights[i])
+                console.log("New Rights" + i+1 + " :" + newRights[i]);
+                console.log("Old Rights" + i+1 + " :" + oldRights[i])
                 if(newRights[i] == oldRights[i])
                 {
                     console.log("inside true");
+                   
                 }
                 else
                 {
@@ -85,7 +86,8 @@ export class EmployeeService{
                         this.response=res;
                         //alert(this.response);
                     });   
-                    this.editRights =[];           
+                    this.editRights =[];   
+                    this.editRights.pop();        
                 }
             }     
      }
@@ -99,11 +101,11 @@ export class EmployeeService{
             })     
                 this._http.post(this._apiUrl + '/employee/addEmployee',JSON.stringify(data), reqopt).subscribe(function(res){
                     this.response=res;
-                      alert("Employee Successfully Added!");
+                      alert("The Employee has been Successfully Added!");
                     console.log(this.response._body);
                     EmployeeService.employeeID=this.response._body;  
                   //  console.log(this.employeeID);                  
-                this.addRights.length=0;
+                    //this.addRights.length=0;
                 });
                 setTimeout (() => {
                     let headers = new Headers();
@@ -111,6 +113,7 @@ export class EmployeeService{
                     let reqopt = new RequestOptions({
                         headers: headers
                     })     
+                    console.log(rights);
                     for(this.i=0;this.i<11;this.i++)
                         {
                             
@@ -127,7 +130,7 @@ export class EmployeeService{
                                         this.response=res;      
                                        
                                 });
-                                this.addRights =[];
+                                this.addRights=[];
                                 
                             
                             }
@@ -142,7 +145,7 @@ export class EmployeeService{
                                         
                                     });
                                         console.log(this.addRights);
-                                this.addRights =[];
+                                this.addRights=[];
 
                             }
                             else if(rights[this.i]==true && this.i==2)
@@ -155,7 +158,7 @@ export class EmployeeService{
                                         this.response=res;
                                     });
                                         console.log(this.addRights);
-                                this.addRights =[];
+                               this.addRights=[];
                                 
                             }
                             else if(rights[this.i]==true && this.i==3)
@@ -168,7 +171,7 @@ export class EmployeeService{
                                         this.response=res;
                                     });
                                         console.log(this.addRights);
-                            this.addRights =[];
+                                this.addRights=[];
                                 
                             }
                             else if(rights[this.i]==true && this.i==4)
@@ -181,7 +184,7 @@ export class EmployeeService{
                                         this.response=res;
                                     });
                                         console.log(this.addRights);
-                                this.addRights =[];
+                                this.addRights=[];
                                 
                             }
                             else if(rights[this.i]==true && this.i==5)
@@ -194,7 +197,7 @@ export class EmployeeService{
                                         this.response=res;
                                     });
                                         console.log(this.addRights);
-                                this.addRights =[];
+                                this.addRights=[];
                                 
                             }
                             else if(rights[this.i]==true && this.i==6)
@@ -207,7 +210,7 @@ export class EmployeeService{
                                         this.response=res;
                                 });
                                     console.log(this.addRights);
-                                this.addRights =[];
+                               this.addRights=[];
                                 
                             }
                             else if(rights[this.i]==true && this.i==7)
@@ -220,7 +223,7 @@ export class EmployeeService{
                                         this.response=res;
                                     });
                                         console.log(this.addRights);
-                            this.addRights =[];
+                            this.addRights=[];
                                 
                                 
                             }
@@ -234,7 +237,7 @@ export class EmployeeService{
                                         this.response=res;
                                 });
                                     console.log(this.addRights);
-                                this.addRights =[];
+                               this.addRights=[];
                                             
                                 
                             }
@@ -248,7 +251,7 @@ export class EmployeeService{
                                         this.response=res;
                                     });
                                         console.log(this.addRights);
-                                this.addRights =[];
+                                this.addRights=[];
                                 
                             }
                             else if(rights[this.i]==true && this.i==10)
@@ -261,11 +264,12 @@ export class EmployeeService{
                                         this.response=res;
                                     });
                                         console.log(this.addRights);
-                                this.addRights =[];
+                                this.addRights=[];
                                 
-                            }     
+                            } 
+                            console.log(rights[this.i]);    
                         }
-            }, 5000)
+            }, 2000)
 
      }
      editEmployee(data:any){
@@ -278,7 +282,22 @@ export class EmployeeService{
             
             this._http.post(this._apiUrl + '/employee/editEmployee',JSON.stringify(data), reqopt).subscribe(function(res){
                 this.response=res;
-                alert("Employee Successfully Updated!");
+                alert("The Employee has been Successfully Updated!");
+            });
+          
+     }
+     resetPass(data:any,pass:any){
+         
+            let headers = new Headers();
+            headers.append('Content-Type', 'application/x-www-form-urlencoded');
+            let reqopt = new RequestOptions({
+                headers: headers
+            })
+            console.log(data);
+            console.log(pass);
+            this._http.post(this._apiUrl + '/employee/editEmployee',JSON.stringify(data), reqopt).subscribe(function(res){
+                this.response=res;
+                alert("The Employee Password is Successfully Resetted!\nThe new temporary password is: "+pass);
             });
           
      }
@@ -294,7 +313,7 @@ export class EmployeeService{
             
             this._http.put(url,null, reqopt).subscribe(function(res){
                 this.response=res;
-                alert("Employee Successfully Deleted!");
+                alert("The Employee has been Successfully Deleted!");
             });
             var url2 = this._apiUrl + "/accessRights/deleteAccessRights/"+ data.employeeID;
            

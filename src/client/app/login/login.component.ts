@@ -24,6 +24,7 @@ export class LoginComponent {
 	 user: string = ''; 
 	 pass: string = '';
 	 hash:string = '';
+	 inputtype:string = '';
 	 public emp: any=[];
 	 public error: string ="";
 	 counter: number=0;
@@ -31,6 +32,7 @@ export class LoginComponent {
 	 public inputuser: string = '';
 	 public inputpass: string ='';
 	 public inputusername: string ='';
+	 public inputfirstname: string ='';
 	 public rights:any =[];
 	 public admin:boolean=false;
 	 private timerSubscription: AnonymousSubscription;
@@ -62,9 +64,11 @@ export class LoginComponent {
 				  this._cookieService.remove('13');			 
 				  this._cookieService.remove('employeeID');
 				  this._cookieService.remove('employeeName');
-				   this._cookieService.remove('employeePass');
+				  this._cookieService.remove('employeePass');
 				  this._cookieService.remove('employeePassword');
 				  this._cookieService.remove('admin');
+				  this._cookieService.remove('employeeFirstName');
+				  this._cookieService.remove('employeeType');
 				 console.log(this._cookieService.getAll());
 				 this.log.getEmployees().subscribe(result => {
 					this.emp=result;
@@ -91,8 +95,9 @@ export class LoginComponent {
 					   console.log(data);
 					   this.inputuser=data.employeeID;
 					   this.inputpass=data.empPassword;
-					   
-					   this.inputusername= data.empFirstName + " " + data.empMiddleName + ". " + data.empLastName;
+					   this.inputfirstname=data.empFirstName;
+					   this.inputtype=data.empType;
+					   this.inputusername= data.empFirstName + " " + data.empMiddleName + " " + data.empLastName;
 					   this.logindetails=true;
 					   this.error=""
 					   console.log("matchpass");
@@ -128,7 +133,8 @@ export class LoginComponent {
 						this._cookieService.put("employeeID", this.inputuser);
 						this._cookieService.put("employeePassword", this.inputpass);
 						this._cookieService.put("employeeName", this.inputusername);
-						
+						this._cookieService.put("employeeFirstName", this.inputfirstname);
+						this._cookieService.put("employeeType", this.inputtype);
 						this.router.navigateByUrl("/dashboard/home");			
 						this.error="";
 					}, 2000)

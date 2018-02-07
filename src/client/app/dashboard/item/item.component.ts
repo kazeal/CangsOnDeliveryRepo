@@ -11,6 +11,7 @@ import { Observable } from 'rxjs/Rx';
 import { NgZone, ChangeDetectorRef } from '@angular/core';
 import { Location } from '@angular/common';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
+import { CookieService } from 'angular2-cookie/services/cookies.service';
 
 @Component({
 	moduleId: module.id,
@@ -21,14 +22,21 @@ import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms'
 
 export class ItemComponent implements OnInit, OnChanges{
 
+    header:any;
+    sticky:any;
     picture: FileList;
     picturestring: string;
 	itemName:string;
 	itemQuantityStored:number;
 	itemPrice:number; 
+    itemDescription:string;
+    category:string='Food';
 	purchaseCount:number =0;
 	public itemID:number;
 	i:number=0;
+    editItem=false;
+    addItem=false;
+    delItem=false;
     display='sampletext';
 	public user: any =[];
 	public data: any= [];
@@ -51,6 +59,7 @@ export class ItemComponent implements OnInit, OnChanges{
     private postsSubscription: AnonymousSubscription;//FIX RELOAD DATA
     complexForm : FormGroup;
     valid:boolean=false;
+    filter:string ='';
 	 constructor(
          public Data: ProductService,
          private _http: HttpModule,
@@ -59,8 +68,9 @@ export class ItemComponent implements OnInit, OnChanges{
          private zone: NgZone,
          public fb: FormBuilder,
          private location: Location,
+         private _cookieService:CookieService,
            ){
-               console.log("test11");
+               console.log("test12");
                var regex = new RegExp(/^\d+(?:\.\d{0,2})$/);
                var regex2 = /^\d+(?:\.\d{0,2})$/;
                console.log(regex.test("123.123"));
@@ -68,7 +78,8 @@ export class ItemComponent implements OnInit, OnChanges{
                     'itemName' : [null, Validators.required],
                     'itemQuantityStored' : [null, Validators.compose([Validators.required, Validators.maxLength(10), Validators.pattern("[0-9 ]+")])],
                     'itemPrice': [null, Validators.compose([Validators.required, Validators.pattern("^\\d+(?:\\.\\d{2})$")])],
-                // 'picture' : [null],
+                    'itemDescription': [null, Validators.required],
+                            
                 })
                 this.Data.getProducts().subscribe(data => {
                         zone.run(() => {
@@ -80,27 +91,24 @@ export class ItemComponent implements OnInit, OnChanges{
                         });
                         
                 });        
-                /*
-                var byteCharacters = atob(this.items[0].productPic);
-                var byteNumbers = new Array(byteCharacters.length);
-                for (var i = 0; i < byteCharacters.length; i++) {
-                    byteNumbers[i] = byteCharacters.charCodeAt(i);
-                }
-                var byteArray = new Uint8Array(byteNumbers);
-                var blob = new Blob([byteArray]);
-                console.log(byteArray);
-                */
-            // });
-            console.log("Test");
-        
+                 if(this._cookieService.get('4') == "true")
+                    this.addItem=true;
+                if(this._cookieService.get('5') == "true")
+                    this.editItem=true;
+                if(this._cookieService.get('6') == "true")
+                    this.delItem=true;   
+                    console.log(this._cookieService.getAll());
+                    
         }
         load() {
-            location.reload()
+            console.log(this.complexForm.controls);
         }
 
         clean(){
-        
-               
+            document.getElementById("picture").value = "";
+            this.filter="";
+            this.itemDescription="";
+            this.category="Food";
             this.picture =null;
             this.picturestring="";
             this.itemName="";
@@ -157,7 +165,7 @@ export class ItemComponent implements OnInit, OnChanges{
             this.itemName=iname;
             console.log(this.items);
 	    }
-        clickedit(event:any,id:any,iname:string,istored:number,iprice:number,pcount:number,pic:any){
+        clickedit(event:any,id:any,iname:string,istored:number,iprice:number,pcount:number,pic:any,desc:string,cat:string){
 	
             this.picturestring=pic;
             this.itemID=id;
@@ -165,6 +173,8 @@ export class ItemComponent implements OnInit, OnChanges{
             this.itemQuantityStored=istored;
             this.itemPrice=iprice;
             this.purchaseCount=pcount;
+            this.itemDescription=desc;
+            this.category=cat;
 	    }
         onChange(fileInput: any)
         {
@@ -212,7 +222,10 @@ export class ItemComponent implements OnInit, OnChanges{
                     'itemQuantityStored': this.itemQuantityStored, 
                     'itemPrice': this.itemPrice,
                     'purchaseCount': this.purchaseCount, 
-                    'picture': this.picturestring, 				
+                    'picture': this.picturestring,
+                    'itemDescription': this.itemDescription,
+                    'category': this.category, 
+                     				
                 });
                 console.log(this.data[0]);
                 this.Data.editItem(this.data[0]);
@@ -224,7 +237,9 @@ export class ItemComponent implements OnInit, OnChanges{
                 this.itemPrice=null; 
                 this.purchaseCount=0;
                 this.itemID=null;
-               
+                this.itemDescription="";
+                this.category="";
+                this.filter="";
                 document.getElementById('edit').style.display='none';
 	
         }
@@ -234,8 +249,10 @@ export class ItemComponent implements OnInit, OnChanges{
                     'itemName': this.itemName, 
                     'itemQuantityStored': this.itemQuantityStored, 
                     'itemPrice': this.itemPrice,
-                    'purchaseCount': 0, 
-                    'picture': "fileName", 
+                    'purchaseCountAllTime': 0, 
+                    'picture': "fileName",
+                    'itemDescription': this.itemDescription,
+                    'category': this.category, 
                    			
                 });
                 this.Data.addItem(this.data[0],this.picture);   
@@ -244,10 +261,13 @@ export class ItemComponent implements OnInit, OnChanges{
                 this.picture =null;
                 this.picturestring="";
                 this.itemName="";
+                this.itemDescription="";
+                this.category="";
                 this.itemQuantityStored=null;
                 this.itemPrice=null; 
                 this.purchaseCount=0;
                 this.complexForm.reset();
+                this.filter="";
                 document.getElementById('add').style.display='none';
            
         }
@@ -262,7 +282,9 @@ export class ItemComponent implements OnInit, OnChanges{
                 this.itemPrice=null; 
                 this.purchaseCount=0;
                 this.itemID=null;
-                
+                 this.itemDescription="";
+                this.category="";
+                this.filter="";
                 document.getElementById('del').style.display='none';
         }
         ngOnChanges(changes:any) {
@@ -300,8 +322,10 @@ export class ItemComponent implements OnInit, OnChanges{
                                     'itemName': item.itemName, 
                                     'itemQuantityStored': item.itemQuantityStored, 
                                     'itemPrice': item.itemPrice,
-                                    'purchaseCount': item.purchaseCount, 
-                                    'picture': item.picture, 				
+                                    'purchaseCountAllTime': item.purchaseCountAllTime, 
+                                    'picture': item.picture, 
+                                    'itemDescription': item.itemDescription,
+                                    'category': item.category,				
                                 });
                                 i=i+1;
                         }
@@ -341,7 +365,8 @@ export class ItemComponent implements OnInit, OnChanges{
                 if (this.timerSubscription) {
                 this.timerSubscription.unsubscribe();
                 }
-        }   
+        }  
+        
 }
 
 

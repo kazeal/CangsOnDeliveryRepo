@@ -6,6 +6,7 @@ import { NgForm } from '@angular/forms'
 import { FormsModule }   from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import {  ReactiveFormsModule } from '@angular/forms';
+import { CustomerFilterPipe } from './customer-pipe';
 
 @NgModule({
     imports: [
@@ -15,10 +16,17 @@ import {  ReactiveFormsModule } from '@angular/forms';
         FormsModule,
         HttpModule,
         ],
-    declarations: [CustomerComponent],
+    declarations: [
+        CustomerComponent,
+        CustomerFilterPipe,	
+       
+        ],
     exports: [CustomerComponent , 
               FormsModule,
-              ReactiveFormsModule]
+              CustomerFilterPipe,
+              ReactiveFormsModule,
+              CommonModule
+              ]
 })
 
 export class CustomerModule { }

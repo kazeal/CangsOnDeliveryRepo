@@ -8,6 +8,9 @@ import { CookieService } from 'angular2-cookie/services/cookies.service';
 
 export class SidebarComponent {
 	showMenu: string = '';
+	showMenuView: boolean = false;
+	showMenuItem:boolean=false;
+	showMenuAcc: boolean = false;
 	view: boolean = true;
     addCustomer:boolean=false;
 	editCustomer:boolean=false;
@@ -22,6 +25,7 @@ export class SidebarComponent {
 	viewTransactionHistory:boolean=false;
 	viewItemStatistics:boolean=false;
 	admin:boolean=false;
+	empName:string='';
 	constructor(private _cookieService:CookieService){	              
           if(this._cookieService.get('1') == "true")
 		  this.addCustomer=true;
@@ -49,15 +53,41 @@ export class SidebarComponent {
 		  this.viewItem=true;
 		  if(this._cookieService.get('admin') == "true")
 		  this.admin=true;
+		  this.empName=this._cookieService.get('employeeFirstName');
+		  console.log(this._cookieService.getAll());
     }
 	addExpandClass(element: any) {
 		if (element === this.showMenu) {
 			this.showMenu = '0';
+			this.showMenuAcc=false;
 		} else {
+			this.showMenuAcc=true;
+			this.showMenuView=false;
+			this.showMenuItem=false;
 			this.showMenu = element;
 		}
-		
-		
+	}
+	expandView(element: any) {
+		if (element === this.showMenu) {
+			this.showMenu = '0';
+			this.showMenuView=false;
+		} else {
+			this.showMenu = element;
+			this.showMenuAcc=false;
+			this.showMenuView=true;
+			this.showMenuItem=false;
+		}			
+	}
+	expandItem(element: any) {
+		if (element === this.showMenu) {
+			this.showMenu = '0';
+			this.showMenuItem=false;
+		} else {
+			this.showMenu = element;
+			this.showMenuAcc=false;
+			this.showMenuView=false;
+			this.showMenuItem=true;
+		}			
 	}
 	
 

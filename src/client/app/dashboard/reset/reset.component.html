@@ -1,0 +1,72 @@
+<div class="login-page animate">
+	<div class="row">
+		<div class="col-lg-4 col-lg-offset-4">
+			<br><br><h2>Reset Password<br><br></h2>
+			<form [formGroup]="complexForm" role="form">
+				<div class="form-content">
+					
+					<div class="form-group">
+						<input type="text" [formControl]="complexForm.controls['customerID']" [(ngModel)]='customerID' name='customerID' class="form-control input-underline input-lg" id="customerID" placeholder="Enter Customer ID">
+						<div *ngIf="complexForm.controls['customerID'].hasError('required') && complexForm.controls['customerID'].touched" class="alert alert-danger">You must enter a Customer ID.</div>                         
+						<div *ngIf="complexForm.controls['customerID'].hasError('pattern') && complexForm.controls['customerID'].touched" class="alert alert-danger">Customer ID can only consist of numbers.</div>                         
+					</div>
+					<div class="form-group">
+						<input type="text" [formControl]="complexForm.controls['recustomerID']" [(ngModel)]='recustomerID' name='recustomerID' class="form-control input-underline input-lg" id="recustomerID" placeholder="Re-enter Customer ID">
+						<div *ngIf="complexForm.controls['recustomerID'].hasError('required') && complexForm.controls['recustomerID'].touched" class="alert alert-danger">You must re-enter Customer ID.</div>
+                        <div *ngIf="complexForm.controls['recustomerID'].hasError('pattern') && complexForm.controls['recustomerID'].touched" class="alert alert-danger">Customer ID can only consist of numbers.</div>
+                    </div> 
+				</div><br>
+				<!--<a class="btn rounded-btn" (click) ='onSubmit($event)'> Change Password </a>-->
+				<div  class="form-group">
+						<button [disabled]="!complexForm.valid"  class="btn btn-primary" (click) ='onSubmitPass($event)'>Confirm</button>                          
+				</div>
+			</form>
+
+			<br><h2>Reset Verification Code<br><br></h2>
+			<form [formGroup]="complexForm2" role="form">
+				<div class="form-content">
+					
+					<div class="form-group">
+						<input type="text" [formControl]="complexForm2.controls['customerID']" [(ngModel)]='customerID2' name='customerID2' class="form-control input-underline input-lg" id="customerID2" placeholder="Enter Customer ID">
+						<div *ngIf="complexForm2.controls['customerID'].hasError('required') && complexForm2.controls['customerID'].touched" class="alert alert-danger">You must enter a Customer ID.</div>
+                        <div *ngIf="complexForm2.controls['customerID'].hasError('pattern') && complexForm2.controls['customerID'].touched" class="alert alert-danger">Customer ID can only consist of numbers.</div>
+                            
+					</div> 
+					<div class="form-group">
+						<input type="text" [formControl]="complexForm2.controls['recustomerID']" [(ngModel)]='recustomerID2' name='recustomerID2' class="form-control input-underline input-lg" id="recustomerID2" placeholder="Re-enter Customer ID">
+						<div *ngIf="complexForm2.controls['recustomerID'].hasError('required') && complexForm2.controls['recustomerID'].touched" class="alert alert-danger">You must re-enter Customer ID.</div>
+                        <div *ngIf="complexForm2.controls['recustomerID'].hasError('pattern') && complexForm2.controls['recustomerID'].touched" class="alert alert-danger">Customer ID can only consist of numbers.</div>
+                      </div>
+					</div><br>
+				
+					<div  class="form-group">
+						<button [disabled]="!complexForm2.valid"  class="btn btn-primary" (click) ='onSubmitCode($event)'>Confirm</button>                          
+					</div>
+			</form>
+			<div *ngIf="resettemp">
+					<br><br><h2>Reset Employee Password<br><br></h2>
+					<form [formGroup]="complexForm3" role="form">
+						<div class="form-content">
+							
+							<div class="form-group">
+								<input type="text" [formControl]="complexForm3.controls['customerID']" [(ngModel)]='customerID3' name='customerID3' class="form-control input-underline input-lg" id="customerID3" placeholder="Enter Employee ID">
+								<div *ngIf="complexForm3.controls['customerID'].hasError('required') && complexForm3.controls['customerID'].touched" class="alert alert-danger">You must enter a Employee ID.</div>                         
+								<div *ngIf="complexForm3.controls['customerID'].hasError('pattern') && complexForm3.controls['customerID'].touched" class="alert alert-danger">Employee ID can only consist of numbers.</div>                         
+							</div>
+							<div class="form-group">
+								<input type="text" [formControl]="complexForm3.controls['recustomerID']" [(ngModel)]='recustomerID3' name='recustomerID3' class="form-control input-underline input-lg" id="recustomerID3" placeholder="Re-enter Employee ID">
+								<div *ngIf="complexForm3.controls['recustomerID'].hasError('required') && complexForm3.controls['recustomerID'].touched" class="alert alert-danger">You must re-enter Employee ID.</div>
+								<div *ngIf="complexForm3.controls['recustomerID'].hasError('pattern') && complexForm3.controls['recustomerID'].touched" class="alert alert-danger">Employee ID can only consist of numbers.</div>
+							</div> 
+						</div><br>
+						
+						<div  class="form-group">
+								<button [disabled]="!complexForm3.valid"  class="btn btn-primary" (click) ='onSubmitEmpPass($event)'>Confirm</button>                          
+						</div>
+						</form>
+			</div>
+			
+
+		</div>	
+	</div>
+</div>

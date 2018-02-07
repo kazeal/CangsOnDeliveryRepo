@@ -4,7 +4,7 @@
             <ul class="nav nav-pills nav-stacked sidenav">
                 <li>
                     <a [routerLink]="['home']" class="website-name">
-                        Admin Page
+                        Hello {{empName}}!
                     </a>
                 </li>
                 <li>
@@ -33,44 +33,78 @@
                     </ul>
                 </li>-->
                 <li class="nested" [ngClass]="{'expand' : showMenu === 'maintenance' }">
-                    <a (click)="addExpandClass('maintenance')"><i class="fa fa-chevron-circle-down"></i><span>&nbsp; User Maintenance</span></a>
+                    <a (click)="addExpandClass('maintenance')"><i *ngIf="!showMenuAcc" class="fa fa-chevron-circle-down"></i><i *ngIf="showMenuAcc" class="fa fa-chevron-circle-up"></i><span>&nbsp; User Maintenance</span></a>
                     <ul class="submenu">
                         <li> 
                             <a [routerLink]="['admin']">
-                                <span>&nbsp; My Account</span>
+                                <span>My Account</span>
                             </a>
                         </li>
                     
                         <li *ngIf="addCustomer || editCustomer || delCustomer">     
                             <a [routerLink]="['customer']" >                             
-                                <span>&nbsp; Customer</span>
+                                <span>Customer</span>
                             </a>
                         </li>
                         <li *ngIf="addEmployee || editEmployee || delEmployee"> 
                             <a [routerLink]="['employee']" >                                
-                                <span>&nbsp; Users</span>
+                                <span>Users</span>
                             </a>
                         </li>
+                         <li> 
+                                <a [routerLink]="['reset']" > 
+                                    <span>Reset</span>
+                                </a>
+                        </li>
                     </ul>
-                </li>  
-                <li *ngIf="viewTransactionHistory"> 
-                    <a [routerLink]="['order']" >
-                        <i class="fa fa-th"></i>
-                        <span>&nbsp; View Orders</span>
-                    </a>
-                </li>         
-                <li *ngIf="addItem || editItem || delItem"> 
-                    <a [routerLink]="['item']" >
-                        <i class="fa fa-shopping-cart"></i>
-                        <span>&nbsp; Item Maintenance</span>
-                    </a>
                 </li>
-                <li *ngIf="viewItemStatistics"> 
-                    <a [routerLink]="['itemstatistics']" >
-                        <i class="fa fa-th-list"></i>
-                        <span>&nbsp; View Stats</span>
-                    </a>
-                </li>               
+                 <li *ngIf="viewItemStatistics" class="nested" [ngClass]="{'expand' : showMenu === 'view' }">
+                    <a (click)="expandView('view')"><i *ngIf="!showMenuView" class="fa fa-chevron-circle-down"></i><i *ngIf="showMenuView" class="fa fa-chevron-circle-up"></i><span>&nbsp; Item Statistics</span></a>
+                    <ul class="submenu">              
+                       <li *ngIf="viewItemStatistics"> 
+                                <a [routerLink]="['itemstatistics']" > 
+                                    <span>All Time</span>
+                                </a>
+                       </li> 
+                       <li *ngIf="viewItemStatistics"> 
+                                <a [routerLink]="['itemstatisticsyear']" > 
+                                    <span>Yearly</span>
+                                </a>
+                       </li>
+                       <li *ngIf="viewItemStatistics"> 
+                                <a [routerLink]="['itemstatisticsquarter']" > 
+                                    <span>Quarterly</span>
+                                </a>
+                       </li>
+                       <li *ngIf="viewItemStatistics"> 
+                                <a [routerLink]="['itemstatisticsmonth']" > 
+                                    <span>Monthly</span>
+                                </a>
+                       </li>                     
+                    </ul>
+                 </li>
+                 <li *ngIf="addItem || editItem || delItem" class="nested" [ngClass]="{'expand' : showMenu === 'item' }">
+                    <a (click)="expandItem('item')"><i *ngIf="!showMenuItem" class="fa fa-chevron-circle-down"></i><i *ngIf="showMenuItem" class="fa fa-chevron-circle-up"></i><span>&nbsp; Item</span></a>
+                    <ul class="submenu">
+                           <li *ngIf="addItem || editItem || delItem"> 
+                                <a [routerLink]="['item']" >
+                                    <span>Item Maintenance</span>
+                                </a>
+                          </li>
+                    
+                       <li *ngIf="addItem || editItem || delItem"> 
+                                <a [routerLink]="['itemrestore']" > 
+                                    <span>Item Restore</span>
+                                </a>
+                       </li>                      
+                    </ul>
+                </li>       
+                <li *ngIf="viewTransactionHistory" > 
+                                <a [routerLink]="['order']" >
+                                   <i class="fa fa-th-list"></i>
+                                    <span>Transaction History</span>
+                                </a>
+                </li>
                 <li>
                     <a [routerLink]="['']"><i class="fa fa-sign-out"></i><span>&nbsp;&nbsp; Logout</span></a>
                 </li>

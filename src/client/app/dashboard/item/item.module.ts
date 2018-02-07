@@ -1,13 +1,13 @@
 import { NgModule } from '@angular/core';
 import { HttpModule } from '@angular/http';
 import { ItemComponent } from './item.component';
-import { SafeHtml } from './product-pipe';
+
 import { BlankPageComponent2 } from './blankPage.component2';
 import { ProductService } from './product.service';
 import { CommonModule } from '@angular/common';
 import { NgForm } from '@angular/forms'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-
+import { ItemFilterPipe } from './product-pipe';
 @NgModule({
     imports: [
         CommonModule,
@@ -18,7 +18,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     ],
     declarations: [
         ItemComponent,
-        SafeHtml,
+        ItemFilterPipe,
          ],
     providers: [
 		ProductService

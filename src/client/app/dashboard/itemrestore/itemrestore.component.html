@@ -1,0 +1,161 @@
+<style>
+    /* The Modal (background) */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    padding-top: 60px;
+}
+
+/* Modal Content/Box */
+.modal-content {
+    background-color: #fefefe;
+    margin: 5px auto; /* 15% from the top and centered */
+    border: 1px solid #888;
+    width: 30%; /* Could be more or less, depending on screen size */
+}
+
+/* The Close Button */
+.close {
+    /* Position it in the top right corner outside of the modal */
+    position: absolute;
+    right: 25px;
+    top: 0; 
+    color: red;
+    font-size: 50px;
+    font-weight: bold;
+}
+
+/* Close button on hover */
+.close:hover,
+.close:focus {
+    color: red;
+    cursor: pointer;
+}
+
+/* Add Zoom Animation */
+.animate {
+    -webkit-animation: animatezoom 0.6s;
+    animation: animatezoom 0.6s
+}
+
+@-webkit-keyframes animatezoom {
+    from {-webkit-transform: scale(0)} 
+    to {-webkit-transform: scale(1)}
+}
+
+@keyframes animatezoom {
+    from {transform: scale(0)} 
+    to {transform: scale(1)}
+}
+    </style>
+
+<!--
+<button class="btn btn-basic" (click)="clean()"><i class="fa fa-pencil"></i></button>-->
+<h1 align="center">Item Restore</h1>
+<h3 align="right">
+    <button *ngIf="addItem" class="btn btn-basic" (click)="clean()" onclick="document.getElementById('add').style.display='block'">
+        <i class="fa fa-plus"></i>
+    </button>
+</h3>
+<h6>Filter by name: </h6><input class="form-control input-underline input-lg" type="text"  [(ngModel)]="filter" name="filter" required >                    
+
+
+
+
+<div class="table well">
+    <table class="table table-scroll">
+        <thead>
+            <tr>
+                <th>Picture</th>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Quantity Stored</th>
+                <th>Price</th>
+                <th>Purchase Count</th>
+                <th>Description</th>
+                <th>Category</th>
+                <th *ngIf="editItem || delItem">Options</th>
+            </tr>
+
+        </thead>
+        <tbody>
+            <tr *ngFor="let item of items.data | itemFilter : filter">
+                <td><img src="{{item.picture}}" width="100" height="100"></td>
+                <td>{{item.itemID}}</td>
+                <td>{{item.itemName}}</td>
+                <td>{{item.itemQuantityStored}}</td>
+                <td>{{item.itemPrice | currency:'PHP':true:'1.2-2'}}</td>
+                <td>{{item.purchaseCountAllTime}}</td>
+                <td>{{item.itemDescription}}</td>
+                <td>{{item.category}}</td>
+                <td>
+                    <button *ngIf="delItem" class="btn btn-primary" (click)="clickedit($event,item.itemID,item.itemName,item.itemQuantityStored,item.itemPrice,item.purchaseCount,item.picture,item.itemDescription,item.category)" onclick="document.getElementById('restore').style.display='block'">
+                        Restore
+                    </button>                    
+                </td>
+            </tr>   
+        </tbody>
+    </table>
+</div>
+
+<!--edit-->
+<!-- The Modal -->
+<div id="restore" class="modal">
+    <span onclick="document.getElementById('restore').style.display='none'" class="close" title="Close Modal">&times;</span>
+
+        <!-- Modal Content -->
+        <form role="form" id="dataedit" class="modal-content animate" >
+		    <div class="form-content">
+                <div class="container" align="center"> <br><br>
+                    <div align="left" class="form-group">
+                            <label><b>Item Name</b></label>
+                            <input class="form-control input-underline input-lg" [formControl]="complexForm.controls['itemName']" type="text" [(ngModel)]="itemName" [value]="itemName" name="itemName" readonly>                          
+                    </div>
+                     <div align="left">
+                         <label><b>Item Description</b></label>
+                         <input (keyup)="load()" class="form-control input-underline input-lg" type="text" [value]="itemDescription" [formControl]="complexForm.controls['itemDescription']" placeholder="Enter Item Description"   [(ngModel)]="itemDescription" name="itemDescription" required >
+                         <div *ngIf="complexForm.controls['itemDescription'].hasError('required') && complexForm.controls['itemDescription'].touched" class="alert alert-danger">You must include an item description.</div>
+                    </div>
+                    <div align="left" class="form-group" [ngClass]="{'has-error':!complexForm.controls['itemQuantityStored'].valid && complexForm.controls['itemQuantityStored'].touched}">
+                            <label><b>Item Quantity Stored</b></label>
+                            <input class="form-control input-underline input-lg" type="text" [formControl]="complexForm.controls['itemQuantityStored']" [value]="itemQuantityStored"  [(ngModel)]="itemQuantityStored" name="itemQuantityStored" required >
+                            <div *ngIf="complexForm.controls['itemQuantityStored'].hasError('required') && complexForm.controls['itemQuantityStored'].touched" class="alert alert-danger">You must include how many items are stored.</div>
+                            <div *ngIf="complexForm.controls['itemQuantityStored'].hasError('maxlength') && complexForm.controls['itemQuantityStored'].touched" class="alert alert-danger">Item Quantity stored must not exceed 10 characters.</div>                
+                            <div *ngIf="complexForm.controls['itemQuantityStored'].hasError('pattern') && complexForm.controls['itemQuantityStored'].touched" class="alert alert-danger">Item Quantity stored must be a valid number without decimals.</div>
+                    </div>
+                    <div align="left" class="form-group" [ngClass]="{'has-error':!complexForm.controls['itemPrice'].valid && complexForm.controls['itemPrice'].touched}">
+                            <label><b>Price</b></label>
+                            <input class="form-control input-underline input-lg" type="text" [formControl]="complexForm.controls['itemPrice']" [value]="itemPrice"  [(ngModel)]="itemPrice" name="itemPrice" required >
+                            <div *ngIf="complexForm.controls['itemPrice'].hasError('required') && complexForm.controls['itemPrice'].touched" class="alert alert-danger">You must include the item price.</div>
+                            <div *ngIf="complexForm.controls['itemPrice'].hasError('pattern') && complexForm.controls['itemPrice'].touched" class="alert alert-danger">Item price must be a valid number with 2 decimal places.</div>
+                    </div>
+                    <div align="left">
+                        <label><b>Item Category</b></label><br>
+                        <select [ngModelOptions]="{standalone: true}" [(ngModel)]="category">
+                            <option value="Food">Food</option>
+                            <option value="Drinks">Drinks</option>
+                            <option value="Condiments">Condiments</option>
+                            <option value="Toiletries">Toiletries</option>        
+                        </select>
+                    </div>
+                    <div align="left" class="form-group">
+                            <br>
+                            <label><b>PurchaseCount</b></label>
+                            <input class="form-control input-underline input-lg" type="text" [value]="purchaseCount"  [(ngModel)]="purchaseCount" name="purchaseCount" readonly>                     
+                    </div>
+                    
+                    <div align="center" class="form-group"> 
+                            <button [disabled]="!complexForm.valid" class="btn btn-primary" (click) ='onSubmitRestore($event, user.value)'>Restore</button>    
+                    </div>
+                </div>
+            </div>
+        </form>
+</div>

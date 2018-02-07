@@ -1,18 +1,20 @@
-<h1 align="center">Orders</h1>
-<div class="table">
+<h1 align="center">Transaction History</h1>
+<div class="table well">
 
-    <table class="table">
+    <table class="table table-scroll">
 		
         <thead>
-            <th>Order Id</th>
-        <th>Customer Id</th>
-        <th>Date</th>
-        <th>Total</th>
-		<th>Status</th>
-         <th>Remarks</th>
-        <th>Delivery Time</th>
-        <th>Packaging</th>
-        <th>Location</th>
+            <tr>
+                <th>Order Id</th>
+                <th>Customer Id</th>
+                <th>Date</th>
+                <th>Total</th>
+                <th>Status</th>
+                <th>Remarks</th>
+                <th>Delivery Time</th>
+                <th>Packaging</th>
+                <th>Location</th>   
+            </tr>
 		
 		
         </thead>
@@ -23,8 +25,8 @@
             <td>{{order.orderDate}}</td>
             <td>₱{{order.orderTotal}}</td>
             <td>
-                <select #stat [(ngModel)]="order.orderStatus" (change)="onChange(stat,$event,order.orderID,order.customerID,order.orderDate,order.orderTotal,order.orderStatus,order.orderRemarks,order.orderTime,order.packaging,order.location)">
-                    <option  value="canceled">canceled</option>
+                <select disabled="true" #stat [(ngModel)]="order.orderStatus" (change)="onChange(stat,$event,order.orderID,order.customerID,order.orderDate,order.orderTotal,order.orderStatus,order.orderRemarks,order.orderTime,order.packaging,order.location)">
+                    <option  value="cancelled">cancelled</option>
                     <option value="pending">pending</option>
                     <option value="verified">verified</option>
                     <option value="delivered">delivered</option>        
@@ -33,10 +35,7 @@
             <td>{{order.orderRemarks}}</td>
             <td>{{order.orderTime}}</td>
             <td>{{order.packaging}}</td>
-            <td>{{order.location}}</td>
-            
-           
-          
+            <td>{{order.location}}</td>                  
         </tr>
             
         

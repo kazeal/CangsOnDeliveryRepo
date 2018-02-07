@@ -56,43 +56,49 @@
     to {transform: scale(1)}
 }
     </style>
-
 <!--
 <button class="btn btn-basic" (click)="clean()"><i class="fa fa-pencil"></i></button>-->
 <h1 align="center">Items</h1>
 <h3 align="right">
-    <button class="btn btn-basic" (click)="clean()" onclick="document.getElementById('add').style.display='block'">
+    <button *ngIf="addItem" class="btn btn-basic" (click)="clean()" onclick="document.getElementById('add').style.display='block'">
         <i class="fa fa-plus"></i>
     </button>
 </h3>
+<h6>Filter by name: </h6><input class="form-control input-underline input-lg" type="text"  [(ngModel)]="filter" name="filter" required >                    
 
 
 
-<div class="table">
-    <table class="table">
+
+<div class="table well">
+    <table class="table table-scroll">
         <thead>
-            <th>Picture</th>
-            <th>ID</th>
-            <th>Name</th>
-            <th>Quantity Stored</th>
-            <th>Price</th>
-            <th>Purchase Count</th>
-            <th>Options</th>
-
+            <tr>
+                <th>Picture</th>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Quantity Stored</th>
+                <th>Price</th>
+               
+                <th>Description</th>
+                <th>Category</th>
+                <th *ngIf="editItem || delItem">Options</th>
+            </tr>
         </thead>
-        <tbody>
-            <tr *ngFor="let item of items.data">
+        <tbody  class="content">
+            <tr *ngFor="let item of items.data | itemFilter : filter">
                 <td><img src="{{item.picture}}" width="100" height="100"></td>
                 <td>{{item.itemID}}</td>
                 <td>{{item.itemName}}</td>
                 <td>{{item.itemQuantityStored}}</td>
-                <td>₱{{item.itemPrice}}</td>
-                <td>{{item.purchaseCount}}</td>
-                <td>
-                    <button class="btn btn-info" (click)="clickedit($event,item.itemID,item.itemName,item.itemQuantityStored,item.itemPrice,item.purchaseCount,item.picture)" onclick="document.getElementById('edit').style.display='block'">
+                <td>{{item.itemPrice | currency:'PHP':true:'1.2-2'}}</td>
+                
+                <td>{{item.itemDescription}}</td>
+                <td>{{item.category}}</td>
+                <td *ngIf="editItem || delItem">
+                    <button *ngIf="editItem" class="btn btn-info" (click)="clickedit($event,item.itemID,item.itemName,item.itemQuantityStored,item.itemPrice,item.purchaseCount,item.picture,item.itemDescription,item.category)" onclick="document.getElementById('edit').style.display='block'">
                         <i class="fa fa-pencil"></i>
                     </button>
-                    <button class="btn btn-danger" (click)="clickdel($event,item.itemID,item.itemName)" onclick="document.getElementById('del').style.display='block'">
+                    <button *ngIf="delItem" class="btn btn-danger" (click)="clickdel($event,item.itemID,item.itemName)" onclick="document.getElementById('del').style.display='block'">
                         <i class="fa fa-remove"></i>
                     </button>
                 </td>
@@ -115,6 +121,11 @@
                         <input class="form-control input-underline input-lg" type="text" (change)="ngOnChanges($event)" [formControl]="complexForm.controls['itemName']"  placeholder="Enter Item Name"   [(ngModel)]="itemName" name="itemName" required >
                         <div *ngIf="complexForm.controls['itemName'].hasError('required') && complexForm.controls['itemName'].touched" class="alert alert-danger">You must include an item name.</div>
                     </div>
+                    <div align="left">
+                        <label><b>Item Description</b></label>
+                        <input class="form-control input-underline input-lg" type="text" (change)="ngOnChanges($event)" [formControl]="complexForm.controls['itemDescription']" placeholder="Enter Item Description"   [(ngModel)]="itemDescription" name="itemDescription" required >
+                         <div *ngIf="complexForm.controls['itemDescription'].hasError('required') && complexForm.controls['itemDescription'].touched" class="alert alert-danger">You must include an item description.</div>
+                    </div>
                     <div align="left" class="form-group" [ngClass]="{'has-error':!complexForm.controls['itemQuantityStored'].valid && complexForm.controls['itemQuantityStored'].touched}">
                             <label><b>Item Quantity Stored</b></label>
                             <input class="form-control input-underline input-lg" type="text" (change)="ngOnChanges($event)" [formControl]="complexForm.controls['itemQuantityStored']" placeholder="Enter Quantity to be Stored"  [(ngModel)]="itemQuantityStored" name="itemQuantityStored" required >
@@ -128,12 +139,22 @@
                             <div *ngIf="complexForm.controls['itemPrice'].hasError('required') && complexForm.controls['itemPrice'].touched" class="alert alert-danger">You must include the item price.</div>
                             <div *ngIf="complexForm.controls['itemPrice'].hasError('pattern') && complexForm.controls['itemPrice'].touched" class="alert alert-danger">Item price must be a valid number with 2 decimal places.</div>
                     </div>
+                    <div align="left">
+                        <label><b>Item Category</b></label><br>
+                        <select [ngModelOptions]="{standalone: true}" [(ngModel)]="category">
+                            <option value="Food">Food</option>
+                            <option value="Drinks">Drinks</option>
+                            <option value="Condiments">Condiments</option>
+                            <option value="Toiletries">Toiletries</option>        
+                        </select>
+                    </div>
                     <div align="center" class="form-group">
                             <br>
                             <label><b>Purchase Count</b></label>
-                            <input #pic type="file" (change)="onChange($event)" name="picture" required >
+                            <input #pic type="file" id="picture" (change)="onChange($event)" name="picture" required >
                             <br><br>
                     </div>
+                    
                     <div align="center" class="form-group"> 
                             <button [disabled]="!complexForm.valid || !valid" class="btn btn-primary" (click) ='onSubmitAdd($event, user.value)'>Add</button>    
                     </div>
@@ -155,6 +176,11 @@
                             <label><b>Item Name</b></label>
                             <input class="form-control input-underline input-lg" type="text" [(ngModel)]="itemName" [value]="itemName" name="itemName" readonly>                          
                     </div>
+                     <div align="left">
+                         <label><b>Item Description</b></label>
+                         <input class="form-control input-underline input-lg" type="text" [value]="itemDescription" (change)="ngOnChanges($event)" [formControl]="complexForm.controls['itemDescription']" placeholder="Enter Item Description"   [(ngModel)]="itemDescription" name="itemDescription" required >
+                         <div *ngIf="complexForm.controls['itemDescription'].hasError('required') && complexForm.controls['itemDescription'].touched" class="alert alert-danger">You must include an item description.</div>
+                    </div>
                     <div align="left" class="form-group" [ngClass]="{'has-error':!complexForm.controls['itemQuantityStored'].valid && complexForm.controls['itemQuantityStored'].touched}">
                             <label><b>Item Quantity Stored</b></label>
                             <input class="form-control input-underline input-lg" type="text" [formControl]="complexForm.controls['itemQuantityStored']" [value]="itemQuantityStored"  [(ngModel)]="itemQuantityStored" name="itemQuantityStored" required >
@@ -169,11 +195,21 @@
                             <div *ngIf="complexForm.controls['itemPrice'].hasError('required') && complexForm.controls['itemPrice'].touched" class="alert alert-danger">You must include the item price.</div>
                             <div *ngIf="complexForm.controls['itemPrice'].hasError('pattern') && complexForm.controls['itemPrice'].touched" class="alert alert-danger">Item price must be a valid number with 2 decimal places.</div>
                     </div>
+                    <div align="left">
+                        <label><b>Item Category</b></label><br>
+                        <select [ngModelOptions]="{standalone: true}" [(ngModel)]="category">
+                            <option value="Food">Food</option>
+                            <option value="Drinks">Drinks</option>
+                            <option value="Condiments">Condiments</option>
+                            <option value="Toiletries">Toiletries</option>        
+                        </select>
+                    </div>
                     <div align="left" class="form-group">
                             <br>
                             <label><b>PurchaseCount</b></label>
                             <input class="form-control input-underline input-lg" type="text" [value]="purchaseCount"  [(ngModel)]="purchaseCount" name="purchaseCount" readonly>                     
                     </div>
+                    
                     <div align="center" class="form-group"> 
                             <button [disabled]="!complexForm.valid" class="btn btn-primary" (click) ='onSubmitEdit($event, user.value)'>Save</button>    
                     </div>
@@ -200,7 +236,6 @@
             </div>
         </form>
 </div>
-
 
 
 

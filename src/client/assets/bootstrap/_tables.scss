@@ -2,26 +2,32 @@
 // Basic Bootstrap table
 //
 
+
 .table {
   width: 100%;
   max-width: 100%;
   margin-bottom: $spacer;
-
+  overflow-y: auto;
+  
   th,
   td {
     padding: $table-cell-padding;
     line-height: $line-height;
     vertical-align: top;
     border-top: $table-border-width solid $table-border-color;
+    
   }
+  
 
   thead th {
+
     vertical-align: bottom;
     border-bottom: (2 * $table-border-width) solid $table-border-color;
   }
 
   tbody + tbody {
     border-top: (2 * $table-border-width) solid $table-border-color;
+    overflow-y:auto;
   }
 
   .table {
@@ -191,3 +197,25 @@
     }
   }
 }
+
+
+
+.well {
+    
+    height: 320px;
+}
+
+.table-scroll tbody {
+    position: absolute;
+    overflow-y: scroll;
+    height: 80%;
+    background:#fff;
+}
+
+.table-scroll tr {
+    width: 100%;
+    table-layout: fixed;
+    display: inline-table;
+    background:#fff;
+}
+

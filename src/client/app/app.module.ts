@@ -16,6 +16,7 @@ import { CustomerService } from './dashboard/customer/customer.service';
 import { EmployeeService } from './dashboard/custservice/employee.service';
 import { OrderService } from './dashboard/order/order.service';
 import { LoginService } from './login/login.service';
+import { HomeService } from './dashboard/home/home.service';
 
 
 import { AppService } from './app.service';
@@ -24,7 +25,7 @@ import {Md5} from 'ts-md5/dist/md5';
 import { NgForm } from '@angular/forms'
 //import { Ng2UploaderModule } from 'ng2-uploader';
 import { DashboardGuard } from './dashboard/dashboard-guard.service';
-import { SafeHtml } from './dashboard/item/product-pipe';
+
 import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
@@ -40,7 +41,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 		SharedModule.forRoot()
 	],
 	declarations: [AppComponent,
-					
+				
 				   //Ng2UploaderModule
 				   ],
 	providers: [
@@ -52,6 +53,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 		Md5,
 		EmployeeService,
 		OrderService,
+		HomeService,
 		DashboardGuard,
 		
 		{

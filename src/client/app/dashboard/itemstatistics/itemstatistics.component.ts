@@ -73,7 +73,7 @@ export class ItemStatisticsComponent{
                                 'itemName': item.itemName, 
                                 'itemQuantityStored': item.itemQuantityStored, 
                                 'itemPrice': item.itemPrice,
-                                'purchaseCount': item.purchaseCount, 
+                                'purchaseCountAllTime': item.purchaseCountAllTime, 
                                 'picture': item.picture, 	 				
                             });
                             i=i+1;//FINISH REFRESH DATA AND ERROR TRAPPING FOR ITEM PRICE

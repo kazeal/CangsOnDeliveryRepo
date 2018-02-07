@@ -62,28 +62,32 @@
 
 <h1 align="center">Employees</h1>
 <h3 align="right" *ngIf="addEmployee">
-    <button class="btn btn-basic" (click)="clear()" onclick="document.getElementById('add').style.display='block'">
+    <button class="btn btn-basic" (click)="clear()" (click)="uncheck()" onclick="document.getElementById('add').style.display='block'">
         <i class="fa fa-plus"></i>
     </button>
 </h3>
-<div class="table">
-    <table class="table">		
+<h6>Filter by last name: </h6><input class="form-control input-underline input-lg" type="text"  [(ngModel)]="filter" name="filter" required >                    
+
+<div class="table well">
+    <table class="table table-scroll">		
         <thead>
-            <th>Employee ID</th>
-            <th>Last Name</th>
-            <th>First Name</th>
-            <th>Middle Name</th>
-            <th>Type</th>
-            <th>Options</th>
+            <tr>
+                <th>Employee ID</th>
+                <th>Last Name</th>
+                <th>First Name</th>
+                <th>Middle Name</th>
+                <th>Employee Type</th>
+                <th *ngIf="editEmployee || delEmployee">Options</th>
+            </tr>
         </thead>
         <tbody>
-             <tr *ngFor='let employee of employees'>
+             <tr *ngFor='let employee of employees | employeeFilter : filter'>
                  <td>{{employee.employeeID}}</td>
                  <td>{{employee.empLastName}}</td>
                  <td>{{employee.empFirstName}}</td>
                  <td>{{employee.empMiddleName}}</td>
                  <td>{{employee.empType}}</td>
-                 <td>
+                 <td *ngIf="editEmployee || delEmployee">
                     <button *ngIf="editEmployee" class="btn btn-info" (click)="click($event,employee.employeeID,employee.empPassword,employee.empFirstName,employee.empMiddleName,employee.empLastName,employee.empType)" onclick="document.getElementById('edit').style.display='block'">
                         <i class="fa fa-pencil"></i>
                     </button>
@@ -106,46 +110,45 @@
                 <div class="container" align="center"><br><br>
                     <div align="left" class="form-group" [ngClass]="{'has-error':!complexForm.controls['firstName'].valid && complexForm.controls['firstName'].touched}">
                             <label><b>First Name</b></label>
-                            <input type="text" class="form-control input-underline input-lg" [formControl]="complexForm.controls['firstName']"  placeholder="Enter First Name"   [(ngModel)]="empFirstName" name="empFirstName" required >
+                            <input type="text" class="form-control input-underline input-lg" [formControl]="complexForm.controls['firstName']"  placeholder="Enter First Name"   [(ngModel)]="empFirstName" name="empFirstName"  >
                             <div *ngIf="complexForm.controls['firstName'].hasError('required') && complexForm.controls['firstName'].touched" class="alert alert-danger">You must include a first name.</div>
                             <div *ngIf="complexForm.controls['firstName'].hasError('pattern') && complexForm.controls['firstName'].touched" class="alert alert-danger">Symbols and numbers are not allowed</div>
                     </div>
-                    <div align="left" class="form-group" [ngClass]="{'has-error':!complexForm.controls['middleName'].valid && complexForm.controls['middleName'].touched}">
+                    <div align="left">
                             <label><b>Middle Name</b></label>
-                            <input type="text" class="form-control input-underline input-lg" [formControl]="complexForm.controls['middleName']" placeholder="Enter Middle Name"  [(ngModel)]="empMiddleName" name="empMiddleName" required >                           
-                            <div *ngIf="complexForm.controls['middleName'].hasError('required') && complexForm.controls['middleName'].touched" class="alert alert-danger">You must include a middle name.</div>
-                            <div *ngIf="complexForm.controls['middleName'].hasError('pattern') && complexForm.controls['middleName'].touched" class="alert alert-danger">Symbols and numbers are not allowed</div>
+                            <input type="text" [ngModelOptions]="{standalone: true}" class="form-control input-underline input-lg" placeholder="Enter Middle Name"  [(ngModel)]="empMiddleName" name="empMiddleName"  >                           
                     </div>
                     <div align="left" class="form-group" [ngClass]="{'has-error':!complexForm.controls['lastName'].valid && complexForm.controls['lastName'].touched}">
                             <label><b>Last Name</b></label>
-                            <input type="text" class="form-control input-underline input-lg" [formControl]="complexForm.controls['lastName']" placeholder="Enter Last Name"  [(ngModel)]="empLastName" name="empLastName" required >       
+                            <input type="text" class="form-control input-underline input-lg" [formControl]="complexForm.controls['lastName']" placeholder="Enter Last Name"  [(ngModel)]="empLastName" name="empLastName"  >       
                             <div *ngIf="complexForm.controls['lastName'].hasError('required') && complexForm.controls['lastName'].touched" class="alert alert-danger">You must include a last name.</div>           
                             <div *ngIf="complexForm.controls['lastName'].hasError('pattern') && complexForm.controls['lastName'].touched" class="alert alert-danger">Symbols and numbers are not allowed</div> 
                     </div>
                     <div align="left" class="form-group" [ngClass]="{'has-error':!complexForm.controls['password'].valid && complexForm.controls['password'].touched}">
                             <label><b>Password</b></label>
-                            <input type="password" class="form-control input-underline input-lg" [formControl]="complexForm.controls['password']" placeholder="Enter Password"  [(ngModel)]="empPassword" name="empPassword" required >       
+                            <input type="password" class="form-control input-underline input-lg" [formControl]="complexForm.controls['password']" placeholder="Enter Password"  [(ngModel)]="empPassword" name="empPassword"  >       
                             <div *ngIf="complexForm.controls['password'].hasError('required') && complexForm.controls['password'].touched" class="alert alert-danger">You must include a password.</div>           
                             <div *ngIf="complexForm.controls['password'].hasError('minlength') && complexForm.controls['password'].touched" class="alert alert-danger">Password must be atleast 8 characters.</div>
                             <div *ngIf="complexForm.controls['password'].hasError('maxlength') && complexForm.controls['password'].touched" class="alert alert-danger">Password must not exceed 16 characters.</div>
                     </div>
                     <div align="left" class="form-group" [ngClass]="{'has-error':!complexForm.controls['type'].valid && complexForm.controls['type'].touched}">
-                            <label><b>Type</b></label>
-                            <input type="text" class="form-control input-underline input-lg" [formControl]="complexForm.controls['type']" placeholder="Enter Employee Type"  [(ngModel)]="empType" name="empType" required >     
+                            <label><b>Employee Type</b></label>
+                            <input #emptype type="text" (keyup)="onChangeInput(emptype)" class="form-control input-underline input-lg" [formControl]="complexForm.controls['type']" placeholder="Enter Employee Type"  [(ngModel)]="empType" name="empType" >     
                             <div *ngIf="complexForm.controls['type'].hasError('required') && complexForm.controls['type'].touched" class="alert alert-danger">You must include an employee type.</div>           
-                    </div> 
+                    </div>
+                    <button class="btn btn-default" (click) ='uncheck()'>Clear Rights</button>          
                     <div align="left"  class="form-group"> 
-                            &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp; <input #right1 type="checkbox" (change)="onChange(right1)" value="Add Customer" />Add Customer
-                            &emsp;&emsp;&emsp; <input #right2 type="checkbox" (change)="onChange(right2)" value="Edit Customer" />Edit Customer<br>
-                            &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp; <input #right3 type="checkbox"  (change)="onChange(right3)" value="Delete Customer" />Delete Customer
-                            &nbsp;&nbsp;&nbsp;&emsp; <input #right4 type="checkbox" (change)="onChange(right4)" value="Add Employee" />Add Employee<br>
-                            &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp; <input #right5 type="checkbox" (change)="onChange(right5)" value="Edit Employee" />Edit Employee
-                            &emsp;&emsp;&emsp; <input #right6 type="checkbox"  (change)="onChange(right6)" value="Delete Employee" />Delete Employee<br>
-                            &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp; <input #right7 type="checkbox"  (change)="onChange(right7)" value="Add Item" />Add Items
-                            &nbsp;&nbsp;&nbsp;&nbsp;&emsp;&emsp;&emsp;&emsp; <input #right8 type="checkbox"  (change)="onChange(right8)" value="Edit Item" />Edit Items<br>
-                            &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp; <input #right9 type="checkbox"  (change)="onChange(right9)" value="Delete Item" />Delete Items
-                            &nbsp;&nbsp;&nbsp;&emsp;&emsp;&emsp; <input #right10 type="checkbox"  (change)="onChange(right10)" value="View Transaction History" />View Transaction History<br>
-                            &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp; <input #right11 type="checkbox" (change)="onChange(right11)" value="View Item Statistics" />View Item Statistics                          
+                            &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp; <input #right1 id="r1" type="checkbox" (change)="onChange(right1)" value="Add Customer" />Add Customer
+                            &emsp;&emsp;&emsp; <input #right2 id="r2" type="checkbox" (change)="onChange(right2)" value="Edit Customer" />Edit Customer<br>
+                            &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp; <input #right3 id="r3" type="checkbox"  (change)="onChange(right3)" value="Delete Customer" />Delete Customer
+                            &nbsp;&nbsp;&nbsp;&emsp; <input #right4 id="r4" type="checkbox" (change)="onChange(right4)" value="Add Employee" />Add Employee<br>
+                            &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp; <input #right5 id="r5" type="checkbox" (change)="onChange(right5)" value="Edit Employee" />Edit Employee
+                            &emsp;&emsp;&emsp; <input #right6 id="r6" type="checkbox"  (change)="onChange(right6)" value="Delete Employee" />Delete Employee<br>
+                            &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp; <input #right7 id="r7" type="checkbox"  (change)="onChange(right7)" value="Add Item" />Add Items
+                            &nbsp;&nbsp;&nbsp;&nbsp;&emsp;&emsp;&emsp;&emsp; <input #right8 id="r8" type="checkbox"  (change)="onChange(right8)" value="Edit Item" />Edit Items<br>
+                            &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp; <input #right9 id="r9" type="checkbox"  (change)="onChange(right9)" value="Delete Item" />Delete Items
+                            &nbsp;&nbsp;&nbsp;&emsp;&emsp;&emsp; <input #right10 id="r10" type="checkbox"  (change)="onChange(right10)" value="View Transaction History" />View Transaction History<br>
+                            &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp; <input #right11 id="r11" type="checkbox" (change)="onChange(right11)" value="View Item Statistics" />View Item Statistics                          
                     </div>
                     <div class="form-group"> 
                             <button [disabled]="!complexForm.valid" class="btn btn-primary" (click) ='onSubmitAdd()'>Save</button>          
@@ -184,39 +187,38 @@
                 <div class="container" align="center"><br><br>
                     <div align="left" class="form-group" [ngClass]="{'has-error':!complexForm.controls['firstName'].valid && complexForm.controls['firstName'].touched}">
                             <label><b>First Name</b></label>
-                            <input type="text" class="form-control input-underline input-lg" [formControl]="complexeditForm.controls['firstName']"  [value]="empFirstName"   [(ngModel)]="empFirstName" name="empFirstName" required >                          
+                            <input type="text" class="form-control input-underline input-lg" [formControl]="complexeditForm.controls['firstName']"  [value]="empFirstName"   [(ngModel)]="empFirstName" name="empFirstName"  >                          
                             <div *ngIf="complexForm.controls['firstName'].hasError('required') && complexForm.controls['firstName'].touched" class="alert alert-danger">You must include a first name.</div>
                             <div *ngIf="complexForm.controls['firstName'].hasError('pattern') && complexForm.controls['firstName'].touched" class="alert alert-danger">Symbols and numbers are not allowed</div>
                     </div>
-                    <div align="left" class="form-group" [ngClass]="{'has-error':!complexForm.controls['middleName'].valid && complexForm.controls['middleName'].touched}">
+                    <div align="left">
                             <label><b>Middle Name</b></label>
-                            <input type="text" class="form-control input-underline input-lg" [formControl]="complexeditForm.controls['middleName']" [value]="empMiddleName"  [(ngModel)]="empMiddleName" name="empMiddleName" required >
-                            <div *ngIf="complexForm.controls['middleName'].hasError('required') && complexForm.controls['middleName'].touched" class="alert alert-danger">You must include a middle name.</div>
-                            <div *ngIf="complexForm.controls['middleName'].hasError('pattern') && complexForm.controls['middleName'].touched" class="alert alert-danger">Symbols and numbers are not allowed</div>
-                    </div>
+                            <input type="text" class="form-control input-underline input-lg" [ngModelOptions]="{standalone: true}" [value]="empMiddleName"  [(ngModel)]="empMiddleName" name="empMiddleName"  >
+                           </div>
                     <div align="left" class="form-group" [ngClass]="{'has-error':!complexForm.controls['lastName'].valid && complexForm.controls['lastName'].touched}">
                             <label><b>Last Name</b></label>
-                            <input type="text" class="form-control input-underline input-lg" [formControl]="complexeditForm.controls['lastName']" [value]="empLastName"  [(ngModel)]="empLastName" name="empLastName" required >                    
+                            <input type="text" class="form-control input-underline input-lg" [formControl]="complexeditForm.controls['lastName']" [value]="empLastName"  [(ngModel)]="empLastName" name="empLastName"  >                    
                             <div *ngIf="complexForm.controls['lastName'].hasError('required') && complexForm.controls['lastName'].touched" class="alert alert-danger">You must include a last name.</div>           
                             <div *ngIf="complexForm.controls['lastName'].hasError('pattern') && complexForm.controls['lastName'].touched" class="alert alert-danger">Symbols and numbers are not allowed</div> 
                     </div>
                     <div align="left" class="form-group" [ngClass]="{'has-error':!complexForm.controls['type'].valid && complexForm.controls['type'].touched}">
                             <label><b>Employee Type</b></label>
-                            <input type="text" class="form-control input-underline input-lg" [formControl]="complexeditForm.controls['type']" [value]="empType"  [(ngModel)]="empType" name="empType" required >
+                            <input type="text" (keyup)="onChangeInputEdit(emptype)" class="form-control input-underline input-lg" [formControl]="complexeditForm.controls['type']" [value]="empType"  [(ngModel)]="empType" name="empType"  >
                             <div *ngIf="complexForm.controls['type'].hasError('required') && complexForm.controls['type'].touched" class="alert alert-danger">You must include an employee type.</div>           
                     </div>
+                    <button class="btn btn-default" (click) ='uncheckedit()'>Clear Rights</button>          
                     <div align="left" class="form-group"> 
-                            &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp; <input #rightedit1 type="checkbox" name="edAddCustomer" [checked]="edAddCustomer"  [(ngModel)]="edAddCustomer" (change)="onChange(rightedit1)" value="Add Customer" />Add Customer
-                            &emsp;&emsp;&emsp; <input #rightedit2 type="checkbox" name="edEditCustomer" [checked]="edEditCustomer"  [(ngModel)]="edEditCustomer" (change)="onChange(rightedit2)" value="Edit Customer" />Edit Customer<br>
-                            &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp; <input #rightedit3 type="checkbox" name="edDelCustomer" [checked]="edDelCustomer"  [(ngModel)]="edDelCustomer" (change)="onChange(rightedit3)" value="Delete Customer" />Delete Customer
-                            &nbsp;&nbsp;&nbsp;&emsp; <input #rightedit4 type="checkbox" name="edAddEmployee" [checked]="edAddEmployee"  [(ngModel)]="edAddEmployee" (change)="onChange(rightedit4)" value="Add Employee" />Add Employee<br>
-                            &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp; <input #rightedit5 type="checkbox" name="edEditEmployee" [checked]="edEditEmployee"  [(ngModel)]="edEditEmployee" (change)="onChange(rightedit5)" value="Edit Employee" />Edit Employee
-                            &emsp;&emsp;&emsp; <input #rightedit6 type="checkbox" name="edDelEmployee" [checked]="edDelEmployee"  [(ngModel)]="edDelEmployee" (change)="onChange(rightedit6)" value="Delete Employee" />Delete Employee<br>
-                            &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp; <input #rightedit7 type="checkbox" name="edAddItem" [checked]="edAddItem" [(ngModel)]="edAddItem" (change)="onChange(rightedit7)" value="Add Item" />Add Items
-                            &nbsp;&nbsp;&nbsp;&nbsp;&emsp;&emsp;&emsp;&emsp; <input #rightedit8 type="checkbox" name="edEditItem" [checked]="edEditItem" [(ngModel)]="edEditItem" (change)="onChange(rightedit8)" value="Edit Item" />Edit Items<br>
-                            &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp; <input #rightedit9 type="checkbox" name="edDelItem" [checked]="edDelItem" [(ngModel)]="edDelItem" (change)="onChange(rightedit9)" value="Delete Item" />Delete Items
-                            &nbsp;&nbsp;&nbsp;&emsp;&emsp;&emsp; <input #rightedit10 type="checkbox" name="edViewTransactionHistory" [checked]="edViewTransactionHistory" [(ngModel)]="edViewTransactionHistory" (change)="onChange(rightedit10)" value="View Transaction History" />View Transaction History<br>
-                            &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp; <input #rightedit11 type="checkbox" name="edViewItemStatistics" [checked]="edViewItemStatistics" [(ngModel)]="edViewItemStatistics" (change)="onChange(rightedit11)" value="View Item Statistics" />View Item Statistics                       
+                            &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp; <input #rightedit1 id="re1" type="checkbox" name="edAddCustomer" [checked]="edAddCustomer"  [(ngModel)]="edAddCustomer" (change)="onChange(rightedit1)" value="Add Customer" />Add Customer
+                            &emsp;&emsp;&emsp; <input #rightedit2 type="checkbox" id="re2" name="edEditCustomer" [checked]="edEditCustomer"  [(ngModel)]="edEditCustomer" (change)="onChange(rightedit2)" value="Edit Customer" />Edit Customer<br>
+                            &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp; <input #rightedit3 id="re3" type="checkbox" name="edDelCustomer" [checked]="edDelCustomer"  [(ngModel)]="edDelCustomer" (change)="onChange(rightedit3)" value="Delete Customer" />Delete Customer
+                            &nbsp;&nbsp;&nbsp;&emsp; <input #rightedit4 id="re4" type="checkbox" name="edAddEmployee" [checked]="edAddEmployee"  [(ngModel)]="edAddEmployee" (change)="onChange(rightedit4)" value="Add Employee" />Add Employee<br>
+                            &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp; <input #rightedit5 id="re5" type="checkbox" name="edEditEmployee" [checked]="edEditEmployee"  [(ngModel)]="edEditEmployee" (change)="onChange(rightedit5)" value="Edit Employee" />Edit Employee
+                            &emsp;&emsp;&emsp; <input #rightedit6 type="checkbox" id="re6" name="edDelEmployee" [checked]="edDelEmployee"  [(ngModel)]="edDelEmployee" (change)="onChange(rightedit6)" value="Delete Employee" />Delete Employee<br>
+                            &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp; <input #rightedit7 id="re7" type="checkbox" name="edAddItem" [checked]="edAddItem" [(ngModel)]="edAddItem" (change)="onChange(rightedit7)" value="Add Item" />Add Items
+                            &nbsp;&nbsp;&nbsp;&nbsp;&emsp;&emsp;&emsp;&emsp; <input #rightedit8 id="re8" type="checkbox" name="edEditItem" [checked]="edEditItem" [(ngModel)]="edEditItem" (change)="onChange(rightedit8)" value="Edit Item" />Edit Items<br>
+                            &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp; <input #rightedit9 id="re9" type="checkbox" name="edDelItem" [checked]="edDelItem" [(ngModel)]="edDelItem" (change)="onChange(rightedit9)" value="Delete Item" />Delete Items
+                            &nbsp;&nbsp;&nbsp;&emsp;&emsp;&emsp; <input #rightedit10 type="checkbox" id="re10" name="edViewTransactionHistory" [checked]="edViewTransactionHistory" [(ngModel)]="edViewTransactionHistory" (change)="onChange(rightedit10)" value="View Transaction History" />View Transaction History<br>
+                            &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp; <input #rightedit11 id="re11" type="checkbox" name="edViewItemStatistics" [checked]="edViewItemStatistics" [(ngModel)]="edViewItemStatistics" (change)="onChange(rightedit11)" value="View Item Statistics" />View Item Statistics                       
                     </div>
                     <div class="form-group"> 
                             <button [disabled]="!complexeditForm.valid" class="btn btn-primary" (click) ='onSubmitEdit()'>Save</button>              

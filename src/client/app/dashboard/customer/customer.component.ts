@@ -35,6 +35,7 @@ export class CustomerComponent implements OnInit {
 	public customers: any= [];
 	private timerSubscription: AnonymousSubscription;
     private postsSubscription: AnonymousSubscription;
+	filter:string='';
 	constructor(
 		 public cust: CustomerService,
 		 private _http: HttpModule,
@@ -45,7 +46,6 @@ export class CustomerComponent implements OnInit {
 		 ){
          this.complexForm = fb.group({
 				'firstName' : [null, Validators.compose([Validators.required, Validators.pattern("[a-zA-Z][a-zA-Z ]+")])],
-				'middleName' : [null, Validators.compose([Validators.required, Validators.pattern("[a-zA-Z][a-zA-Z ]+")])],
 				'lastName': [null, Validators.compose([Validators.required, Validators.pattern("[a-zA-Z][a-zA-Z ]+")])],
 				'number' : [null, Validators.compose([Validators.required, Validators.minLength(11), Validators.maxLength(11), Validators.pattern("[0-9][0-9 ]+")])],
 				'address' : [null, Validators.required],
@@ -60,7 +60,7 @@ export class CustomerComponent implements OnInit {
 		  if(this._cookieService.get('3') == "true")
 			this.delCustomer=true;   
 		 
-		  console.log("1");
+		  console.log("5");
     }
 	click(event:any, id:number,pass:string,fname:string,mname:string,lname:string,number:string,address:string,vercode:string){
 		console.log(id);

@@ -6,7 +6,7 @@ import { CarouselModule } from 'ng2-bootstrap/ng2-bootstrap';
 import { NgForm } from '@angular/forms'
 import { FormsModule, ReactiveFormsModule }   from '@angular/forms';
 import { HttpModule } from '@angular/http';
-
+import { EmployeeFilterPipe } from './employee-pipe';
 @NgModule({
     imports: [
         CommonModule,
@@ -15,7 +15,10 @@ import { HttpModule } from '@angular/http';
         HttpModule,
         ReactiveFormsModule,
          ],
-    declarations: [CustServiceComponent],
+    declarations: [
+        CustServiceComponent,
+        EmployeeFilterPipe,
+        ],
     exports: [
         CustServiceComponent,
         FormsModule,

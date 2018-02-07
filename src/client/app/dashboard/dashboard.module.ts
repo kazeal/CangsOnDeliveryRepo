@@ -4,7 +4,14 @@ import { RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule }   from '@angular/forms';
 
 import { HomeModule } from './home/home.module';
+import { ResetModule } from './reset/reset.module';
+import { ItemRestoreModule } from './itemrestore/itemrestore.module';
+import { ItemStatisticsYearModule } from './itemstatisticsyear/itemstatisticsyear.module';
+import { ItemStatisticsQuarterModule } from './itemstatisticsquarter/itemstatisticsquarter.module';
+import { ItemStatisticsMonthModule } from './itemstatisticsmonth/itemstatisticsmonth.module';
 import { ItemModule } from './item/item.module';
+import { CustomerModule } from './customer/customer.module';
+import { CustServiceModule } from './custservice/custservice.module';
 import { BSComponentModule } from './bs-component/bsComponent.module';
 
 import { DashboardComponent } from './dashboard.component';
@@ -20,17 +27,22 @@ import { SidebarComponent } from '../shared/index';
         CommonModule,
     	RouterModule,
     	HomeModule,
+        ItemStatisticsYearModule,
     	BSComponentModule,
+        ItemStatisticsQuarterModule,
+        ItemStatisticsMonthModule,
         ItemModule,
+        ItemRestoreModule,
         FormsModule,
+        ResetModule,
+        CustomerModule,
+        CustServiceModule,
         ReactiveFormsModule
     ],
     declarations: [
         DashboardComponent,
         SidebarComponent,
-        AdminComponent, 
-        CustomerComponent,
-        CustServiceComponent,
+        AdminComponent,        
         OrderComponent,
         ItemStatisticsComponent
         ],

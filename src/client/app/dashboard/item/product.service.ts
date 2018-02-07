@@ -26,6 +26,9 @@ export class ProductService{
      
     getProducts(){ return this._http.get(this._apiUrl + "/item/all").map((res:Response) => res.json()); } 
     getItemStatistics(){ return this._http.get(this._apiUrl + "/item/itemStatistics").map((res:Response) => res.json()); }
+    getItemStatisticsYear(){ return this._http.get(this._apiUrl + "/item/itemStatisticsYear").map((res:Response) => res.json()); }
+    getItemStatisticsQuarter(){ return this._http.get(this._apiUrl + "/item/itemStatisticsQuarter").map((res:Response) => res.json()); }
+    getItemStatisticsMonth(){ return this._http.get(this._apiUrl + "/item/itemStatisticsMonth").map((res:Response) => res.json()); }
     addPicture(pic:FileList){
            // console.log(pic);
             if(pic.length > 0) {
@@ -62,7 +65,7 @@ export class ProductService{
             
             this._http.post(this._apiUrl + "/item/addItem",JSON.stringify(data), reqopt).subscribe(function(res){
                 this.response=res;
-                alert("Item Added Sucessfully!");
+                alert("The Item has been Added Sucessfully!");
             });
                   
         }, 3000)                    
@@ -98,7 +101,7 @@ export class ProductService{
         console.log("test3");
          this._http.post(this._apiUrl + "/item/editItem",JSON.stringify(data), reqopt).subscribe(function(res){
              this.response=res;
-             alert("Item Successfully Edited!");            
+             alert("The Item has been Successfully Edited!");            
           });
          
           this._http.post(this._apiUrl + "/updateItem/addUpdateItem",JSON.stringify(this.log[0]), reqopt).subscribe(function(res){
@@ -119,7 +122,7 @@ export class ProductService{
         
          this._http.put(url,null, reqopt).subscribe(function(res){
              this.response=res;
-             alert("Item Successfully Deleted!");
+             alert("The Item has been Successfully Deleted!");
         });
           
      }

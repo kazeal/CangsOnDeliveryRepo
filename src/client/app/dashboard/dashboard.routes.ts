@@ -7,7 +7,13 @@ import { AdminRoutes } from './admin/index';
 import { CustomerRoutes } from './customer/index';
 import { CustServiceRoutes } from './custservice/index';
 import { OrderRoutes } from './order/index';
+import { ResetRoutes } from './reset/index';
+import { ItemRestoreRoutes } from './itemrestore/index';
+
 import { ItemStatisticsRoutes } from './itemstatistics/index';
+import { ItemStatisticsYearRoutes } from './itemstatisticsyear/index';
+import { ItemStatisticsMonthRoutes } from './itemstatisticsmonth/index';
+import { ItemStatisticsQuarterRoutes } from './itemstatisticsquarter/index';
 import { DashboardGuard } from './dashboard-guard.service';
 
 
@@ -26,7 +32,12 @@ export const DashboardRoutes: Route[] = [
 			...CustServiceRoutes,
 			...AdminRoutes,
 			...OrderRoutes,
-			...ItemStatisticsRoutes
+			...ItemStatisticsRoutes,
+			...ResetRoutes,
+			...ItemRestoreRoutes,
+			...ItemStatisticsYearRoutes,
+			...ItemStatisticsQuarterRoutes,
+			...ItemStatisticsMonthRoutes,
 			
     	]
   	}
