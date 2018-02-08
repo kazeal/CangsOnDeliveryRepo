@@ -103,7 +103,7 @@ export class CustomerService{
 
         this._http.post(this._apiUrl + "/customer/editCustomer",JSON.stringify(data), reqopt).subscribe(function(res){
             this.response=res;
-            alert("The Customer Verification Code is Successfully Resetted!\nThe new temporary Verification Code is: "+code);
+            alert("The Customer Verification Code is Successfully Resetted!\nThe new Verification Code is: "+code);
         });
           
      }

@@ -136,8 +136,10 @@
                             <input #emptype type="text" (keyup)="onChangeInput(emptype)" class="form-control input-underline input-lg" [formControl]="complexForm.controls['type']" placeholder="Enter Employee Type"  [(ngModel)]="empType" name="empType" >     
                             <div *ngIf="complexForm.controls['type'].hasError('required') && complexForm.controls['type'].touched" class="alert alert-danger">You must include an employee type.</div>           
                     </div>
-                    <button class="btn btn-default" (click) ='uncheck()'>Clear Rights</button>          
-                    <div align="left"  class="form-group"> 
+                    <button class="btn btn-default" (click) ='uncheck()'>Clear Rights</button>   
+                    <br>       
+                    <div align="left"  class="checkbox"> 
+                        <!--
                             &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp; <input #right1 id="r1" type="checkbox" (change)="onChange(right1)" value="Add Customer" />Add Customer
                             &emsp;&emsp;&emsp; <input #right2 id="r2" type="checkbox" (change)="onChange(right2)" value="Edit Customer" />Edit Customer<br>
                             &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp; <input #right3 id="r3" type="checkbox"  (change)="onChange(right3)" value="Delete Customer" />Delete Customer
@@ -149,7 +151,32 @@
                             &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp; <input #right9 id="r9" type="checkbox"  (change)="onChange(right9)" value="Delete Item" />Delete Items
                             &nbsp;&nbsp;&nbsp;&emsp;&emsp;&emsp; <input #right10 id="r10" type="checkbox"  (change)="onChange(right10)" value="View Transaction History" />View Transaction History<br>
                             &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp; <input #right11 id="r11" type="checkbox" (change)="onChange(right11)" value="View Item Statistics" />View Item Statistics                          
-                    </div>
+                            -->
+                            <label class="checkbox-inline">&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp; <input #right1 id="r1" type="checkbox" (change)="onChange(right1)" value="Add Customer" />Add Customer</label>
+                            <label class="checkbox-inline">&emsp;&emsp;&emsp; <input #right2 id="r2" type="checkbox" (change)="onChange(right2)" value="Edit Customer" />Edit Customer<br></label>
+                            <label class="checkbox-inline"> &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&nbsp; <input #right3 id="r3" type="checkbox"  (change)="onChange(right3)" value="Delete Customer" />Delete Customer</label>
+                            <label class="checkbox-inline">&nbsp;&nbsp;&nbsp;&emsp; <input #right4 id="r4" type="checkbox" (change)="onChange(right4)" value="Add Employee" />Add Employee<br></label>
+                            <label class="checkbox-inline"> &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&nbsp; <input #right5 id="r5" type="checkbox" (change)="onChange(right5)" value="Edit Employee" />Edit Employee</label>
+                            <label class="checkbox-inline">&emsp;&emsp;&emsp; <input #right6 id="r6" type="checkbox"  (change)="onChange(right6)" value="Delete Employee" />Delete Employee<br></label>
+                            <label class="checkbox-inline">&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&nbsp; <input #right7 id="r7" type="checkbox"  (change)="onChange(right7)" value="Add Item" />Add Items</label>
+                            <label class="checkbox-inline">&nbsp;&nbsp;&nbsp;&nbsp;&emsp;&emsp;&emsp;&emsp; <input #right8 id="r8" type="checkbox"  (change)="onChange(right8)" value="Edit Item" />Edit Items<br></label>
+                            <label class="checkbox-inline">&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&nbsp; <input #right9 id="r9" type="checkbox"  (change)="onChange(right9)" value="Delete Item" />Delete Items</label>
+                            <label class="checkbox-inline">&nbsp;&nbsp;&nbsp;&emsp;&emsp;&emsp; <input #right10 id="r10" type="checkbox"  (change)="onChange(right10)" value="View Transaction History" />View Transaction History<br></label>
+                            <label class="checkbox-inline"> &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&nbsp; <input #right11 id="r11" type="checkbox" (change)="onChange(right11)" value="View Item Statistics" />View Item Statistics    </label>                      
+                            <!--
+                            <label class="checkbox-inline"><input #right1 id="r1" type="checkbox" (change)="onChange(right1)" value="Add Customer" />Add Customer</label>
+                            <label class="checkbox-inline"><input #right2 id="r2" type="checkbox" (change)="onChange(right2)" value="Edit Customer" />Edit Customer</label>
+                            <label class="checkbox-inline"><input #right3 id="r3" type="checkbox"  (change)="onChange(right3)" value="Delete Customer" />Delete Customer</label>
+                            <label class="checkbox-inline"><input #right4 id="r4" type="checkbox" (change)="onChange(right4)" value="Add Employee" />Add Employee</label><br>
+                            <label class="checkbox-inline"><input #right5 id="r5" type="checkbox" (change)="onChange(right5)" value="Edit Employee" />Edit Employee</label>
+                            <label class="checkbox-inline"><input #right6 id="r6" type="checkbox"  (change)="onChange(right6)" value="Delete Employee" />Delete Employee</label>
+                            <label class="checkbox-inline"><input #right7 id="r7" type="checkbox"  (change)="onChange(right7)" value="Add Item" />Add Items</label>
+                            <label class="checkbox-inline"><input #right8 id="r8" type="checkbox"  (change)="onChange(right8)" value="Edit Item" />Edit Items</label>
+                            <label class="checkbox-inline"><input #right9 id="r9" type="checkbox"  (change)="onChange(right9)" value="Delete Item" />Delete Items</label>
+                            <label class="checkbox-inline"><input #right10 id="r10" type="checkbox"  (change)="onChange(right10)" value="View Transaction History" />View Transaction History</label>
+                            <label class="checkbox-inline"><input #right11 id="r11" type="checkbox" (change)="onChange(right11)" value="View Item Statistics" />View Item Statistics</label>             
+                            -->
+                  </div>
                     <div class="form-group"> 
                             <button [disabled]="!complexForm.valid" class="btn btn-primary" (click) ='onSubmitAdd()'>Save</button>          
                     </div>
@@ -207,18 +234,18 @@
                             <div *ngIf="complexForm.controls['type'].hasError('required') && complexForm.controls['type'].touched" class="alert alert-danger">You must include an employee type.</div>           
                     </div>
                     <button class="btn btn-default" (click) ='uncheckedit()'>Clear Rights</button>          
-                    <div align="left" class="form-group"> 
-                            &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp; <input #rightedit1 id="re1" type="checkbox" name="edAddCustomer" [checked]="edAddCustomer"  [(ngModel)]="edAddCustomer" (change)="onChange(rightedit1)" value="Add Customer" />Add Customer
-                            &emsp;&emsp;&emsp; <input #rightedit2 type="checkbox" id="re2" name="edEditCustomer" [checked]="edEditCustomer"  [(ngModel)]="edEditCustomer" (change)="onChange(rightedit2)" value="Edit Customer" />Edit Customer<br>
-                            &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp; <input #rightedit3 id="re3" type="checkbox" name="edDelCustomer" [checked]="edDelCustomer"  [(ngModel)]="edDelCustomer" (change)="onChange(rightedit3)" value="Delete Customer" />Delete Customer
-                            &nbsp;&nbsp;&nbsp;&emsp; <input #rightedit4 id="re4" type="checkbox" name="edAddEmployee" [checked]="edAddEmployee"  [(ngModel)]="edAddEmployee" (change)="onChange(rightedit4)" value="Add Employee" />Add Employee<br>
-                            &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp; <input #rightedit5 id="re5" type="checkbox" name="edEditEmployee" [checked]="edEditEmployee"  [(ngModel)]="edEditEmployee" (change)="onChange(rightedit5)" value="Edit Employee" />Edit Employee
-                            &emsp;&emsp;&emsp; <input #rightedit6 type="checkbox" id="re6" name="edDelEmployee" [checked]="edDelEmployee"  [(ngModel)]="edDelEmployee" (change)="onChange(rightedit6)" value="Delete Employee" />Delete Employee<br>
-                            &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp; <input #rightedit7 id="re7" type="checkbox" name="edAddItem" [checked]="edAddItem" [(ngModel)]="edAddItem" (change)="onChange(rightedit7)" value="Add Item" />Add Items
-                            &nbsp;&nbsp;&nbsp;&nbsp;&emsp;&emsp;&emsp;&emsp; <input #rightedit8 id="re8" type="checkbox" name="edEditItem" [checked]="edEditItem" [(ngModel)]="edEditItem" (change)="onChange(rightedit8)" value="Edit Item" />Edit Items<br>
-                            &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp; <input #rightedit9 id="re9" type="checkbox" name="edDelItem" [checked]="edDelItem" [(ngModel)]="edDelItem" (change)="onChange(rightedit9)" value="Delete Item" />Delete Items
-                            &nbsp;&nbsp;&nbsp;&emsp;&emsp;&emsp; <input #rightedit10 type="checkbox" id="re10" name="edViewTransactionHistory" [checked]="edViewTransactionHistory" [(ngModel)]="edViewTransactionHistory" (change)="onChange(rightedit10)" value="View Transaction History" />View Transaction History<br>
-                            &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp; <input #rightedit11 id="re11" type="checkbox" name="edViewItemStatistics" [checked]="edViewItemStatistics" [(ngModel)]="edViewItemStatistics" (change)="onChange(rightedit11)" value="View Item Statistics" />View Item Statistics                       
+                    <div align="left" class="form-check"> 
+                            <label class="checkbox-inline">&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp; <input #rightedit1 id="re1" type="checkbox" name="edAddCustomer" [checked]="edAddCustomer"  [(ngModel)]="edAddCustomer" (change)="onChange(rightedit1)" value="Add Customer" />Add Customer</label>   
+                            <label class="checkbox-inline">&emsp;&emsp;&emsp; <input #rightedit2 type="checkbox" id="re2" name="edEditCustomer" [checked]="edEditCustomer"  [(ngModel)]="edEditCustomer" (change)="onChange(rightedit2)" value="Edit Customer" />Edit Customer<br></label>   
+                            <label class="checkbox-inline">&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&nbsp; <input #rightedit3 id="re3" type="checkbox" name="edDelCustomer" [checked]="edDelCustomer"  [(ngModel)]="edDelCustomer" (change)="onChange(rightedit3)" value="Delete Customer" />Delete Customer</label>   
+                            <label class="checkbox-inline">&nbsp;&nbsp;&nbsp;&emsp; <input #rightedit4 id="re4" type="checkbox" name="edAddEmployee" [checked]="edAddEmployee"  [(ngModel)]="edAddEmployee" (change)="onChange(rightedit4)" value="Add Employee" />Add Employee<br></label>   
+                            <label class="checkbox-inline">&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&nbsp; <input #rightedit5 id="re5" type="checkbox" name="edEditEmployee" [checked]="edEditEmployee"  [(ngModel)]="edEditEmployee" (change)="onChange(rightedit5)" value="Edit Employee" />Edit Employee</label>   
+                            <label class="checkbox-inline"> &emsp;&emsp;&emsp; <input #rightedit6 type="checkbox" id="re6" name="edDelEmployee" [checked]="edDelEmployee"  [(ngModel)]="edDelEmployee" (change)="onChange(rightedit6)" value="Delete Employee" />Delete Employee<br></label>   
+                            <label class="checkbox-inline">&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&nbsp; <input #rightedit7 id="re7" type="checkbox" name="edAddItem" [checked]="edAddItem" [(ngModel)]="edAddItem" (change)="onChange(rightedit7)" value="Add Item" />Add Items</label>   
+                            <label class="checkbox-inline">&nbsp;&nbsp;&nbsp;&nbsp;&emsp;&emsp;&emsp;&emsp; <input #rightedit8 id="re8" type="checkbox" name="edEditItem" [checked]="edEditItem" [(ngModel)]="edEditItem" (change)="onChange(rightedit8)" value="Edit Item" />Edit Items<br></label>   
+                            <label class="checkbox-inline">&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&nbsp; <input #rightedit9 id="re9" type="checkbox" name="edDelItem" [checked]="edDelItem" [(ngModel)]="edDelItem" (change)="onChange(rightedit9)" value="Delete Item" />Delete Items</label>   
+                            <label class="checkbox-inline">&nbsp;&nbsp;&nbsp;&emsp;&emsp;&emsp; <input #rightedit10 type="checkbox" id="re10" name="edViewTransactionHistory" [checked]="edViewTransactionHistory" [(ngModel)]="edViewTransactionHistory" (change)="onChange(rightedit10)" value="View Transaction History" />View Transaction History<br></label>   
+                            <label class="checkbox-inline">&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&nbsp; <input #rightedit11 id="re11" type="checkbox" name="edViewItemStatistics" [checked]="edViewItemStatistics" [(ngModel)]="edViewItemStatistics" (change)="onChange(rightedit11)" value="View Item Statistics" />View Item Statistics</label>                          
                     </div>
                     <div class="form-group"> 
                             <button [disabled]="!complexeditForm.valid" class="btn btn-primary" (click) ='onSubmitEdit()'>Save</button>              

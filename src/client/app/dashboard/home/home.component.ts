@@ -28,6 +28,7 @@ export class HomeComponent implements OnInit{
 
 	public data: any= [];
     public orders: any= [];
+    public details: any= [];
 	public statuses: any= [
 		 "pending","verified","canceled","delivered",
 	 ];
@@ -59,6 +60,12 @@ export class HomeComponent implements OnInit{
 		this.ord.updateOrderStatus(this.data[0]);
 		this.data.pop();
 	}
+    orderDetail(id:any){
+        this.ord.getDetails(id).subscribe(data => {
+            this.details=data;
+        });
+        console.log(this.details);
+    }
 	 ngOnInit() {
         this.refreshData();
     }
@@ -69,11 +76,11 @@ export class HomeComponent implements OnInit{
         this.postsSubscription = this.ord.getOrders().subscribe(
 
         data  => {
-                    console.log(this.orders.length);
+                    //console.log(this.orders.length);
                     var i =0;
                     for (let order of data)
                     {          
-                            console.log(order);               
+                           // console.log(order);               
                             this.orders[i]=({
                                 'orderID': order.orderID, 
 								'orderDate': order.orderDate, 
@@ -96,7 +103,7 @@ export class HomeComponent implements OnInit{
                         for(dif;dif>0;dif--)
                         {
                                 test=this.orders.pop();
-                                console.log(test);
+                               // console.log(test);
                         }
                     }
                     i=0;   
@@ -104,7 +111,7 @@ export class HomeComponent implements OnInit{
                     // console.log("latestest");      
             //this.items.data = data;
             this.subscribeToData();
-            console.log(this.orders);
+           // console.log(this.orders);
         },
         function (error) {
             console.log(error);

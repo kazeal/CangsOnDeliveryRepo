@@ -49,4 +49,10 @@ export class HomeService{
         });
 
     }//updateOrderStatus
+    getDetails(id:any){
+          var url = this._apiUrl + "/orderDetails/returnOrderDetails/"+ id;
+        
+         
+        return this._http.get(url).map((res:Response) => res.json());
+    }
 }//Class
