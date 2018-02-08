@@ -29,7 +29,8 @@ export class HomeService{
         let yy =time.getFullYear();
         let hh =time.getHours();
         let ss =time.getSeconds();
-        let timestamp=mm+1 + "/" + dd + "/" + yy + " " + hh + ":" + ss;
+        let min =time.getMinutes();
+        let timestamp=mm+1 + "/" + dd + "/" + yy + " " + hh + ":" + min + ":" + ss;
 
         this.log.push({
             'orstatStatus':data['orderStatus'],
