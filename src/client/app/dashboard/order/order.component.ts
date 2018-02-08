@@ -7,6 +7,7 @@ import { OrderService } from './order.service';
 import { Observable } from 'rxjs/Rx';
 import { NgZone, ChangeDetectorRef } from '@angular/core';
 import { AnonymousSubscription } from "rxjs/Subscription";
+import { CustomerService } from '../customer/customer.service';
 @Component({
 	moduleId: module.id,
 	selector: 'order-cmp',
@@ -23,6 +24,11 @@ export class OrderComponent implements OnInit{
 	time:string;
 	packaging:string;
 	location:string;
+    tender:any;
+    change:any;
+    total2:any;
+    public customer: any= [];
+    public details: any= [];
 	public customerID:number;
 	i:number=0;
 
@@ -34,6 +40,7 @@ export class OrderComponent implements OnInit{
 	private timerSubscription: AnonymousSubscription;
     private postsSubscription: AnonymousSubscription;
 	constructor(public ord: OrderService,
+                public cus: CustomerService,
 	 			private chRef: ChangeDetectorRef,
          		private zone: NgZone,
 				private _http: HttpModule){
@@ -43,7 +50,7 @@ export class OrderComponent implements OnInit{
 				console.log(this.orders);
     	  });
     }
-	onChange(element: HTMLInputElement,event:any,orderID:number,customerID:number,orderDate:string,orderTotal:number,orderStatus:string,orderRemarks:string,orderTime:string,packaging:string,location:string)
+	onChange(element: HTMLInputElement,event:any,orderID:number,customerID:number,orderDate:string,orderTotal:number,orderStatus:string,orderRemarks:string,orderTime:string,packaging:string,location:string,cashTendered:any)
 	{
 		this.data.push({
 				'orderID': orderID, 
@@ -54,11 +61,32 @@ export class OrderComponent implements OnInit{
 				'location': location,
 				'orderTime': orderTime,
 				'packaging': packaging, 
-				'customerID': customerID,  				
+				'customerID': customerID,  
+                'cashTendered': cashTendered,				
 			});
 		this.ord.updateOrderStatus(this.data[0]);
 		this.data.pop();
 	}
+    orderDetail(id:any, total:any,cusID:any, tender2:any)
+    {
+        this.ord.getDetails(id).subscribe(data => {
+            this.details=data;
+        });
+        this.cus.getCustomer(cusID).subscribe(data =>{
+            this.customer=data;
+            console.log(this.customer);
+        });
+        this.tender=tender2;
+        this.total2=total;
+        this.change=tender2 - total;
+        console.log(this.details);
+    }
+    clear()
+    {   
+        this.customer=[];
+        this.details=[];
+        this.total2=null;
+    }
 	 ngOnInit() {
         this.refreshData();
     }
@@ -83,7 +111,8 @@ export class OrderComponent implements OnInit{
 								'location': order.location,
 								'orderTime': order.orderTime,
 								'packaging': order.packaging, 
-								'customerID': order.customerID, 				
+								'customerID': order.customerID,
+                                'cashTendered': order.cashTendered, 				
                             });
                             i=i+1;
                             

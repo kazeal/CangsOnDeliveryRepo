@@ -1,3 +1,62 @@
+<style>
+    /* The Modal (background) */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    padding-top: 60px;
+}
+
+/* Modal Content/Box */
+.modal-content {
+    background-color: #fefefe;
+    margin: 5px auto; /* 15% from the top and centered */
+    border: 1px solid #888;
+    width: 40%; /* Could be more or less, depending on screen size */
+    
+}
+
+/* The Close Button */
+.close {
+    /* Position it in the top right corner outside of the modal */
+    position: absolute;
+    right: 25px;
+    top: 0; 
+    color: red;
+    font-size: 50px;
+    font-weight: bold;
+}
+
+/* Close button on hover */
+.close:hover,
+.close:focus {
+    color: red;
+    cursor: pointer;
+}
+
+/* Add Zoom Animation */
+.animate {
+    -webkit-animation: animatezoom 0.6s;
+    animation: animatezoom 0.6s
+}
+
+@-webkit-keyframes animatezoom {
+    from {-webkit-transform: scale(0)} 
+    to {-webkit-transform: scale(1)}
+}
+
+@keyframes animatezoom {
+    from {transform: scale(0)} 
+    to {transform: scale(1)}
+}
+    </style>
 <h1 align="center">Transaction History</h1>
 <div class="table well">
 
@@ -13,19 +72,19 @@
                 <th>Remarks</th>
                 <th>Delivery Time</th>
                 <th>Packaging</th>
-                <th>Location</th>   
+                <th>Cash Tendered</th>   
             </tr>
 		
 		
         </thead>
         <tbody>
            <tr *ngFor='let order of orders'>
-            <td>{{order.orderID}}</td>
+            <td><button onclick="document.getElementById('details').style.display='block'" class="btn btn-link" (click)="orderDetail(order.orderID,order.orderTotal,order.customerID,order.cashTendered)">{{order.orderID}}</button></td>
             <td>{{order.customerID}}</td>
             <td>{{order.orderDate}}</td>
             <td>{{order.orderTotal | currency:'PHP':true:'1.2-2'}}</td>
             <td>
-                <select disabled="true" #stat [(ngModel)]="order.orderStatus" (change)="onChange(stat,$event,order.orderID,order.customerID,order.orderDate,order.orderTotal,order.orderStatus,order.orderRemarks,order.orderTime,order.packaging,order.location)">
+                <select disabled="true" #stat [(ngModel)]="order.orderStatus" (change)="onChange(stat,$event,order.orderID,order.customerID,order.orderDate,order.orderTotal,order.orderStatus,order.orderRemarks,order.orderTime,order.packaging,order.location,order.cashTendered)">
                     <option  value="cancelled">cancelled</option>
                     <option value="pending">pending</option>
                     <option value="verified">verified</option>
@@ -35,10 +94,55 @@
             <td>{{order.orderRemarks}}</td>
             <td>{{order.orderTime}}</td>
             <td>{{order.packaging}}</td>
-            <td>{{order.location}}</td>                  
+            <td>{{order.location}}</td>
+            <td>{{order.cashTendered}}</td>                  
         </tr>
             
         
         </tbody>
     </table>
+</div>
+
+<div id="details" class="modal">
+    <span (click)="clear()" onclick="document.getElementById('details').style.display='none'" class="close" title="Close Modal">&times;</span>
+        <form role="form" id="datadel" class="modal-content animate">
+            <div class="container" align="center">
+                <!-- Modal Content --><br><br><br>
+                <div class="table">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Qty</th>
+                                <th>Item ID</th>
+                                <th>Description</th>
+                                <th>Price</th>
+                                <th>Amount</th>
+                            </tr>
+                        
+                        </thead>
+                        <tbody>
+
+                        </tbody>
+                                <tr *ngFor='let detail of details'>
+                                   
+                                    <td>{{detail.ordetQuantity}}</td>  
+                                    <td>{{detail.itemID}}</td>
+                                    <td>{{detail.itemName}} {{detail.itemDescription}} </td>
+                                    <td>{{detail.ordetPrice}}</td>
+                                    <td>{{detail.ordetSubtotal}}</td>        
+                                </tr>    
+                    </table>
+                    <div align="right">
+                         TOTAL: {{total2 | currency:'PHP':true:'1.2-2'}}&emsp;&emsp;&emsp;<br>
+                         CASH: {{tender | currency:'PHP':true:'1.2-2'}}&emsp;&emsp;<br>
+                         CHANGE: {{change}}&emsp;&emsp;
+                    </div>
+                    <div align="left" *ngFor='let customers of customer'>
+                         &emsp;Customer Name: {{customers.cusLastName}}, {{customers.cusFirstName}} {{customers.cusMiddleName}}<br>
+                         &emsp;Customer Address: {{customers.address}}<br>
+                    </div>
+                </div>
+                <br><br>
+            </div>
+        </form>
 </div>

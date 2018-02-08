@@ -72,17 +72,18 @@
                 <th>Delivery Time</th>
                 <th>Packaging</th>
                 <th>Location</th>
+                <th>Cash Tendered</th>
             </tr>
 		
         </thead>
         <tbody>
            <tr *ngFor='let order of orders'>
-                <td><button onclick="document.getElementById('details').style.display='block'" class="btn btn-link" (click)="orderDetail(order.orderID)">{{order.orderID}}</button></td>
+                <td><button onclick="document.getElementById('details').style.display='block'" class="btn btn-link" (click)="orderDetail(order.orderID,order.orderTotal,order.customerID,order.cashTendered)">{{order.orderID}}</button></td>
                 <td>{{order.customerID}}</td>
                 <td>{{order.orderDate}}</td>
                 <td>{{order.orderTotal | currency:'PHP':true:'1.2-2'}}</td>
                 <td>
-                    <select #stat [(ngModel)]="order.orderStatus" (change)="onChange(stat,$event,order.orderID,order.customerID,order.orderDate,order.orderTotal,order.orderStatus,order.orderRemarks,order.orderTime,order.packaging,order.location)">
+                    <select #stat [(ngModel)]="order.orderStatus" (change)="onChange(stat,$event,order.orderID,order.customerID,order.orderDate,order.orderTotal,order.orderStatus,order.orderRemarks,order.orderTime,order.packaging,order.location,order.cashTendered)">
                         <option  value="cancelled">cancelled</option>
                         <option value="pending">pending</option>
                         <option value="verified">verified</option>
@@ -93,22 +94,51 @@
                 <td>{{order.orderTime}}</td>
                 <td>{{order.packaging}}</td>
                 <td>{{order.location}}</td>
+                <td>{{order.cashTendered | currency:'PHP':true:'1.2-2'}}</td>
             </tr>   
         </tbody>
     </table>
 </div>
 
 <div id="details" class="modal">
-    <span onclick="document.getElementById('details').style.display='none'" class="close" title="Close Modal">&times;</span>
+    <span (click)="clear()" onclick="document.getElementById('details').style.display='none'" class="close" title="Close Modal">&times;</span>
         <form role="form" id="datadel" class="modal-content animate">
             <div class="container" align="center">
                 <!-- Modal Content --><br><br><br>
-                <ul>
-                    <li *ngFor='let detail of details'>
-                        Item Name: {{detail.itemID}}, Item Price: {{detail.ordetPrice}}, Quantity: {{detail.ordetQuantity}},
-                        SubTotal:{{detail.ordetSubtotal}},
-                    </li>
-                </ul>
+                <div class="table">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Qty</th>
+                                <th>Item ID</th>
+                                <th>Description</th>
+                                <th>Price</th>
+                                <th>Amount</th>
+                            </tr>
+                        
+                        </thead>
+                        <tbody>
+
+                        </tbody>
+                                <tr *ngFor='let detail of details'>
+                                   
+                                    <td>{{detail.ordetQuantity}}</td>  
+                                    <td>{{detail.itemID}}</td>
+                                    <td>{{detail.itemName}} {{detail.itemDescription}} </td>
+                                    <td>{{detail.ordetPrice}}</td>
+                                    <td>{{detail.ordetSubtotal}}</td>        
+                                </tr>    
+                    </table>
+                    <div align="right">
+                         TOTAL: {{total2 | currency:'PHP':true:'1.2-2'}}&emsp;&emsp;&emsp;<br>
+                         CASH: {{tender | currency:'PHP':true:'1.2-2'}}&emsp;&emsp;<br>
+                         CHANGE: {{change}}&emsp;&emsp;
+                    </div>
+                    <div align="left" *ngFor='let customers of customer'>
+                         &emsp;Customer Name: {{customers.cusLastName}}, {{customers.cusFirstName}} {{customers.cusMiddleName}}<br>
+                         &emsp;Customer Address: {{customers.address}}<br>
+                    </div>
+                </div>
                 <br><br>
             </div>
         </form>

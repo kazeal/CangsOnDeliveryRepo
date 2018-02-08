@@ -47,6 +47,13 @@ export class OrderService{
         this._http.post(this._apiUrl + "/UpdateOrderStatus/addUpdateStatus",JSON.stringify(this.log[0]), reqopt).subscribe(function(res){
                 this.response=res;
         });
+        
 
     }//updateOrderStatus
+     getDetails(id:any){
+          var url = this._apiUrl + "/orderDetails/returnOrderDetails/"+ id;
+        
+         
+        return this._http.get(url).map((res:Response) => res.json());
+    }
 }//Class
