@@ -128,8 +128,8 @@
                                     <td>{{detail.ordetQuantity}}</td>  
                                     <td>{{detail.itemID}}</td>
                                     <td>{{detail.itemName}} {{detail.itemDescription}} </td>
-                                    <td>{{detail.ordetPrice}}</td>
-                                    <td>{{detail.ordetSubtotal}}</td>        
+                                    <td>{{detail.ordetPrice | currency:'PHP':true:'1.2-2'}}</td>
+                                    <td>{{detail.ordetSubtotal | currency:'PHP':true:'1.2-2'}}</td>        
                                 </tr>    
                     </table>
                     <div align="right">

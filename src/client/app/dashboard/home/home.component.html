@@ -59,8 +59,8 @@
     </style>
 
 <h1 align="center">Orders</h1>
-<div class="table">
-    <table class="table">
+<div class="table well">
+    <table class="table table-scroll">
         <thead>
             <tr>
                 <th>Order Id</th>
@@ -125,8 +125,8 @@
                                     <td>{{detail.ordetQuantity}}</td>  
                                     <td>{{detail.itemID}}</td>
                                     <td>{{detail.itemName}} {{detail.itemDescription}} </td>
-                                    <td>{{detail.ordetPrice}}</td>
-                                    <td>{{detail.ordetSubtotal}}</td>        
+                                    <td>{{detail.ordetPrice | currency:'PHP':true:'1.2-2'}}</td>
+                                    <td>{{detail.ordetSubtotal | currency:'PHP':true:'1.2-2'}}</td>        
                                 </tr>    
                     </table>
                     <div align="right">

@@ -30,7 +30,7 @@ export class ItemComponent implements OnInit, OnChanges{
 	itemQuantityStored:number;
 	itemPrice:number; 
     itemDescription:string;
-    category:string='Food';
+    category:string='Dry Goods';
 	purchaseCount:number =0;
 	public itemID:number;
 	i:number=0;
@@ -108,7 +108,7 @@ export class ItemComponent implements OnInit, OnChanges{
             document.getElementById("picture").value = "";
             this.filter="";
             this.itemDescription="";
-            this.category="Food";
+            this.category="Dry Goods";
             this.picture =null;
             this.picturestring="";
             this.itemName="";
