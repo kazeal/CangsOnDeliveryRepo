@@ -24,8 +24,9 @@ export class OrderService{
         })
         let time = new Date();
         console.log(time);
-        let mm =time.getMonth();
+       
         let dd =time.getDate();
+        let mm =time.getMonth();
         let yy =time.getFullYear();
         let hh =time.getHours();
         let ss =time.getSeconds();

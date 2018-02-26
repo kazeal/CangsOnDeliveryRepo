@@ -1,3 +1,4 @@
+<button (click)="export()"><i class="fa fa-print"></i>Export</button>
 <h1 align="center">Top 20 Most Bought Items(Yearly)</h1>
 <div class="table well">
     <table class="table table-scroll">
@@ -6,7 +7,9 @@
                 <th>Picture</th>
                 <th>ID</th>
                 <th>Name</th>
+                <th>Description</th>
                 <th>Price</th>
+                 <th>Category</th>
                 <th>Purchase Count</th>      
             </tr>
         </thead>
@@ -16,7 +19,9 @@
                 <td><img src="{{item.picture}}" width="100" height="100"></td>
                 <td>{{item.itemID}}</td>
                 <td>{{item.itemName}}</td>
+                 <td>{{item.itemDescription}}</td>
                 <td>{{item.itemPrice | currency:'PHP':true:'1.2-2'}}</td>
+                 <td>{{item.category}}</td>
                 <td>{{item.purchaseCountYear}}</td>              
             </tr>
             

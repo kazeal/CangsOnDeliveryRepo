@@ -95,7 +95,7 @@
             <td>{{order.orderTime}}</td>
             <td>{{order.packaging}}</td>
             <td>{{order.location}}</td>
-            <td>{{order.cashTendered}}</td>                  
+            <td>{{order.cashTendered | currency:'PHP':true:'1.2-2'}}</td>                  
         </tr>
             
         
@@ -135,11 +135,12 @@
                     <div align="right">
                          TOTAL: {{total2 | currency:'PHP':true:'1.2-2'}}&emsp;&emsp;&emsp;<br>
                          CASH: {{tender | currency:'PHP':true:'1.2-2'}}&emsp;&emsp;<br>
-                         CHANGE: {{change}}&emsp;&emsp;
+                         CHANGE: {{change | currency:'PHP':true:'1.2-2'}}&emsp;&emsp;
                     </div>
                     <div align="left" *ngFor='let customers of customer'>
                          &emsp;Customer Name: {{customers.cusLastName}}, {{customers.cusFirstName}} {{customers.cusMiddleName}}<br>
                          &emsp;Customer Address: {{customers.address}}<br>
+                         &emsp;Customer Number: {{customers.number}}<br>
                     </div>
                 </div>
                 <br><br>

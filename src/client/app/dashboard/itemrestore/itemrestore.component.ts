@@ -20,7 +20,7 @@ import { CookieService } from 'angular2-cookie/services/cookies.service';
 }
 )
 
-export class ItemRestoreComponent implements OnInit, OnChanges{
+export class ItemRestoreComponent implements OnInit{
 
     picture: FileList;
     picturestring: string;

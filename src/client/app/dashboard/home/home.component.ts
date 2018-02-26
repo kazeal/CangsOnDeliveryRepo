@@ -8,6 +8,7 @@ import { CustomerService } from '../customer/customer.service';
 import { Observable } from 'rxjs/Rx';
 import { NgZone, ChangeDetectorRef } from '@angular/core';
 import { AnonymousSubscription } from "rxjs/Subscription";
+import { Angular2Csv } from 'angular2-csv/Angular2-csv';
 @Component({
 	moduleId: module.id,
 	selector: 'home-cmp',
@@ -31,8 +32,10 @@ export class HomeComponent implements OnInit{
     total2:any;
     public customer: any= [];
 	public data: any= [];
+    public data2:any=[];
     public orders: any= [];
     public details: any= [];
+    public ID:any;
 	public statuses: any= [
 		 "pending","verified","canceled","delivered",
 	 ];
@@ -48,6 +51,132 @@ export class HomeComponent implements OnInit{
 				this.orders=data;
 				console.log(this.orders);
     	  });
+          console.log("123456");
+    }
+    export(){
+        console.log("in");
+        console.log(this.orders);
+        for(var i=0;i<this.details.length;i++)
+        {     
+            this.data.push({
+                'ordetQuantity': this.details[i].ordetQuantity, 
+				'itemID': this.details[i].itemID, 
+				'itemName': this.details[i].itemName, 
+				'itemDescription': this.details[i].itemDescription,
+				'ordetPrice': this.details[i].ordetPrice, 
+				'ordetSubtotal': this.details[i].ordetSubtotal,
+                'total': "",
+                'cash': "",
+                'change': "",
+                'cusLastName': "",
+                'cusFirstName': "",
+                'cusMiddleName': "",
+                'address': "",
+                'number': "",
+            });
+        }
+        this.data.push({
+                'ordetQuantity': "", 
+				'itemID': "", 
+				'itemName': "", 
+				'itemDescription': "",
+				'ordetPrice': "", 
+				'ordetSubtotal': "",
+        });
+        this.data.push({
+                'ordetQuantity': "", 
+				'itemID': "", 
+				'itemName': "", 
+				'itemDescription': "Total",
+				'ordetPrice': "Cash", 
+				'ordetSubtotal': "Change",
+        });
+         this.data.push({
+                'ordetQuantity': "", 
+				'itemID': "", 
+				'itemName': "", 
+				'itemDescription': this.total2,
+				'ordetPrice': this.tender, 
+				'ordetSubtotal': this.change,
+        });
+        this.data.push({
+                'ordetQuantity': "Customer", 
+				'itemID': "", 
+				'itemName': "", 
+				'itemDescription': "",
+				'ordetPrice': "", 
+				'ordetSubtotal': "",
+        });
+        this.data.push({
+                'ordetQuantity': "Last Name", 
+				'itemID': "First Name", 
+				'itemName': "Middle Name", 
+				'itemDescription': "Address",
+				'ordetPrice': "Number", 
+				'ordetSubtotal': "",
+        });
+        this.data.push({
+                'ordetQuantity': this.customer[0].cusLastName,
+                'itemID': this.customer[0].cusFirstName,
+                'itemName': this.customer[0].cusMiddleName,
+                'itemDescription': this.customer[0].address,
+                'ordetPrice': this.customer[0].number,
+                'ordetSubtotal': "",
+        });
+        
+        /*
+         this.data.push({
+                'ordetQuantity': "", 
+				'itemID': "", 
+				'itemName': "", 
+				'itemDescription': "",
+				'ordetPrice': "", 
+				'ordetSubtotal': "",
+                'total': this.total2,
+                'cash': this.tender,
+                'change': this.change,
+                'cusLastName': "",
+                'cusFirstName': "",
+                'cusMiddleName': "",
+                'address': "",
+                'number': "",
+        });
+        this.data.push({
+                'ordetQuantity': "", 
+				'itemID': "", 
+				'itemName': "", 
+				'itemDescription': "",
+				'ordetPrice': "", 
+				'ordetSubtotal': "",
+                'total': "",
+                'cash': "",
+                'change': "",
+                'cusLastName': this.customer[0].cusLastName,
+                'cusFirstName': this.customer[0].cusFirstName,
+                'cusMiddleName': this.customer[0].cusMiddleName,
+                'address': this.customer[0].address,
+                'number': this.customer[0].number,
+        });*/
+        console.log("mid");
+        let time = new Date();
+        let mm =time.getMonth();
+        let yy =time.getFullYear();
+        mm += 1;
+        var options = { 
+            fieldSeparator: ',',
+            quoteStrings: '"',
+            decimalseparator: '.',
+            showLabels: true, 
+            showTitle: true,
+            useBom: true,
+            headers:['Qty','Item ID','Item Name','Item Description',
+                    'Price','SubTotal',
+                    ]
+        };
+        
+       new Angular2Csv(this.data, 'Order ID '+this.ID,options);
+       this.data=[];
+       console.log("out");
     }
 	onChange(element: HTMLInputElement,event:any,orderID:number,customerID:number,orderDate:string,orderTotal:number,orderStatus:string,orderRemarks:string,orderTime:string,packaging:string,location:string,cashTendered:any)
 	{
@@ -68,6 +197,7 @@ export class HomeComponent implements OnInit{
 	}
     orderDetail(id:any, total:any,cusID:any, tender2:any)
     {
+        this.ID=id;
         this.ord.getDetails(id).subscribe(data => {
             this.details=data;
         });

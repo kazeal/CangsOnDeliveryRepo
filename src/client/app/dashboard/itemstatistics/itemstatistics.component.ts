@@ -10,7 +10,7 @@ import { AnonymousSubscription } from "rxjs/Subscription";
 import { Observable } from 'rxjs/Rx';
 import { NgZone, ChangeDetectorRef } from '@angular/core';
 import { Location } from '@angular/common';
-
+import { Angular2Csv } from 'angular2-csv/Angular2-csv';
 
 @Component({
 	moduleId: module.id,
@@ -23,6 +23,7 @@ export class ItemStatisticsComponent{
 
   
     public items: any= {data:[]};
+    public data:any=[];
     private timerSubscription: AnonymousSubscription;
     private postsSubscription: AnonymousSubscription;
 	 constructor(
@@ -30,6 +31,7 @@ export class ItemStatisticsComponent{
          private _http: HttpModule,
          private sanitizer:DomSanitizer,
          private zone: NgZone,
+       //  private a2csv:Angular2Csv,
          private chRef: ChangeDetectorRef,
          private location: Location
            ){
@@ -47,8 +49,33 @@ export class ItemStatisticsComponent{
             
                     });
             });      
-            console.log("latestest13");   
+            console.log("latestest18");   
 
+    }
+     export(){
+        for(var i=0;i<this.items.data.length;i++)
+        {
+            this.data.push({
+                "Item ID":this.items.data[i].itemID,
+                "Item Name":this.items.data[i].itemName,
+                "Item Description":this.items.data[i].itemDescription,
+                "Item Price":this.items.data[i].itemPrice,
+                "Item Category":this.items.data[i].category,
+                "Item Purchase Count":this.items.data[i].purchaseCountAllTime,
+            });
+        }
+        var options = { 
+            fieldSeparator: ',',
+            quoteStrings: '"',
+            decimalseparator: '.',
+            showLabels: true, 
+            showTitle: true,
+            useBom: true,
+            headers:['Item ID','Item Name','Item Description','Item Price','Item Category','Purchase Count','']
+        };
+        
+       new Angular2Csv(this.data, 'Item Statistics All Time',options);
+       this.data=[];
     }
      ngOnInit() {
         this.refreshData();
@@ -74,7 +101,9 @@ export class ItemStatisticsComponent{
                                 'itemQuantityStored': item.itemQuantityStored, 
                                 'itemPrice': item.itemPrice,
                                 'purchaseCountAllTime': item.purchaseCountAllTime, 
-                                'picture': item.picture, 	 				
+                                'picture': item.picture, 
+                                'itemDescription': item.itemDescription, 
+                                'category': item.category, 	 				
                             });
                             i=i+1;//FINISH REFRESH DATA AND ERROR TRAPPING FOR ITEM PRICE
                             

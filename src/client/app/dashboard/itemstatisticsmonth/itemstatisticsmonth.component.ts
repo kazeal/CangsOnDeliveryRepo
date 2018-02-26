@@ -10,7 +10,7 @@ import { AnonymousSubscription } from "rxjs/Subscription";
 import { Observable } from 'rxjs/Rx';
 import { NgZone, ChangeDetectorRef } from '@angular/core';
 import { Location } from '@angular/common';
-
+import { Angular2Csv } from 'angular2-csv/Angular2-csv';
 
 @Component({
 	moduleId: module.id,
@@ -23,6 +23,7 @@ export class ItemStatisticsMonthComponent{
 
   
     public items: any= {data:[]};
+    public data:any=[];
     private timerSubscription: AnonymousSubscription;
     private postsSubscription: AnonymousSubscription;
 	 constructor(
@@ -47,7 +48,7 @@ export class ItemStatisticsMonthComponent{
             
                     });
             });      
-            console.log("latestest13");   
+            console.log("latestest20");   
 
     }
      ngOnInit() {
@@ -74,7 +75,9 @@ export class ItemStatisticsMonthComponent{
                                 'itemQuantityStored': item.itemQuantityStored, 
                                 'itemPrice': item.itemPrice,
                                 'purchaseCountMonth': item.purchaseCountMonth, 
-                                'picture': item.picture, 	 				
+                                'picture': item.picture, 	
+                                'itemDescription': item.itemDescription, 
+                                'category': item.category,  				
                             });
                             i=i+1;//FINISH REFRESH DATA AND ERROR TRAPPING FOR ITEM PRICE
                             
@@ -120,6 +123,42 @@ export class ItemStatisticsMonthComponent{
             if (this.timerSubscription) {
             this.timerSubscription.unsubscribe();
             }
+    }
+    export(){
+        console.log("in");
+        console.log(this.items.data);
+        for(var i=0;i<this.items.data.length;i++)
+        {
+           // console.log("inside");
+           //  console.log(this.items.data.length);
+             
+            this.data.push({
+                "Item ID":this.items.data[i].itemID,
+                "Item Name":this.items.data[i].itemName,
+                "Item Description":this.items.data[i].itemDescription,
+                "Item Price":this.items.data[i].itemPrice,
+                "Item Category":this.items.data[i].category,
+                "Item Purchase Count":this.items.data[i].purchaseCountMonth,
+            });
+        }
+        console.log("mid");
+        let time = new Date();
+        let mm =time.getMonth();
+        let yy =time.getFullYear();
+        mm += 1;
+        var options = { 
+            fieldSeparator: ',',
+            quoteStrings: '"',
+            decimalseparator: '.',
+            showLabels: true, 
+            showTitle: true,
+            useBom: true,
+            headers:['Item ID','Item Name','Item Description','Item Price','Item Category','Purchase Count','']
+        };
+        
+       new Angular2Csv(this.data, 'Item Statistics for '+ yy+'/'+mm,options);
+       this.data=[];
+        console.log("out");
     }
 }
 

@@ -132,11 +132,13 @@
                     <div align="right">
                          TOTAL: {{total2 | currency:'PHP':true:'1.2-2'}}&emsp;&emsp;&emsp;<br>
                          CASH: {{tender | currency:'PHP':true:'1.2-2'}}&emsp;&emsp;<br>
-                         CHANGE: {{change}}&emsp;&emsp;
+                         CHANGE: {{change| currency:'PHP':true:'1.2-2'}}&emsp;&emsp;
                     </div>
                     <div align="left" *ngFor='let customers of customer'>
                          &emsp;Customer Name: {{customers.cusLastName}}, {{customers.cusFirstName}} {{customers.cusMiddleName}}<br>
                          &emsp;Customer Address: {{customers.address}}<br>
+                         &emsp;Customer Number: {{customers.number}}<br>
+                         <button (click)="export()"><i class="fa fa-print"></i>Export</button>
                     </div>
                 </div>
                 <br><br>

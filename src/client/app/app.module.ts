@@ -22,6 +22,7 @@ import { HomeService } from './dashboard/home/home.service';
 import { AppService } from './app.service';
 import { CookieService } from 'angular2-cookie/services/cookies.service';
 import {Md5} from 'ts-md5/dist/md5';
+//import { Angular2Csv } from 'angular2-csv/Angular2-csv';
 import { NgForm } from '@angular/forms'
 //import { Ng2UploaderModule } from 'ng2-uploader';
 import { DashboardGuard } from './dashboard/dashboard-guard.service';
@@ -55,7 +56,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 		OrderService,
 		HomeService,
 		DashboardGuard,
-		
+		//Angular2Csv,
 		{
 		provide: APP_BASE_HREF,
 		useValue: '<%= APP_BASE %>',

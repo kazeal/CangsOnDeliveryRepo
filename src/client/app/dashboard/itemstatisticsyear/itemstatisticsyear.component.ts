@@ -10,7 +10,7 @@ import { AnonymousSubscription } from "rxjs/Subscription";
 import { Observable } from 'rxjs/Rx';
 import { NgZone, ChangeDetectorRef } from '@angular/core';
 import { Location } from '@angular/common';
-
+import { Angular2Csv } from 'angular2-csv/Angular2-csv';
 
 @Component({
 	moduleId: module.id,
@@ -23,6 +23,7 @@ export class ItemStatisticsYearComponent{
 
   
     public items: any= {data:[]};
+    public data:any=[];
     private timerSubscription: AnonymousSubscription;
     private postsSubscription: AnonymousSubscription;
 	 constructor(
@@ -74,7 +75,9 @@ export class ItemStatisticsYearComponent{
                                 'itemQuantityStored': item.itemQuantityStored, 
                                 'itemPrice': item.itemPrice,
                                 'purchaseCountYear': item.purchaseCountYear, 
-                                'picture': item.picture, 	 				
+                                'picture': item.picture, 	 	
+                                 'itemDescription': item.itemDescription, 
+                                'category': item.category, 				
                             });
                             i=i+1;//FINISH REFRESH DATA AND ERROR TRAPPING FOR ITEM PRICE
                             
@@ -96,7 +99,7 @@ export class ItemStatisticsYearComponent{
                     // console.log("latestest");      
             //this.items.data = data;
             this.subscribeToData();
-            console.log(this.items.data);
+            //console.log(this.items.data);
         },
         function (error) {
             console.log(error);
@@ -120,6 +123,36 @@ export class ItemStatisticsYearComponent{
             if (this.timerSubscription) {
             this.timerSubscription.unsubscribe();
             }
+    }
+    export(){
+        for(var i=0;i<this.items.data.length;i++)
+        {
+            this.data.push({
+                "Item ID":this.items.data[i].itemID,
+                "Item Name":this.items.data[i].itemName,
+                "Item Description":this.items.data[i].itemDescription,
+                "Item Price":this.items.data[i].itemPrice,
+                "Item Category":this.items.data[i].category,
+                "Item Purchase Count":this.items.data[i].purchaseCountYear,
+            });
+        }
+
+        console.log(this.data);
+         let time = new Date();
+        
+        let yy =time.getFullYear();
+        var options = { 
+            fieldSeparator: ',',
+            quoteStrings: '"',
+            decimalseparator: '.',
+            showLabels: true, 
+            showTitle: true,
+            useBom: true,
+            headers:['Item ID','Item Name','Item Description','Item Price','Item Category','Purchase Count','']
+        };
+         
+       new Angular2Csv(this.data, 'Item Statistics for Year '+yy,options);
+       this.data=[];
     }
 }
 
