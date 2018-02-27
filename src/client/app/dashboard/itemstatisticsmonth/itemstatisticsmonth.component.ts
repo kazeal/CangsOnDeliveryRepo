@@ -48,7 +48,7 @@ export class ItemStatisticsMonthComponent{
             
                     });
             });      
-            console.log("latestest20");   
+            console.log("latestest21");   
 
     }
      ngOnInit() {
@@ -159,6 +159,9 @@ export class ItemStatisticsMonthComponent{
        new Angular2Csv(this.data, 'Item Statistics for '+ yy+'/'+mm,options);
        this.data=[];
         console.log("out");
+    }
+    resetMonth(){
+        this.Data.resetMonth();
     }
 }
 

@@ -16,7 +16,7 @@ export class ProductService{
     public static imgstring:string;
     public static fileName:any;
     public log:any=[];
-    
+    public data2:any=[];
      private _apiUrl = 'http://192.168.0.24:1025';//192.168.0.24:1025
    
     constructor(private _http: Http,private _cookieService:CookieService){
@@ -69,6 +69,54 @@ export class ProductService{
             });
                   
         }, 3000)                    
+    }
+    resetMonth(){
+          let headers = new Headers();
+        headers.append('Content-Type', 'application/x-www-form-urlencoded');
+        let reqopt = new RequestOptions({
+            headers: headers
+        })
+        this.data2.push({
+            "Reset":true,
+        })
+         this._http.post(this._apiUrl + "/item/resetPurchaseCountMonth",JSON.stringify(this.data2[0]), reqopt).subscribe(function(res){
+                this.response=res;
+                alert("The Purchase Count for the Month has been Resetted Sucessfully!");
+         });
+         this.data2.pop();
+       
+    }
+    resetYear(){
+          let headers = new Headers();
+        headers.append('Content-Type', 'application/x-www-form-urlencoded');
+        let reqopt = new RequestOptions({
+            headers: headers
+        })
+        this.data2.push({
+            "Reset":true,
+        })
+         this._http.post(this._apiUrl + "/item/resetPurchaseCountYear",JSON.stringify(this.data2[0]), reqopt).subscribe(function(res){
+                this.response=res;
+                alert("The Purchase Count for the Year has been Resetted Sucessfully!");
+         });
+         this.data2.pop();
+       
+    }
+    resetQuarter(){
+          let headers = new Headers();
+        headers.append('Content-Type', 'application/x-www-form-urlencoded');
+        let reqopt = new RequestOptions({
+            headers: headers
+        })
+        this.data2.push({
+            "Reset":true,
+        })
+         this._http.post(this._apiUrl + "/item/resetPurchaseCountQuarter",JSON.stringify(this.data2[0]), reqopt).subscribe(function(res){
+                this.response=res;
+                alert("The Purchase Count for the Quarter has been Resetted Sucessfully!");
+         });
+         this.data2.pop();
+       
     }
     editItem(data:any){
          

@@ -154,6 +154,9 @@ export class ItemStatisticsYearComponent{
        new Angular2Csv(this.data, 'Item Statistics for Year '+yy,options);
        this.data=[];
     }
+     resetYear(){
+        this.Data.resetYear();
+    }
 }
 
 

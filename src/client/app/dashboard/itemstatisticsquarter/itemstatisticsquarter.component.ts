@@ -160,6 +160,9 @@ export class ItemStatisticsQuarterComponent{
        new Angular2Csv(this.data, 'Item Statistics for '+quarter +' quarter of ' +yy,options);
        this.data=[];
     }
+     resetQuarter(){
+        this.Data.resetQuarter();
+    }
 }
 
 
