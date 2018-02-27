@@ -1,5 +1,63 @@
+<style>
+    /* The Modal (background) */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    padding-top: 60px;
+}
+
+/* Modal Content/Box */
+.modal-content {
+    background-color: #fefefe;
+    margin: 5px auto; /* 15% from the top and centered */
+    border: 1px solid #888;
+    width: 30%; /* Could be more or less, depending on screen size */
+}
+
+/* The Close Button */
+.close {
+    /* Position it in the top right corner outside of the modal */
+    position: absolute;
+    right: 25px;
+    top: 0; 
+    color: red;
+    font-size: 50px;
+    font-weight: bold;
+}
+
+/* Close button on hover */
+.close:hover,
+.close:focus {
+    color: red;
+    cursor: pointer;
+}
+
+/* Add Zoom Animation */
+.animate {
+    -webkit-animation: animatezoom 0.6s;
+    animation: animatezoom 0.6s
+}
+
+@-webkit-keyframes animatezoom {
+    from {-webkit-transform: scale(0)} 
+    to {-webkit-transform: scale(1)}
+}
+
+@keyframes animatezoom {
+    from {transform: scale(0)} 
+    to {transform: scale(1)}
+}
+    </style>
 <button (click)="export()"><i class="fa fa-print"></i>Export</button>
-<button (click)="resetQuarter()"><i class="fa fa-repeat"></i>Reset</button>
+<button onclick="document.getElementById('reset').style.display='block'"><i class="fa fa-repeat"></i>Reset</button>
 <h1 align="center">Top 20 Most Bought Items(Quarter)</h1>
 <div class="table well">
     <table class="table table-scroll">
@@ -32,3 +90,18 @@
 </div>
 
 
+<!--delete-->
+<div id="reset" class="modal" >
+    <span onclick="document.getElementById('reset').style.display='none'" class="close" title="Close Modal">&times;</span>
+        <form role="form" id="datadel" class="modal-content animate" >
+            <div class="container" align="center"><br><br><br><br>
+                <!-- Modal Content -->
+                <h3 align="center">Are you sure you want<br> to reset the Item Statistics<br>this quarter?</h3><br>
+                <br><br>
+                <button class="btn btn-success" (click)="resetQuarter()">Yes</button>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <button class="btn btn-danger" onclick="document.getElementById('reset').style.display='none'">No</button>
+                <br><br><br><br>
+            </div>
+        </form>
+</div>

@@ -125,37 +125,56 @@ export class ItemStatisticsYearComponent{
             }
     }
     export(){
-        for(var i=0;i<this.items.data.length;i++)
-        {
-            this.data.push({
-                "Item ID":this.items.data[i].itemID,
-                "Item Name":this.items.data[i].itemName,
-                "Item Description":this.items.data[i].itemDescription,
-                "Item Price":this.items.data[i].itemPrice,
-                "Item Category":this.items.data[i].category,
-                "Item Purchase Count":this.items.data[i].purchaseCountYear,
-            });
-        }
+          if(this.items.data.length !=0)
+          {
+                for(var i=0;i<this.items.data.length;i++)
+                {
+                    this.data.push({
+                        "Item ID":this.items.data[i].itemID,
+                        "Item Name":this.items.data[i].itemName,
+                        "Item Description":this.items.data[i].itemDescription,
+                        "Item Price":this.items.data[i].itemPrice,
+                        "Item Category":this.items.data[i].category,
+                        "Item Purchase Count":this.items.data[i].purchaseCountYear,
+                    });
+                }
 
-        console.log(this.data);
-         let time = new Date();
-        
-        let yy =time.getFullYear();
-        var options = { 
-            fieldSeparator: ',',
-            quoteStrings: '"',
-            decimalseparator: '.',
-            showLabels: true, 
-            showTitle: true,
-            useBom: true,
-            headers:['Item ID','Item Name','Item Description','Item Price','Item Category','Purchase Count','']
-        };
-         
-       new Angular2Csv(this.data, 'Item Statistics for Year '+yy,options);
-       this.data=[];
+                console.log(this.data);
+                let time = new Date();
+                
+                let yy =time.getFullYear();
+                var options = { 
+                    fieldSeparator: ',',
+                    quoteStrings: '"',
+                    decimalseparator: '.',
+                    showLabels: true, 
+                    showTitle: true,
+                    useBom: true,
+                    headers:['Item ID','Item Name','Item Description','Item Price','Item Category','Purchase Count','']
+                };
+                
+                new Angular2Csv(this.data, 'Item Statistics for Year '+yy,options);
+                this.data=[];
+         }
+        else
+        {
+            alert("No Item Data to Export");
+            document.getElementById('reset').style.display='none';
+        }
+       
     }
      resetYear(){
-        this.Data.resetYear();
+        if(this.items.data.length !=0)
+          {
+            this.Data.resetYear();
+            document.getElementById('reset').style.display='none';
+          }
+         else
+        {
+            alert("No Item Data to Reset");
+            document.getElementById('reset').style.display='none';
+        }
+
     }
 }
 

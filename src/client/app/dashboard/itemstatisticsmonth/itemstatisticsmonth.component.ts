@@ -125,43 +125,63 @@ export class ItemStatisticsMonthComponent{
             }
     }
     export(){
-        console.log("in");
-        console.log(this.items.data);
-        for(var i=0;i<this.items.data.length;i++)
+         if(this.items.data.length !=0)
         {
-           // console.log("inside");
-           //  console.log(this.items.data.length);
-             
-            this.data.push({
-                "Item ID":this.items.data[i].itemID,
-                "Item Name":this.items.data[i].itemName,
-                "Item Description":this.items.data[i].itemDescription,
-                "Item Price":this.items.data[i].itemPrice,
-                "Item Category":this.items.data[i].category,
-                "Item Purchase Count":this.items.data[i].purchaseCountMonth,
-            });
+               console.log("in");
+                console.log(this.items.data);
+                for(var i=0;i<this.items.data.length;i++)
+                {
+                // console.log("inside");
+                //  console.log(this.items.data.length);
+                    
+                    this.data.push({
+                        "Item ID":this.items.data[i].itemID,
+                        "Item Name":this.items.data[i].itemName,
+                        "Item Description":this.items.data[i].itemDescription,
+                        "Item Price":this.items.data[i].itemPrice,
+                        "Item Category":this.items.data[i].category,
+                        "Item Purchase Count":this.items.data[i].purchaseCountMonth,
+                    });
+                }
+                console.log("mid");
+                let time = new Date();
+                let mm =time.getMonth();
+                let yy =time.getFullYear();
+                mm += 1;
+                var options = { 
+                    fieldSeparator: ',',
+                    quoteStrings: '"',
+                    decimalseparator: '.',
+                    showLabels: true, 
+                    showTitle: true,
+                    useBom: true,
+                    headers:['Item ID','Item Name','Item Description','Item Price','Item Category','Purchase Count','']
+                };
+                
+            new Angular2Csv(this.data, 'Item Statistics for '+ yy+'/'+mm,options);
+            this.data=[];
+                console.log("out");
         }
-        console.log("mid");
-        let time = new Date();
-        let mm =time.getMonth();
-        let yy =time.getFullYear();
-        mm += 1;
-        var options = { 
-            fieldSeparator: ',',
-            quoteStrings: '"',
-            decimalseparator: '.',
-            showLabels: true, 
-            showTitle: true,
-            useBom: true,
-            headers:['Item ID','Item Name','Item Description','Item Price','Item Category','Purchase Count','']
-        };
-        
-       new Angular2Csv(this.data, 'Item Statistics for '+ yy+'/'+mm,options);
-       this.data=[];
-        console.log("out");
+        else
+        {
+            alert("No Item Data to Export");
+            document.getElementById('reset').style.display='none';
+        }
+      
     }
     resetMonth(){
-        this.Data.resetMonth();
+         if(this.items.data.length !=0)
+          {
+                this.Data.resetMonth();
+            document.getElementById('reset').style.display='none';
+          }
+         else
+        {
+            alert("No Item Data to Reset");
+            document.getElementById('reset').style.display='none';
+        }
+            
+       
     }
 }
 
