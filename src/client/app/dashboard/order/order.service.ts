@@ -44,7 +44,7 @@ export class OrderService{
 
         this._http.post(this._apiUrl + "/orders/editOrder",JSON.stringify(data), reqopt).subscribe(function(res){
             this.response=res;
-            alert("The Order has been Successfully Updated!");
+            alert("The order has been successfully " + data['orderStatus']+"!");
         });
 
         this._http.post(this._apiUrl + "/UpdateOrderStatus/addUpdateStatus",JSON.stringify(this.log[0]), reqopt).subscribe(function(res){

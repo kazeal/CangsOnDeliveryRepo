@@ -30,6 +30,10 @@ export class HomeComponent implements OnInit{
 	location:string;
     tender:any;
     change:any;
+    pack:any;
+    loc:any;
+    deltime:any;
+    rem:any;
 	public customerID:number;
 	i:number=0;
     found:boolean =false;
@@ -161,39 +165,6 @@ export class HomeComponent implements OnInit{
                 'ordetSubtotal': "",
         });
         
-        /*
-         this.data.push({
-                'ordetQuantity': "", 
-				'itemID': "", 
-				'itemName': "", 
-				'itemDescription': "",
-				'ordetPrice': "", 
-				'ordetSubtotal': "",
-                'total': this.total2,
-                'cash': this.tender,
-                'change': this.change,
-                'cusLastName': "",
-                'cusFirstName': "",
-                'cusMiddleName': "",
-                'address': "",
-                'number': "",
-        });
-        this.data.push({
-                'ordetQuantity': "", 
-				'itemID': "", 
-				'itemName': "", 
-				'itemDescription': "",
-				'ordetPrice': "", 
-				'ordetSubtotal': "",
-                'total': "",
-                'cash': "",
-                'change': "",
-                'cusLastName': this.customer[0].cusLastName,
-                'cusFirstName': this.customer[0].cusFirstName,
-                'cusMiddleName': this.customer[0].cusMiddleName,
-                'address': this.customer[0].address,
-                'number': this.customer[0].number,
-        });*/
         console.log("mid");
         let time = new Date();
         let mm =time.getMonth();
@@ -232,7 +203,7 @@ export class HomeComponent implements OnInit{
 		this.ord.updateOrderStatus(this.data[0]);
 		this.data.pop();
 	}
-    orderDetail(id:any, total:any,cusID:any, tender2:any)
+    orderDetail(id:any, total:any,cusID:any, tender2:any,orderTime:any,location:any,packaging:any,orderRemarks:any)
     {
         this.ID=id;
         this.ord.getDetails(id).subscribe(data => {
@@ -245,7 +216,21 @@ export class HomeComponent implements OnInit{
         this.tender=tender2;
         this.total2=total;
         this.change=tender2 - total;
-        console.log(this.details);
+        this.deltime=orderTime;
+        setTimeout (() => {
+            if(location != "" && location != null && location != " ")
+            this.loc=location;
+            else
+            this.loc=this.customer[0].address;
+        }, 1500);   
+        
+        this.pack=packaging;
+        this.rem=orderRemarks;
+        console.log(orderTime);
+        console.log(packaging);
+        console.log(orderRemarks);
+        console.log(location);
+      //  console.log(this.loc);
     }
     clear()
     {   

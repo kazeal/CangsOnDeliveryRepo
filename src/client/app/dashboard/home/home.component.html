@@ -80,7 +80,7 @@
         </thead>
         <tbody>
            <tr *ngFor='let order of orders'>
-                <td><button onclick="document.getElementById('details').style.display='block'" class="btn btn-link" (click)="orderDetail(order.orderID,order.orderTotal,order.customerID,order.cashTendered)">{{order.orderID}}</button></td>
+                <td><button onclick="document.getElementById('details').style.display='block'" class="btn btn-link" (click)="orderDetail(order.orderID,order.orderTotal,order.customerID,order.cashTendered,order.orderTime,order.location,order.packaging,order.orderRemarks)">{{order.orderID}}</button></td>
                 <td>{{order.customerID}}</td>
                 <td>{{order.orderDate}}</td>
                 <td>{{order.orderTotal | currency:'PHP':true:'1.2-2'}}</td>
@@ -132,15 +132,22 @@
                                 </tr>    
                     </table>
                     <div align="right">
-                         TOTAL: {{total2 | currency:'PHP':true:'1.2-2'}}&emsp;&emsp;&emsp;<br>
+                         TOTAL: {{total2 | currency:'PHP':true:'1.2-2'}}&emsp;&emsp;<br>
                          CASH: {{tender | currency:'PHP':true:'1.2-2'}}&emsp;&emsp;<br>
                          CHANGE: {{change| currency:'PHP':true:'1.2-2'}}&emsp;&emsp;
                     </div>
                     <div align="left" *ngFor='let customers of customer'>
                          &emsp;Customer Name: {{customers.cusLastName}}, {{customers.cusFirstName}} {{customers.cusMiddleName}}<br>
                          &emsp;Customer Address: {{customers.address}}<br>
-                         &emsp;Customer Number: {{customers.number}}<br>
-                         <button (click)="export()"><i class="fa fa-print"></i>Export</button>
+                        
+                    </div>
+                    <div align="left">
+                    
+                         &emsp;Delivery Time: {{deltime}}<br>
+                         &emsp;Location: {{loc}}<br>
+                         &emsp;Packaging: {{pack}}<br>
+                         &emsp;Remarks: {{rem}}<br>
+                         &emsp;<button (click)="export()"><i class="fa fa-print"></i>Export</button>
                     </div>
                 </div>
                 <br><br>

@@ -58,7 +58,7 @@ export class ItemRestoreService{
         console.log("test3");
          this._http.post(this._apiUrl + "/item/editItem",JSON.stringify(data), reqopt).subscribe(function(res){
              this.response=res;
-             alert("The Item has been successfully restored!");            
+             alert("The item has been successfully restored!");            
           });
          
           this._http.post(this._apiUrl + "/updateItem/addUpdateItem",JSON.stringify(this.log[0]), reqopt).subscribe(function(res){

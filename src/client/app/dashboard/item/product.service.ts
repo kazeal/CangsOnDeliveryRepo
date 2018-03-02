@@ -66,7 +66,7 @@ export class ProductService{
             
             this._http.post(this._apiUrl + "/item/addItem",JSON.stringify(data), reqopt).subscribe(function(res){
                 this.response=res;
-                alert("The Item has been Added Sucessfully!");
+                alert("The item has been added sucessfully!");
             });
                   
         }, 3000)                    
@@ -82,7 +82,7 @@ export class ProductService{
         })
          this._http.post(this._apiUrl + "/item/resetPurchaseCountMonth",JSON.stringify(this.data2[0]), reqopt).subscribe(function(res){
                 this.response=res;
-                alert("The Purchase Count for the Month has been Resetted Sucessfully!");
+                alert("The purchase count for the month has been resetted sucessfully!");
          });
          this.data2.pop();
        
@@ -98,7 +98,7 @@ export class ProductService{
         })
          this._http.post(this._apiUrl + "/item/resetPurchaseCountYear",JSON.stringify(this.data2[0]), reqopt).subscribe(function(res){
                 this.response=res;
-                alert("The Purchase Count for the Year has been Resetted Sucessfully!");
+                alert("The purchase count for the year has been resetted sucessfully!");
          });
          this.data2.pop();
        
@@ -114,7 +114,7 @@ export class ProductService{
         })
          this._http.post(this._apiUrl + "/item/resetPurchaseCountQuarter",JSON.stringify(this.data2[0]), reqopt).subscribe(function(res){
                 this.response=res;
-                alert("The Purchase Count for the Quarter has been Resetted Sucessfully!");
+                alert("The purchase count for the quarter has been resetted sucessfully!");
          });
          this.data2.pop();
        
@@ -150,7 +150,7 @@ export class ProductService{
         console.log("test3");
          this._http.post(this._apiUrl + "/item/editItem",JSON.stringify(data), reqopt).subscribe(function(res){
              this.response=res;
-             alert("The Item has been Successfully Edited!");            
+             alert("The item has been successfully edited!");            
           });
          
           this._http.post(this._apiUrl + "/updateItem/addUpdateItem",JSON.stringify(this.log[0]), reqopt).subscribe(function(res){
@@ -171,7 +171,7 @@ export class ProductService{
         
          this._http.put(url,null, reqopt).subscribe(function(res){
              this.response=res;
-             alert("The Item has been Successfully Deleted!");
+             alert("The item has been successfully deleted!");
         });
           
      }
