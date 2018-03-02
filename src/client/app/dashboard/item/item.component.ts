@@ -22,6 +22,7 @@ import { CookieService } from 'angular2-cookie/services/cookies.service';
 
 export class ItemComponent implements OnInit, OnChanges{
 
+    inside:boolean=false;
     header:any;
     sticky:any;
     picture: FileList;
@@ -44,6 +45,7 @@ export class ItemComponent implements OnInit, OnChanges{
     public items: any= {data:[]};
     public itemsnew: any= [];
     public validpic:boolean =false;
+    public notif:any=[];
     filesToUpload: File; //192.168.0.24:1025/UploadFile/coco.jpg
     public fileName:any;
     public test:any = [{
@@ -70,7 +72,7 @@ export class ItemComponent implements OnInit, OnChanges{
          private location: Location,
          private _cookieService:CookieService,
            ){
-               console.log("test12");
+              
                var regex = new RegExp(/^\d+(?:\.\d{0,2})$/);
                var regex2 = /^\d+(?:\.\d{0,2})$/;
                console.log(regex.test("123.123"));
@@ -98,7 +100,7 @@ export class ItemComponent implements OnInit, OnChanges{
                 if(this._cookieService.get('6') == "true")
                     this.delItem=true;   
                     console.log(this._cookieService.getAll());
-                    
+                     console.log("test19");
         }
         load() {
             console.log(this.complexForm.controls);
@@ -313,6 +315,59 @@ export class ItemComponent implements OnInit, OnChanges{
                         var i =0;
                         for (let item of data)
                         {
+                                if(item.itemQuantityStored < 20)
+                                {
+                                    console.log("INSIDE <20");
+                                    for(var v=0;v<this.notif.length;v++)
+                                    {
+                                        if(this.notif[v].itemID == item.itemID)
+                                        {
+                                            this.inside=true;
+                                            console.log(item.itemName);
+                                            
+                                        }
+                                        console.log("INSIDE SEARCH");
+                                        console.log(this.inside);
+                                    }
+                                    if(!this.inside)
+                                    {
+                                            console.log("ADDDED TO NOTIF");
+                                            if(item.picture.substring(0,2) != "http://")
+                                            {
+                                                item.picture="http://"+item.picture;
+                                            }                           
+                                            this.notif[i]=({
+                                                'itemID': item.itemID, 
+                                                'itemName': item.itemName, 
+                                                'itemQuantityStored': item.itemQuantityStored, 
+                                                'itemPrice': item.itemPrice,
+                                                'purchaseCountAllTime': item.purchaseCountAllTime, 
+                                                'picture': item.picture, 
+                                                'itemDescription': item.itemDescription,
+                                                'category': item.category,
+                                                'display': false,				
+                                            });
+                                            i=i+1;
+                                           // this.inside=false;
+                                    }
+                                    this.inside=false;
+                                }
+                                else
+                                {
+                                    console.log("INELSE <20");
+                                    for(var m=0;m<this.notif.length;m++)
+                                    {
+                                        if(this.notif[m].itemID == item.itemID)
+                                        {
+                                            console.log("REMOVED <20");
+                                            this.notif.splice(m,1);
+                                        }
+                                    }
+
+                                }
+                        }
+                        for (let item of data)
+                        {
                                 if(item.picture.substring(0,2) != "http://")
                                 {
                                     item.picture="http://"+item.picture;
@@ -341,7 +396,17 @@ export class ItemComponent implements OnInit, OnChanges{
                         }
                         i=0;                          
                 this.subscribeToData();
-                console.log(this.items.data);
+                console.log(this.notif);
+              //  console.log(this.items.data);
+                for(var b=0;b<this.notif.length;b++)
+                {
+                    if(!this.notif[b].display)
+                    {
+                        alert("Warning! Your stock on the item "+ this.notif[b].itemName+" is running low.");
+                        this.notif[b].display=true;
+                    }
+                    
+                }
             },
             function (error) {
                 console.log(error);

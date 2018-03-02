@@ -29,6 +29,7 @@ import { DashboardGuard } from './dashboard/dashboard-guard.service';
 
 import { ReactiveFormsModule } from '@angular/forms';
 
+
 @NgModule({
 	imports: [
 		BrowserModule,
@@ -37,7 +38,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 		HttpModule,
 		RouterModule.forRoot(routes),
 		LoginModule,
-		
+
 		DashboardModule,
 		SharedModule.forRoot()
 	],
