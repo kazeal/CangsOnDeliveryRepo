@@ -14,6 +14,7 @@ export class CustomerService{
     head = new Headers();
     public log:any=[];
     requestOptions = new RequestOptions();
+  //  private _apiUrl = 'http://192.168.1.219:1025';//192.168.0.24
     private _apiUrl = 'http://192.168.0.24:1025';//192.168.0.24
     constructor(private _http: Http,private _cookieService:CookieService){}
 

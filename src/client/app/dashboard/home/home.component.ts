@@ -9,6 +9,8 @@ import { Observable } from 'rxjs/Rx';
 import { NgZone, ChangeDetectorRef } from '@angular/core';
 import { AnonymousSubscription } from "rxjs/Subscription";
 import { Angular2Csv } from 'angular2-csv/Angular2-csv';
+
+
 @Component({
 	moduleId: module.id,
 	selector: 'home-cmp',
@@ -29,7 +31,10 @@ export class HomeComponent implements OnInit{
     change:any;
 	public customerID:number;
 	i:number=0;
+    found:boolean =false;
+    neword:any =[];
     total2:any;
+    count:any=0;
     public customer: any= [];
 	public data: any= [];
     public data2:any=[];
@@ -45,13 +50,18 @@ export class HomeComponent implements OnInit{
                 public cus: CustomerService,
 	 			private chRef: ChangeDetectorRef,
          		private zone: NgZone,
+                
 				private _http: HttpModule){
          
 		  this.ord.getOrders().subscribe(data => {
 				this.orders=data;
 				console.log(this.orders);
     	  });
-          console.log("123456");
+          console.log("135");
+    }
+    test(){
+        
+        console.log(this.neword);
     }
     export(){
         console.log("in");
@@ -226,12 +236,40 @@ export class HomeComponent implements OnInit{
         this.postsSubscription = this.ord.getOrders().subscribe(
 
         data  => {
-                    //console.log(this.orders.length);
+                    
                     var i =0;
                     for (let order of data)
                     {          
-                           // console.log(order);               
-                            this.orders[i]=({
+                           
+                            this.neword.push({
+                                    'orderID': order.orderID, 
+                                    'orderDate': order.orderDate, 
+                                    'orderTotal':order.orderTotal, 
+                                    'orderStatus': order.orderStatus,
+                                    'orderRemarks': order.orderRemarks, 
+                                    'location': order.location,
+                                    'orderTime': order.orderTime,
+                                    'packaging': order.packaging, 
+                                    'customerID': order.customerID,
+                                    'cashTendered': order.cashTendered,
+                            });
+                       }  
+                       /*           
+                           
+                        */
+                        for(var l=0;l<this.neword.length;l++)
+                        {
+                            for(var k=0;k<this.orders.length;k++)
+                            {
+                                if(this.orders[k].orderID == this.neword[l].orderID)
+                                {   
+                                    this.neword.splice(l,1);
+                                }
+                            }
+                        }
+                      for (let order of data)
+                      {   
+                         this.orders[i]=({
                                 'orderID': order.orderID, 
 								'orderDate': order.orderDate, 
 								'orderTotal':order.orderTotal, 
@@ -244,8 +282,6 @@ export class HomeComponent implements OnInit{
                                 'cashTendered': order.cashTendered,				
                             });
                             i=i+1;
-                            
-                    
                     }
                     if(i < this.orders.length)
                     {
@@ -261,6 +297,9 @@ export class HomeComponent implements OnInit{
                     // console.log(this.items.data);                
                     // console.log("latestest");      
             //this.items.data = data;
+            for(var o=0;o<this.neword.length;o++)
+            alert("You have a new Order!!!Order ID:"+this.neword[o].orderID);
+            this.neword=[];
             this.subscribeToData();
            // console.log(this.orders);
         },

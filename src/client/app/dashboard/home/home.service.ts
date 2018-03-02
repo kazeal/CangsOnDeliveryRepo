@@ -10,6 +10,7 @@ import 'rxjs/add/operator/catch';
 export class HomeService{
     post: any;
     public log:any=[];//192.168.0.24:1025
+  //  private _apiUrl = 'http://192.168.1.219:1025';//
     private _apiUrl = 'http://192.168.0.24:1025';//
     constructor(private _http: Http, private _cookieService:CookieService){}
      
@@ -42,7 +43,7 @@ export class HomeService{
 
         this._http.post(this._apiUrl + "/orders/editOrder",JSON.stringify(data), reqopt).subscribe(function(res){
             this.response=res;
-            alert("The Order has been Successfully Updated!");
+            alert("The order has been successfully "+ data['orderStatus']+"!");
         });
 
         this._http.post(this._apiUrl + "/UpdateOrderStatus/addUpdateStatus",JSON.stringify(this.log[0]), reqopt).subscribe(function(res){

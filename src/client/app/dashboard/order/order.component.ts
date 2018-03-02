@@ -30,8 +30,9 @@ export class OrderComponent implements OnInit{
     public customer: any= [];
     public details: any= [];
 	public customerID:number;
+    found:boolean =false;
 	i:number=0;
-
+    public neword:any =[];
 	public data: any= [];
     public orders: any= [];
 	public statuses: any= [
@@ -101,7 +102,7 @@ export class OrderComponent implements OnInit{
                     var i =0;
                     for (let order of data)
                     {          
-                            console.log(order);               
+                            
                             this.orders[i]=({
                                 'orderID': order.orderID, 
 								'orderDate': order.orderDate, 

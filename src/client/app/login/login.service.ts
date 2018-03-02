@@ -14,7 +14,8 @@ import 'rxjs/add/operator/catch';
 export class LoginService{
     post: any;
     public rights:any =[];
-    private _apiUrl = 'http://192.168.0.24:1025';//192.168.0.24:1025
+   // private _apiUrl = 'http://192.168.1.219:1025';//192.168.0.24:1025
+    private _apiUrl = 'http://192.168.0.24:1025';
     constructor(private _http: Http ){
         console.log("LOGIN");
         
