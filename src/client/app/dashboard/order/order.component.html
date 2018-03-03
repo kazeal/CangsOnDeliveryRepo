@@ -56,7 +56,9 @@
     from {transform: scale(0)} 
     to {transform: scale(1)}
 }
-    </style>
+
+</style>
+
 <h1 align="center">Transaction History</h1>
 <div class="table well">
 
@@ -79,7 +81,7 @@
         </thead>
         <tbody>
            <tr *ngFor='let order of orders'>
-            <td><button onclick="document.getElementById('details').style.display='block'" class="btn btn-link" (click)="orderDetail(order.orderID,order.orderTotal,order.customerID,order.cashTendered)">{{order.orderID}}</button></td>
+            <td><button onclick="document.getElementById('details').style.display='block'" class="btn btn-link" (click)="orderDetail(order.orderID,order.orderTotal,order.customerID,order.cashTendered,order.orderTime,order.location,order.packaging,order.orderRemarks)">{{order.orderID}}</button></td>
             <td>{{order.customerID}}</td>
             <td>{{order.orderDate}}</td>
             <td>{{order.orderTotal | currency:'PHP':true:'1.2-2'}}</td>
@@ -107,7 +109,7 @@
     <span (click)="clear()" onclick="document.getElementById('details').style.display='none'" class="close" title="Close Modal">&times;</span>
         <form role="form" id="datadel" class="modal-content animate">
             <div class="container" align="center">
-                <!-- Modal Content --><br><br><br>
+                <!-- Modal Content --><br>
                 <div class="table">
                     <table class="table">
                         <thead>
@@ -133,7 +135,7 @@
                                 </tr>    
                     </table>
                     <div align="right">
-                         TOTAL: {{total2 | currency:'PHP':true:'1.2-2'}}&emsp;&emsp;&emsp;<br>
+                         TOTAL: {{total2 | currency:'PHP':true:'1.2-2'}}&emsp;&emsp;<br>
                          CASH: {{tender | currency:'PHP':true:'1.2-2'}}&emsp;&emsp;<br>
                          CHANGE: {{change | currency:'PHP':true:'1.2-2'}}&emsp;&emsp;
                     </div>
@@ -141,6 +143,14 @@
                          &emsp;Customer Name: {{customers.cusLastName}}, {{customers.cusFirstName}} {{customers.cusMiddleName}}<br>
                          &emsp;Customer Address: {{customers.address}}<br>
                          &emsp;Customer Number: {{customers.number}}<br>
+                    </div>
+                     <div align="left">
+                    
+                         &emsp;Delivery Time: {{deltime}}<br>
+                         &emsp;Location: {{loc}}<br>
+                         &emsp;Packaging: {{pack}}<br>
+                         &emsp;Remarks: {{rem}}<br>
+                         &emsp;<button (click)="export()"><i class="fa fa-print"></i>Export</button>
                     </div>
                 </div>
                 <br><br>

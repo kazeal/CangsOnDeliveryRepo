@@ -8,6 +8,8 @@ import { Observable } from 'rxjs/Rx';
 import { NgZone, ChangeDetectorRef } from '@angular/core';
 import { AnonymousSubscription } from "rxjs/Subscription";
 import { CustomerService } from '../customer/customer.service';
+
+
 @Component({
 	moduleId: module.id,
 	selector: 'order-cmp',
@@ -27,6 +29,10 @@ export class OrderComponent implements OnInit{
     tender:any;
     change:any;
     total2:any;
+     pack:any;
+    loc:any;
+    deltime:any;
+    rem:any;
     public customer: any= [];
     public details: any= [];
 	public customerID:number;
@@ -68,7 +74,7 @@ export class OrderComponent implements OnInit{
 		this.ord.updateOrderStatus(this.data[0]);
 		this.data.pop();
 	}
-    orderDetail(id:any, total:any,cusID:any, tender2:any)
+    orderDetail(id:any, total:any,cusID:any, tender2:any,orderTime:any,location:any,packaging:any,orderRemarks:any)
     {
         this.ord.getDetails(id).subscribe(data => {
             this.details=data;
@@ -80,6 +86,17 @@ export class OrderComponent implements OnInit{
         this.tender=tender2;
         this.total2=total;
         this.change=tender2 - total;
+          this.change=tender2 - total;
+        this.deltime=orderTime;
+        setTimeout (() => {
+            if(location != "" && location != null && location != " ")
+            this.loc=location;
+            else
+            this.loc=this.customer[0].address;
+        }, 1500);   
+        
+        this.pack=packaging;
+        this.rem=orderRemarks;
         console.log(this.details);
     }
     clear()

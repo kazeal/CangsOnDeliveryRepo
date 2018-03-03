@@ -21,7 +21,7 @@ import { CustServiceComponent } from './custservice/custservice.component';
 import { OrderComponent } from './order/order.component';
 import { ItemStatisticsComponent } from './itemstatistics/itemstatistics.component';
 import { SidebarComponent } from '../shared/index';
-import {ToastyModule } from 'ng2-toasty';
+
 @NgModule({
     imports: [
         CommonModule,
@@ -38,7 +38,7 @@ import {ToastyModule } from 'ng2-toasty';
         CustomerModule,
         CustServiceModule,
         ReactiveFormsModule,
-        ToastyModule.forRoot(),
+       
     ],
     declarations: [
         DashboardComponent,

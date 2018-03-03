@@ -38,7 +38,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 		HttpModule,
 		RouterModule.forRoot(routes),
 		LoginModule,
-
+	
 		DashboardModule,
 		SharedModule.forRoot()
 	],

@@ -10,7 +10,7 @@ import { NgZone, ChangeDetectorRef } from '@angular/core';
 import { AnonymousSubscription } from "rxjs/Subscription";
 import { Angular2Csv } from 'angular2-csv/Angular2-csv';
 
-import {ToastyService, ToastyConfig, ToastOptions, ToastData} from 'ng2-toasty';
+
 
 @Component({
 	moduleId: module.id,
@@ -55,11 +55,9 @@ export class HomeComponent implements OnInit{
                 public cus: CustomerService,
 	 			private chRef: ChangeDetectorRef,
          		private zone: NgZone,
-                private toastyService:ToastyService, 
-                private toastyConfig: ToastyConfig,
+              
 				private _http: HttpModule){
-         this.toastyConfig.theme = 'default';
-         this.toastyConfig.position="bottom-right";
+         
        
 		  this.ord.getOrders().subscribe(data => {
 				this.orders=data;
@@ -71,28 +69,7 @@ export class HomeComponent implements OnInit{
     test(){
         
             // Just add default Toast with title only
-            this.toastyService.default('Hi there');
-            // Or create the instance of ToastOptions
-            var toastOptions:ToastOptions = {
-                title: "My title",
-                msg: "The message",
-                showClose: true,
-                timeout: 5000,
-                theme: 'default',
-                onAdd: (toast:ToastData) => {
-                    console.log('Toast ' + toast.id + ' has been added!');
-                },
-                onRemove: function(toast:ToastData) {
-                    console.log('Toast ' + toast.id + ' has been removed!');
-                }
-            };
            
-            // Add see all possible types in one shot
-            this.toastyService.info(toastOptions);
-            this.toastyService.success(toastOptions);
-            this.toastyService.wait(toastOptions);
-            this.toastyService.error(toastOptions);
-            this.toastyService.warning(toastOptions);
     }
     export(){
         console.log("in");
