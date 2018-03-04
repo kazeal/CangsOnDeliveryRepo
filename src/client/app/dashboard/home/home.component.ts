@@ -49,6 +49,7 @@ export class HomeComponent implements OnInit{
 	public statuses: any= [
 		 "pending","verified","canceled","delivered",
 	 ];
+    public exportdata:any;
 	private timerSubscription: AnonymousSubscription;
     private postsSubscription: AnonymousSubscription;
 	constructor(public ord: HomeService,
@@ -63,7 +64,7 @@ export class HomeComponent implements OnInit{
 				this.orders=data;
 				console.log(this.orders);
     	  });
-          console.log("138");
+          console.log("133");
     }
     
     test(){
@@ -75,74 +76,24 @@ export class HomeComponent implements OnInit{
         console.log("in");
         console.log(this.orders);
         for(var i=0;i<this.details.length;i++)
-        {     
-            this.data.push({
-                'ordetQuantity': this.details[i].ordetQuantity, 
-				'itemID': this.details[i].itemID, 
-				'itemName': this.details[i].itemName, 
-				'itemDescription': this.details[i].itemDescription,
-				'ordetPrice': this.details[i].ordetPrice, 
-				'ordetSubtotal': this.details[i].ordetSubtotal,
-                'total': "",
-                'cash': "",
-                'change': "",
-                'cusLastName': "",
-                'cusFirstName': "",
-                'cusMiddleName': "",
-                'address': "",
-                'number': "",
-            });
+        {   
+            if(i==0) 
+            { 
+                    this.data.push({
+                        'ordetQuantity': this.customer[0].customerID, 
+                        'Qty': this.details[i].ordetQuantity, 
+                        'Description': this.details[i].itemName + " "+ this.details[i].itemDescription, 
+                    });
+            }
+            else
+            {
+                    this.data.push({
+                        'Qty': this.details[i].ordetQuantity, 
+                        'Description': this.details[i].itemName + " "+ this.details[i].itemDescription, 
+                    });
+            }
         }
-        this.data.push({
-                'ordetQuantity': "", 
-				'itemID': "", 
-				'itemName': "", 
-				'itemDescription': "",
-				'ordetPrice': "", 
-				'ordetSubtotal': "",
-        });
-        this.data.push({
-                'ordetQuantity': "", 
-				'itemID': "", 
-				'itemName': "", 
-				'itemDescription': "Total",
-				'ordetPrice': "Cash", 
-				'ordetSubtotal': "Change",
-        });
-         this.data.push({
-                'ordetQuantity': "", 
-				'itemID': "", 
-				'itemName': "", 
-				'itemDescription': this.total2,
-				'ordetPrice': this.tender, 
-				'ordetSubtotal': this.change,
-        });
-        this.data.push({
-                'ordetQuantity': "Customer", 
-				'itemID': "", 
-				'itemName': "", 
-				'itemDescription': "",
-				'ordetPrice': "", 
-				'ordetSubtotal': "",
-        });
-        this.data.push({
-                'ordetQuantity': "Last Name", 
-				'itemID': "First Name", 
-				'itemName': "Middle Name", 
-				'itemDescription': "Address",
-				'ordetPrice': "Number", 
-				'ordetSubtotal': "",
-        });
-        this.data.push({
-                'ordetQuantity': this.customer[0].cusLastName,
-                'itemID': this.customer[0].cusFirstName,
-                'itemName': this.customer[0].cusMiddleName,
-                'itemDescription': this.customer[0].address,
-                'ordetPrice': this.customer[0].number,
-                'ordetSubtotal': "",
-        });
-        
-        console.log("mid");
+        console.log(this.data);
         let time = new Date();
         let mm =time.getMonth();
         let yy =time.getFullYear();
@@ -151,12 +102,10 @@ export class HomeComponent implements OnInit{
             fieldSeparator: ',',
             quoteStrings: '"',
             decimalseparator: '.',
-            showLabels: true, 
-            showTitle: true,
+            showLabels: false, 
+            showTitle: false,
             useBom: true,
-            headers:['Qty','Item ID','Item Name','Item Description',
-                    'Price','SubTotal',
-                    ]
+            
         };
         
        new Angular2Csv(this.data, 'Order ID '+this.ID,options);
