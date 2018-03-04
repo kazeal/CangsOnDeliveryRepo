@@ -159,6 +159,23 @@ export class ProductService{
           });
           this.log.pop();
      }
+      changeurl(data:any){
+         
+        let headers = new Headers();
+        headers.append('Content-Type', 'application/x-www-form-urlencoded');
+        let reqopt = new RequestOptions({
+            headers: headers
+        })   
+        console.log(data);
+            data['picture']=data['picture'].replace('http://','');
+         
+    
+         this._http.post(this._apiUrl + "/item/changeItemURL",JSON.stringify(data), reqopt).subscribe(function(res){
+           //  this.response=res;
+            // alert("The item has been successfully edited!");            
+          });
+         
+     }
      delItem(data:any){
          
          let headers = new Headers();

@@ -9,6 +9,7 @@ import { UUID } from 'angular2-uuid';
 import { Observable } from 'rxjs/Rx';
 import { NgZone, ChangeDetectorRef } from '@angular/core';
 import { AnonymousSubscription } from "rxjs/Subscription";
+import { ProductService } from '../dashboard/item/product.service';
 /**
 *	This class represents the lazy loaded LoginComponent.
 */
@@ -35,6 +36,7 @@ export class LoginComponent {
 	 public inputfirstname: string ='';
 	 public rights:any =[];
 	 public admin:boolean=false;
+	 public items:any=[];
 	 private timerSubscription: AnonymousSubscription;
      private postsSubscription: AnonymousSubscription;
 	constructor(private router: Router, 
@@ -42,6 +44,7 @@ export class LoginComponent {
 				private _cookieService:CookieService,
 				private chRef: ChangeDetectorRef,
          		private zone: NgZone,
+				private prod:ProductService,
 				private _md5: Md5, private log: LoginService
 	 			){
 				
@@ -74,9 +77,25 @@ export class LoginComponent {
 					this.emp=result;
 				    //console.log("INSIDE");
 				 });
-				
+				console.log("125");
     }
-
+	changeurl(){
+		/*
+		console.log("url changed");
+		this.prod.getProducts().subscribe(data =>{
+				this.items=data;
+		});
+		setTimeout (() => {
+				for(var i=0;i<this.items.length;i++)
+				{
+							this.items[i].picture="http://192.168.0.24/UploadFile/"+this.items[i].picture.substring(29);
+							this.prod.changeurl(this.items[i]);
+				}
+			//	console.log(this.items);
+				
+		}, 5000)
+		*/
+	}
 	login(event : any, value: any){
 		console.log(this.user);
 		console.log(Md5.hashStr(this.pass));
