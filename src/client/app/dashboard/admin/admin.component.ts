@@ -73,10 +73,10 @@ export class AdminComponent {
 					}, 2000)	
 			 }
 			 else
-			 alert("New Password does not Match");			 
+			 alert("New password does not match");			 
 		 }
 		 else
-		 alert("Incorrect Old Password");  
+		 alert("Incorrect old password");  
 	}
 	ngOnInit() {
         this.refreshData();

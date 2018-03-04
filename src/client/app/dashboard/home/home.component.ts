@@ -236,7 +236,7 @@ export class HomeComponent implements OnInit{
                     // console.log("latestest");      
             //this.items.data = data;
             for(var o=0;o<this.neword.length;o++)
-            alert("You have a new Order!!!Order ID:"+this.neword[o].orderID);
+            alert("You have a new order! Order ID:"+this.neword[o].orderID);
             this.neword=[];
             this.subscribeToData();
            // console.log(this.orders);

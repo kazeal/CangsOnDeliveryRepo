@@ -164,7 +164,7 @@ export class ItemStatisticsQuarterComponent{
         }
         else
         {
-            alert("No Item Data to Export");
+            alert("No item data to export");
             document.getElementById('reset').style.display='none';
         }
        
@@ -177,7 +177,7 @@ export class ItemStatisticsQuarterComponent{
           }
          else
         {
-            alert("No Item Data to Reset");
+            alert("No item data to reset");
             document.getElementById('reset').style.display='none';
         }
             

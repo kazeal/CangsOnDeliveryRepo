@@ -104,7 +104,7 @@ export class ResetComponent {
 		}
 		else
 		{
-			alert("Customer ID does not Match");
+			alert("Customer ID does not match");
 		}
 					 
 		 
@@ -148,7 +148,7 @@ export class ResetComponent {
 		}
 		else
 		{
-			alert("Customer ID does not Match");
+			alert("Customer ID does not match");
 		}
 	}
 
@@ -186,7 +186,7 @@ export class ResetComponent {
 		}
 		else
 		{
-			alert("Employee ID does not Match");
+			alert("Employee ID does not match");
 		}
 	}
 

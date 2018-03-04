@@ -102,7 +102,7 @@ export class EmployeeService{
             })     
                 this._http.post(this._apiUrl + '/employee/addEmployee',JSON.stringify(data), reqopt).subscribe(function(res){
                     this.response=res;
-                      alert("The Employee has been Successfully Added!");
+                      alert("The employee has been successfully added!");
                     console.log(this.response._body);
                     EmployeeService.employeeID=this.response._body;  
                   //  console.log(this.employeeID);                  
@@ -283,7 +283,7 @@ export class EmployeeService{
             
             this._http.post(this._apiUrl + '/employee/editEmployee',JSON.stringify(data), reqopt).subscribe(function(res){
                 this.response=res;
-                alert("The Employee has been Successfully Updated!");
+                alert("The employee has been successfully updated!");
             });
           
      }
@@ -298,7 +298,7 @@ export class EmployeeService{
             console.log(pass);
             this._http.post(this._apiUrl + '/employee/editEmployee',JSON.stringify(data), reqopt).subscribe(function(res){
                 this.response=res;
-                alert("The Employee Password is Successfully Resetted!\nThe new temporary password is: "+pass);
+                alert("The employee password is successfully resetted!\nThe new temporary password is: "+pass);
             });
           
      }
@@ -314,7 +314,7 @@ export class EmployeeService{
             
             this._http.put(url,null, reqopt).subscribe(function(res){
                 this.response=res;
-                alert("The Employee has been Successfully Deleted!");
+                alert("The employee has been successfully deleted!");
             });
             var url2 = this._apiUrl + "/accessRights/deleteAccessRights/"+ data.employeeID;
            

@@ -37,7 +37,7 @@ export class CustomerService{
         this._http.post(this._apiUrl + "/customer/addCustomer",JSON.stringify(data), reqopt).subscribe(function(res){
             this.response=res;
             console.log(this.response._body);
-            alert("Customer Successfully Added!\n" + "This is your username: " + this.response._body + "\nThis is your Temporary password: " + password + "\nThis is your Verification Code: " + data['verificationCode']);
+            alert("Customer has been successfully added!\n" + "This is your username: " + this.response._body + "\nThis is your temporary password: " + password + "\nThis is your Verification Code: " + data['verificationCode']);
         });
           
      }
@@ -70,7 +70,7 @@ export class CustomerService{
         console.log(this.log[0]);
         this._http.post(this._apiUrl + "/customer/editCustomer",JSON.stringify(data), reqopt).subscribe(function(res){
             this.response=res;
-            alert("The Customer has been Successfully Updated!");
+            alert("The customer has been successfully updated!");
         });
          this._http.post(this._apiUrl + "/customerLog/customerLog",JSON.stringify(this.log[0]), reqopt).subscribe(function(res){
                  this.response=res;    
@@ -90,7 +90,7 @@ export class CustomerService{
 
         this._http.post(this._apiUrl + "/customer/editCustomer",JSON.stringify(data), reqopt).subscribe(function(res){
             this.response=res;
-            alert("The Customer Password is Successfully Resetted!\nThe new temporary password is: "+pass);
+            alert("The customer password is successfully resetted!\nThe new temporary password is: "+pass);
         });
           
      }
@@ -104,7 +104,7 @@ export class CustomerService{
 
         this._http.post(this._apiUrl + "/customer/editCustomer",JSON.stringify(data), reqopt).subscribe(function(res){
             this.response=res;
-            alert("The Customer Verification Code is Successfully Resetted!\nThe new Verification Code is: "+code);
+            alert("The customer verification code is successfully resetted!\nThe new verification code is: "+code);
         });
           
      }
@@ -119,7 +119,7 @@ export class CustomerService{
         
          this._http.put(url,null, reqopt).subscribe(function(res){
              this.response=res;
-             alert("The Customer has been Successfully Deleted!");
+             alert("The customer has been successfully deleted!");
         });
           
      }   

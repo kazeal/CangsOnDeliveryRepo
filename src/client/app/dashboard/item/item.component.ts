@@ -191,7 +191,7 @@ export class ItemComponent implements OnInit, OnChanges{
             }
             else {
                 fileInput.target.value = '';
-                alert('Wrong file extension! Please Upload a Picture.');
+                alert('Wrong file extension! Please upload a picture.');
                 this.valid=false;
                 this.validpic=false;
                 console.log("test4");
@@ -402,7 +402,7 @@ export class ItemComponent implements OnInit, OnChanges{
                 {
                     if(!this.notif[b].display)
                     {
-                        alert("Warning! Your stock on the item "+ this.notif[b].itemName+" is running low.");
+                        alert("WARNING: Your stock on the item "+ this.notif[b].itemName+" is running low.");
                         this.notif[b].display=true;
                     }
                     
