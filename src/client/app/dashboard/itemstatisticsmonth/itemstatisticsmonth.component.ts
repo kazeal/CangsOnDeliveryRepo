@@ -21,7 +21,7 @@ import { Angular2Csv } from 'angular2-csv/Angular2-csv';
 
 export class ItemStatisticsMonthComponent{
 
-  
+    disabled:boolean=true;
     public items: any= {data:[]};
     public data:any=[];
     private timerSubscription: AnonymousSubscription;
@@ -34,7 +34,47 @@ export class ItemStatisticsMonthComponent{
          private chRef: ChangeDetectorRef,
          private location: Location
            ){
-              
+              let time = new Date();
+            console.log(time);
+            let mm =time.getMonth();
+            let dd =time.getDate();
+            let yy =time.getFullYear();
+            let hh =time.getHours();
+            let mn =time.getMinutes();
+            let ss =time.getSeconds();
+            let timestamp=mm+1 + "/" + dd + "/" + yy + " " + hh + ":" + mn + ":" +ss;
+            console.log(timestamp);
+            if(mm+1 < 8)
+            {
+                if(mm+1 % 2 == 0 && dd == 30)
+                {
+                     this.disabled=false;
+                }
+                else if(mm+1 == 2 && (((yy % 4 == 0) && (yy % 100 != 0)) || (yy % 400 == 0)) && dd==29)
+                {
+                        this.disabled=false;
+                }
+                else if( mm+1 == 2 && !(((yy % 4 == 0) && (yy % 100 != 0)) || (yy % 400 == 0)) && dd==28)
+                {
+                        this.disabled=false;
+                }
+                else if(mm+1 % 2 == 1 && dd == 31)
+                {
+                    this.disabled=false;
+                }
+            }
+            else if(mm+1 > 7)
+            {
+                if(mm+1 % 2 == 0 && dd == 31)
+                {
+                    this.disabled=false;
+                }
+                else if(mm+1 % 2 == 1 && dd == 30)
+                {
+                    this.disabled=false;
+                }
+            }
+            console.log(this.disabled);  
             this.Data.getItemStatisticsMonth().subscribe(data => {
                     zone.run(() => {
                         this.items.data=data;
@@ -164,7 +204,7 @@ export class ItemStatisticsMonthComponent{
         }
         else
         {
-            alert("No Item Data to Export");
+            alert("No item data to export");
             document.getElementById('reset').style.display='none';
         }
       
@@ -177,7 +217,7 @@ export class ItemStatisticsMonthComponent{
           }
          else
         {
-            alert("No Item Data to Reset");
+            alert("No item data to reset");
             document.getElementById('reset').style.display='none';
         }
             

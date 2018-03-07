@@ -10,6 +10,7 @@ export class SidebarComponent {
 	showMenu: string = '';
 	showMenuView: boolean = false;
 	showMenuItem:boolean=false;
+	showMenuOrder:boolean=false;
 	showMenuAcc: boolean = false;
 	view: boolean = true;
     addCustomer:boolean=false;
@@ -65,6 +66,7 @@ export class SidebarComponent {
 			this.showMenuView=false;
 			this.showMenuItem=false;
 			this.showMenu = element;
+			this.showMenuOrder=false;
 		}
 	}
 	expandView(element: any) {
@@ -76,6 +78,7 @@ export class SidebarComponent {
 			this.showMenuAcc=false;
 			this.showMenuView=true;
 			this.showMenuItem=false;
+			this.showMenuOrder=false;
 		}			
 	}
 	expandItem(element: any) {
@@ -87,6 +90,19 @@ export class SidebarComponent {
 			this.showMenuAcc=false;
 			this.showMenuView=false;
 			this.showMenuItem=true;
+			this.showMenuOrder=false;
+		}			
+	}
+	expandOrder(element: any) {
+		if (element === this.showMenu) {
+			this.showMenu = '0';
+			this.showMenuOrder=false;
+		} else {
+			this.showMenu = element;
+			this.showMenuAcc=false;
+			this.showMenuView=false;
+			this.showMenuItem=false;
+			this.showMenuOrder=true;
 		}			
 	}
 	

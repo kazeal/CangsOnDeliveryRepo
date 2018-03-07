@@ -21,7 +21,7 @@ import { Angular2Csv } from 'angular2-csv/Angular2-csv';
 
 export class ItemStatisticsYearComponent{
 
-  
+    disabled:boolean=true;
     public items: any= {data:[]};
     public data:any=[];
     private timerSubscription: AnonymousSubscription;
@@ -34,7 +34,22 @@ export class ItemStatisticsYearComponent{
          private chRef: ChangeDetectorRef,
          private location: Location
            ){
-              
+               let time = new Date();
+            console.log(time);
+            let mm =time.getMonth();
+            let dd =time.getDate();
+            let yy =time.getFullYear();
+            let hh =time.getHours();
+            let mn =time.getMinutes();
+            let ss =time.getSeconds();
+            let timestamp=mm+1 + "/" + dd + "/" + yy + " " + hh + ":" + mn + ":" +ss;
+            console.log(timestamp);
+            if(mm+1 ==12 && dd==31)
+            {
+                this.disabled=false;
+            }
+           
+            console.log(this.disabled);   
             this.Data.getItemStatisticsYear().subscribe(data => {
                     zone.run(() => {
                         this.items.data=data;

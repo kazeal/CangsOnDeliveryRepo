@@ -106,10 +106,6 @@ export class ResetComponent {
 		{
 			alert("Customer ID does not match");
 		}
-					 
-		 
-		
-		
 	}
 	onSubmitCode(event:any)
 	{

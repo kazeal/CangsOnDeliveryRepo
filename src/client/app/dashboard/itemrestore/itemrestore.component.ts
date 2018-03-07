@@ -36,6 +36,7 @@ export class ItemRestoreComponent implements OnInit{
     addItem=false;
     delItem=false;
     display='sampletext';
+    verify:boolean=true;
 	public user: any =[];
 	public data: any= [];
 	public customers: any= [];
@@ -111,10 +112,17 @@ export class ItemRestoreComponent implements OnInit{
             this.purchaseCount=pcount;
             this.itemDescription=desc;
             this.category=cat;
+            this.verify=true;
 	    }
+        clear()
+        {
+            this.complexForm.reset();
+            this.verify=true;
+        }
 
         onSubmitRestore() { 
-	
+                this.verify=true;
+                this.complexForm.reset();
                 this.data.push({
                     'itemID': this.itemID, 
                     'itemName': this.itemName, 
@@ -141,8 +149,10 @@ export class ItemRestoreComponent implements OnInit{
                 this.category="";
                 this.filter="";
                 document.getElementById('restore').style.display='none';
-	
-        }    
+        }   
+        onChangeCategory(){
+            this.verify=false;
+        } 
         ngOnInit() {
             this.refreshData();
         }

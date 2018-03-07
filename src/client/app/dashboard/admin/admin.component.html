@@ -1,35 +1,47 @@
+<style>
+.change{
+	position:relative;
+	right:-100px;
+}
+.pic{
+	position:relative;
+	right:-80px;
+}
+.name{
+	position:relative;
+	right:-70px;
+}
+</style>
 <div class="login-page animate">
 	<div class="row">
 		<div class="col-lg-4 col-lg-offset-4">
-        	<img src="assets/images/cangs.png" class="user-avatar" />
-			<br><br><h2>Reset Password<br></h2>
+        	<img src="assets/images/cangs.png" class="pic user-avatar" />
+			<br><br><h2 class="name">Reset Password<br></h2>
             <br><br>
-			<form  role="form">
-				<div class="form-content">
+			<form role="form">
+				<div align="center" class="form-content">
 					
 					<div class="form-group">
-						<input type="password" [formControl]="complexForm.controls['pass']" [(ngModel)]='oldPass' name='oldPass' class="form-control input-underline input-lg" id="oldPass" placeholder="Old Password">
-						<div *ngIf="complexForm.controls['pass'].hasError('required') && complexForm.controls['pass'].touched" class="alert alert-danger">You must enter your old password.</div>
-                        <div *ngIf="complexForm.controls['pass'].hasError('maxlength') && complexForm.controls['pass'].touched" class="alert alert-danger">Password must not exceed 16 characters.</div>
-                            
+						<input style="width:250px;" type="password" [formControl]="complexForm.controls['pass']" [(ngModel)]='oldPass' name='oldPass' class="form-control input-underline input-lg" id="oldPass" placeholder="Old Password">
+						<div style="width:250px;" *ngIf="complexForm.controls['pass'].hasError('required') && complexForm.controls['pass'].touched" class="alert alert-danger">You must enter your old password.</div>
+                        <div style="width:250px;" *ngIf="complexForm.controls['pass'].hasError('maxlength') && complexForm.controls['pass'].touched" class="alert alert-danger">Password must not exceed 16 characters.</div>                    
 					</div> 
-					<div class="form-group">
-						<input type="password" [formControl]="complexForm.controls['new']" [(ngModel)]='newPass' name='newPass' class="form-control input-underline input-lg" id="newPass" placeholder="New Password">
-						<div *ngIf="complexForm.controls['new'].hasError('required') && complexForm.controls['new'].touched" class="alert alert-danger">You must enter your new password.</div>
-                        <div *ngIf="complexForm.controls['new'].hasError('minlength') && complexForm.controls['new'].touched" class="alert alert-danger">Password must be atleast 8 characters.</div>
-                        <div *ngIf="complexForm.controls['new'].hasError('maxlength') && complexForm.controls['new'].touched" class="alert alert-danger">Password must not exceed 16 characters.</div>
-                            
+					<div class="form-group" >
+						<input style="width:250px;" type="password" [formControl]="complexForm.controls['new']" [(ngModel)]='newPass' name='newPass' class="form-control input-underline input-lg" id="newPass" placeholder="New Password">
+						<div  style="width:250px;"*ngIf="complexForm.controls['new'].hasError('required') && complexForm.controls['new'].touched" class="alert alert-danger">You must enter your new password.</div>
+                        <div  style="width:250px;" *ngIf="complexForm.controls['new'].hasError('minlength') && complexForm.controls['new'].touched" class="alert alert-danger">Password must be atleast 8 characters.</div>
+                        <div  style="width:250px;" *ngIf="complexForm.controls['new'].hasError('maxlength') && complexForm.controls['new'].touched" class="alert alert-danger">Password must not exceed 16 characters.</div>          
 					</div>
-                    <div class="form-group" >
-						<input type="password" [formControl]="complexForm.controls['new2']" [(ngModel)]='newPass2' name='newPass2' class="form-control input-underline input-lg" id="newPass2" placeholder="Retype New Password">
-						<div *ngIf="complexForm.controls['new2'].hasError('required') && complexForm.controls['new2'].touched" class="alert alert-danger">You must re-enter your new password.</div>
-                        <div *ngIf="complexForm.controls['new2'].hasError('minlength') && complexForm.controls['new2'].touched" class="alert alert-danger">Password must be atleast 8 characters.</div>
-                        <div *ngIf="complexForm.controls['new2'].hasError('maxlength') && complexForm.controls['new2'].touched" class="alert alert-danger">Pssword must not exceed 16 characters.</div>     
+                    <div class="form-group">
+						<input style="width:250px;" type="password" [formControl]="complexForm.controls['new2']" [(ngModel)]='newPass2' name='newPass2' class="form-control input-underline input-lg" id="newPass2" placeholder="Retype New Password">
+						<div style="width:250px;" *ngIf="complexForm.controls['new2'].hasError('required') && complexForm.controls['new2'].touched" class="alert alert-danger">You must re-enter your new password.</div>
+                        <div style="width:250px;" *ngIf="complexForm.controls['new2'].hasError('minlength') && complexForm.controls['new2'].touched" class="alert alert-danger">Password must be atleast 8 characters.</div>
+                        <div style="width:250px;" *ngIf="complexForm.controls['new2'].hasError('maxlength') && complexForm.controls['new2'].touched" class="alert alert-danger">Pssword must not exceed 16 characters.</div>     
 					</div>
 				</div><br>
 				<!--<a class="btn rounded-btn" (click) ='onSubmit($event)'> Change Password </a>-->
 				<div  class="form-group">
-						<button [disabled]="!complexForm.valid"  class="btn btn-primary" (click) ='onSubmit($event)'>Change Password</button>                          
+						<button [disabled]="!complexForm.valid"  class="change btn btn-primary" (click) ='onSubmit($event)'>Change Password</button>                          
 				</div>
 			</form>
 		</div>	

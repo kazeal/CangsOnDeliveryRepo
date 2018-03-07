@@ -11,6 +11,15 @@
   
   th,
   td {
+    text-align:center;
+    padding: $table-cell-padding;
+    line-height: $line-height;
+    vertical-align: top;
+    border-top: $table-border-width solid $table-border-color;
+    
+  }
+  td.price {
+    text-align:right;
     padding: $table-cell-padding;
     line-height: $line-height;
     vertical-align: top;
@@ -20,12 +29,13 @@
   
 
   thead th {
-
+    text-align:center;
     vertical-align: bottom;
     border-bottom: (2 * $table-border-width) solid $table-border-color;
   }
 
   tbody + tbody {
+    
     border-top: (2 * $table-border-width) solid $table-border-color;
     overflow-y:auto;
   }

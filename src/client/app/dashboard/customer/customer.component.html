@@ -71,30 +71,35 @@
     <table class="table table-scroll">
         <thead>
             <tr>
-                <th>CustomerID</th>
-                <th>Last Name</th>
+                <th width="100">CustomerID</th>
+                <th width="100">Last Name</th>
                 <th>First Name</th>
-                <th>Middle Name</th>
-                <th>Cell Phone Number</th>
-                <th>Home Address</th>
-                <th *ngIf="editCustomer || delCustomer">Options</th>
+                <th width="100">Middle Name</th>
+                <th width="100">Cell Phone Number</th>
+                <th width="100">Barangay</th>
+                <th width="200">Street Name</th>
+                <th *ngIf="editCustomer || delCustomer" width="200">Options</th>
              </tr>
         </thead>
         <tbody>
             <tr *ngFor='let customer of customers | customerFilter : filter'>
-                <td>{{customer.customerID}}</td>
-                <td>{{customer.cusLastName}}</td>
+                <td width="100">{{customer.customerID}}</td>
+                <td width="100">{{customer.cusLastName}}</td>
                 <td>{{customer.cusFirstName}}</td>
-                <td>{{customer.cusMiddleName}}</td>
-                <td>{{customer.number}}</td>
-                <td>{{customer.address}}</td>
-               
-                <td *ngIf="editCustomer || delCustomer">
-                    <button *ngIf="editCustomer" class="btn btn-info" (click)="click($event,customer.customerID,customer.cusPassword,customer.cusFirstName,customer.cusMiddleName,customer.cusLastName,customer.number,customer.address,customer.verificationCode)" onclick="document.getElementById('edit').style.display='block'">
+                <td width="100">{{customer.cusMiddleName}}</td>
+                <td width="100">{{customer.number}}</td>
+                <td width="100">{{customer.barangay}}</td>
+                <td width="200">{{customer.address}}</td>
+                
+                <td *ngIf="editCustomer || delCustomer" width="200">
+                    <button *ngIf="editCustomer" class="btn btn-info" (click)="click($event,customer.customerID,customer.cusPassword,customer.cusFirstName,customer.cusMiddleName,customer.cusLastName,customer.number,customer.address,customer.verificationCode,customer.barangay)" onclick="document.getElementById('edit').style.display='block'">
                         <i class="fa fa-pencil"></i>
                     </button>
                     <button *ngIf="delCustomer" class="btn btn-danger" (click)="click($event,customer.customerID,customer.cusPassword,customer.cusFirstName,customer.cusMiddleName,customer.cusLastName,customer.number,customer.address,customer.verificationCode)" onclick="document.getElementById('del').style.display='block'">
                         <i class="fa fa-remove"></i>
+                    </button>
+                    <button class="btn btn-success" (click)="click($event,customer.customerID,customer.cusPassword,customer.cusFirstName,customer.cusMiddleName,customer.cusLastName,customer.number,customer.address,customer.verificationCode)" onclick="document.getElementById('reset').style.display='block'">
+                        <i class="fa fa-repeat"></i>
                     </button>
                 </td>
             </tr>     
@@ -104,7 +109,7 @@
 
 <!--delete-->
 <div id="del" class="modal">
-    <span onclick="document.getElementById('del').style.display='none'" class="close" title="Close Modal">&times;</span>
+    <span onclick="document.getElementById('del').style.display='none'" (click)="clear()" class="close" title="Close Modal">&times;</span>
         <form role="form" id="datadel" class="modal-content animate">
             <div class="container" align="center">
                 <!-- Modal Content --><br><br><br><br>
@@ -126,7 +131,7 @@
 <!--edit-->
 <!-- The Modal -->
 <div id="edit" class="modal">
-    <span onclick="document.getElementById('edit').style.display='none'" class="close" title="Close Modal">&times;</span>
+    <span onclick="document.getElementById('edit').style.display='none'" (click)="clear()" class="close" title="Close Modal">&times;</span>
         <!-- Modal Content -->
         <form [formGroup]="complexForm" role="form" id="dataedit" class="modal-content animate" >
 	        <div class="form-content">
@@ -139,7 +144,7 @@
                     </div>
                     <div align="left">
                             <label><b>Middle Name</b></label>
-                            <input type="text" [ngModelOptions]="{standalone: true}" class="form-control input-underline input-lg" [value]="cusMiddleName"  [(ngModel)]="cusMiddleName" name="cusMiddleName" required > 
+                            <input (change)="change()" type="text" [ngModelOptions]="{standalone: true}" class="form-control input-underline input-lg" [value]="cusMiddleName"  [(ngModel)]="cusMiddleName" name="cusMiddleName" required > 
                     </div>
                     <div align="left" class="form-group" [ngClass]="{'has-error':!complexForm.controls['lastName'].valid && complexForm.controls['lastName'].touched}">
                             <label><b>Last Name</b></label>
@@ -156,13 +161,49 @@
                             <div *ngIf="complexForm.controls['number'].hasError('pattern') && complexForm.controls['number'].touched" class="alert alert-danger">Please enter numbers</div>
                     </div>
                     <div align="left" class="form-group" [ngClass]="{'has-error':!complexForm.controls['address'].valid && complexForm.controls['address'].touched}">
-                            <label><b>Home Address</b></label>
+                            
+                            
+                            <label><b>Barangay</b></label><br>
+                            <select (change)="change()" [ngModelOptions]="{standalone: true}" [(ngModel)]="barangay">
+                                <option value="Bagacay">Bagacay</option>
+                                <option value="Bajumpandan">Bajumpandan</option>
+                                <option value="Balugo">Balugo</option>
+                                <option value="Banilad">Banilad</option>
+                                <option value="Bantayan">Bantayan</option>
+                                <option value="Batinguel">Batinguel</option>
+                                <option value="Buñao">Buñao</option>
+                                <option value="Business District">Business District</option>
+                                <option value="Cadawinonan">Cadawinonan</option>
+                                <option value="Cambagroy">Cambagroy</option>
+                                <option value="Calindagan">Calindagan</option>
+                                <option value="Camanjac">Camanjac</option>
+                                <option value="Candau-ay">Candau-ay</option>
+                                <option value="Cantil-e">Cantil-e</option>
+                                <option value="Cervantes Extension">Cervantes Extension</option>
+                                <option value="Daro">Daro</option>
+                                <option value="Junob">Junob</option>
+                                <option value="Looc">Looc</option>
+                                <option value="Mangga">Mangga</option>
+                                <option value="Mangnao-Canal">Mangnao-Canal</option>
+                                <option value="Motong">Motong</option>
+                                <option value="Piapi">Piapi</option>
+                                <option value="Pulantubig">Pulantubig</option>
+                                <option value="Rizal Boulevard">Rizal Boulevard</option>
+                                <option value="Silliman Area">Silliman Area</option>
+                                <option value="Tabuc-tubig">Tabuc-tubig</option>
+                                <option value="Taclobo">Taclobo</option>
+                                <option value="Talay">Talay</option>
+                                <option value="Tinago">Tinago</option>
+                                <option value="Upper Lukewright">Upper Lukewright</option>
+                            </select>
+                            <br><br>
+                            <label><b>Street Name</b></label>
                             <input type="text" class="form-control input-underline input-lg" [formControl]="complexForm.controls['address']" [value]="address" [(ngModel)]="address" name="address" required >
-                             <div *ngIf="complexForm.controls['address'].hasError('required') && complexForm.controls['address'].touched" class="alert alert-danger">You must include an address.</div>
+                            <div *ngIf="complexForm.controls['address'].hasError('required') && complexForm.controls['address'].touched" class="alert alert-danger">You must include an address.</div>
                     </div>
                     <div align="center" class="form-group"> 
-                        <br>
-                            <button [disabled]="!complexForm.valid" class="btn btn-primary" (click) ='onSubmitEdit()'>Save</button>    
+                            <br> 
+                            <button [disabled]="!complexForm.valid ||  (complexForm.controls['firstName'].pristine && complexForm.controls['lastName'].pristine && complexForm.controls['address'].pristine && complexForm.controls['number'].pristine && verify)" class="btn btn-primary" (click) ='onSubmitEdit()'>Save</button>    
                             <br>
                     </div>
                 </div>
@@ -173,7 +214,7 @@
 <!--add-->
 <!-- The Modal -->
 <div id="add" class="modal">
-    <span onclick="document.getElementById('add').style.display='none'"class="close" title="Close Modal">&times;</span>
+    <span onclick="document.getElementById('add').style.display='none'" (click)="clear()" class="close" title="Close Modal">&times;</span>
         <!-- Modal Content" -->
         <form [formGroup]="complexForm" role="form" id="dataadd" class="modal-content animate" >
 	        <div class="form-content">
@@ -203,8 +244,42 @@
                             <div *ngIf="complexForm.controls['number'].hasError('pattern') && complexForm.controls['number'].touched" class="alert alert-danger">Please enter numbers</div>
                     </div>
                     <div align="left" class="form-group">
-                            <label><b>Home Address</b></label>
-                            <input type="text" class="form-control input-underline input-lg" class="form-control input-underline input-lg"  [formControl]="complexForm.controls['address']" placeholder="Enter Address" [(ngModel)]="address" name="address" required >             
+                             <label><b>Barangay</b></label><br>
+                            <select [ngModelOptions]="{standalone: true}" [(ngModel)]="barangay">
+                                <option value="Bagacay">Bagacay</option>
+                                <option value="Bajumpandan">Bajumpandan</option>
+                                <option value="Balugo">Balugo</option>
+                                <option value="Banilad">Banilad</option>
+                                <option value="Bantayan">Bantayan</option>
+                                <option value="Batinguel">Batinguel</option>
+                                <option value="Buñao">Buñao</option>
+                                <option value="Business District">Business District</option>
+                                <option value="Cadawinonan">Cadawinonan</option>
+                                <option value="Cambagroy">Cambagroy</option>
+                                <option value="Calindagan">Calindagan</option>
+                                <option value="Camanjac">Camanjac</option>
+                                <option value="Candau-ay">Candau-ay</option>
+                                <option value="Cantil-e">Cantil-e</option>
+                                <option value="Cervantes Extension">Cervantes Extension</option>
+                                <option value="Daro">Daro</option>
+                                <option value="Junob">Junob</option>
+                                <option value="Looc">Looc</option>
+                                <option value="Mangga">Mangga</option>
+                                <option value="Mangnao-Canal">Mangnao-Canal</option>
+                                <option value="Motong">Motong</option>
+                                <option value="Piapi">Piapi</option>
+                                <option value="Pulantubig">Pulantubig</option>
+                                <option value="Rizal Boulevard">Rizal Boulevard</option>
+                                <option value="Silliman Area">Silliman Area</option>
+                                <option value="Tabuc-tubig">Tabuc-tubig</option>
+                                <option value="Taclobo">Taclobo</option>
+                                <option value="Talay">Talay</option>
+                                <option value="Tinago">Tinago</option>
+                                <option value="Upper Lukewright">Upper Lukewright</option>
+                            </select>
+                            <br><br>
+                            <label><b>Street Name</b></label>
+                            <input type="text" class="form-control input-underline input-lg" [formControl]="complexForm.controls['address']" [value]="address" [(ngModel)]="address" name="address" required >
                             <div *ngIf="complexForm.controls['address'].hasError('required') && complexForm.controls['address'].touched" class="alert alert-danger">You must include an address.</div>
                     </div> 
                     <div align="center" class="form-group"><br>
@@ -214,3 +289,34 @@
             </div>
         </form>
 </div>
+
+<!--rset-->
+<!-- The Modal -->
+<div id="reset" class="modal">
+    <span onclick="document.getElementById('reset').style.display='none'" (click)="clear()" class="close" title="Close Modal">&times;</span>
+        <!-- Modal Content" -->
+        <form [formGroup]="complexForm4" role="form" id="dataadd" class="modal-content animate" >
+	        <div class="form-content">
+                <div class="container" align="center"><br><br> 
+                    <div align="left" class="form-group" [ngClass]="{'has-error':!complexForm4.controls['customerID'].valid}">
+                            <label><b>Customer ID</b></label> 
+                            <input type="text" [formControl]="complexForm4.controls['customerID']" [value]="customerID" [(ngModel)]='customerID4' name='customerID4' class="form-control input-underline input-lg" id="customerID4" placeholder="Enter Customer ID">
+						    <div *ngIf="complexForm4.controls['customerID'].hasError('required') && complexForm4.controls['customerID'].touched" class="alert alert-danger">You must enter a Customer ID.</div>                         
+						    <div *ngIf="complexForm4.controls['customerID'].hasError('pattern') && complexForm4.controls['customerID'].touched" class="alert alert-danger">Customer ID can only consist of numbers.</div>                         
+					</div>
+                    <div align="left" class="form-group" [ngClass]="{'has-error':!complexForm4.controls['recustomerID'].valid}">
+                            <label><b>Re-Enter Customer ID</b></label>
+                            <input type="text" [formControl]="complexForm4.controls['recustomerID']" [value]="customerID" [(ngModel)]='recustomerID4' name='recustomerID4' class="form-control input-underline input-lg" id="recustomerID4" placeholder="Re-enter Customer ID">
+						    <div *ngIf="complexForm4.controls['recustomerID'].hasError('required') && complexForm4.controls['recustomerID'].touched" class="alert alert-danger">You must re-enter Customer ID.</div>
+                            <div *ngIf="complexForm4.controls['recustomerID'].hasError('pattern') && complexForm4.controls['recustomerID'].touched" class="alert alert-danger">Customer ID can only consist of numbers.</div>
+                    </div>
+                    <div  class="form-group">
+                            <button [disabled]="!complexForm4.valid"  class="btn btn-primary" (click) ='onSubmitPass($event)'>Reset Password</button>                          
+                            <button [disabled]="!complexForm4.valid"  class="btn btn-primary" (click) ='onSubmitCode($event)'>Reset Verification Code</button>  <br><br>
+                    </div>
+                    
+                </div>
+            </div>
+        </form>
+</div>
+

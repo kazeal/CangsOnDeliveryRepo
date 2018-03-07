@@ -90,7 +90,7 @@ export class CustomerService{
 
         this._http.post(this._apiUrl + "/customer/editCustomer",JSON.stringify(data), reqopt).subscribe(function(res){
             this.response=res;
-            alert("The customer password is successfully resetted!\nThe new temporary password is: "+pass);
+            alert("The customer password has been successfully reset!\nThe new temporary password is: "+pass);
         });
           
      }
@@ -104,7 +104,7 @@ export class CustomerService{
 
         this._http.post(this._apiUrl + "/customer/editCustomer",JSON.stringify(data), reqopt).subscribe(function(res){
             this.response=res;
-            alert("The customer verification code is successfully resetted!\nThe new verification code is: "+code);
+            alert("The customer verification code has been successfully reset!\nThe new verification code is: "+code);
         });
           
      }

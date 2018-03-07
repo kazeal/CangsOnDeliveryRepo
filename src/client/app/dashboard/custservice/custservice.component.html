@@ -94,6 +94,9 @@
                     <button  *ngIf="delEmployee" class="btn btn-danger" (click)="clickdel($event,employee.employeeID,employee.empFirstName,employee.empMiddleName,employee.empLastName)" onclick="document.getElementById('del').style.display='block'">
                         <i class="fa fa-remove"></i>
                     </button>
+                     <button *ngIf="resettemp" class="btn btn-success" (click)="click($event,employee.employeeID,employee.empPassword,employee.empFirstName,employee.empMiddleName,employee.empLastName,employee.empType)" onclick="document.getElementById('reset').style.display='block'">
+                        <i class="fa fa-repeat"></i>
+                    </button>
                 </td>
             </tr> 
         </tbody>
@@ -220,7 +223,7 @@
                     </div>
                     <div align="left">
                             <label><b>Middle Name</b></label>
-                            <input type="text" class="form-control input-underline input-lg" [ngModelOptions]="{standalone: true}" [value]="empMiddleName"  [(ngModel)]="empMiddleName" name="empMiddleName"  >
+                            <input (change)="onChangeMiddleName()" type="text" class="form-control input-underline input-lg" [ngModelOptions]="{standalone: true}" [value]="empMiddleName"  [(ngModel)]="empMiddleName" name="empMiddleName"  >
                            </div>
                     <div align="left" class="form-group" [ngClass]="{'has-error':!complexForm.controls['lastName'].valid && complexForm.controls['lastName'].touched}">
                             <label><b>Last Name</b></label>
@@ -248,9 +251,39 @@
                             <label class="checkbox-inline">&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&nbsp; <input #rightedit11 id="re11" type="checkbox" name="edViewItemStatistics" [checked]="edViewItemStatistics" [(ngModel)]="edViewItemStatistics" (change)="onChange(rightedit11)" value="View Item Statistics" />View Item Statistics</label>                          
                     </div>
                     <div class="form-group"> 
-                            <button [disabled]="!complexeditForm.valid" class="btn btn-primary" (click) ='onSubmitEdit()'>Save</button>              
+                            <button [disabled]="!complexeditForm.valid || (complexForm.controls['type'].pristine && complexForm.controls['firstName'].pristine && complexForm.controls['lastName'].pristine && verify)" class="btn btn-primary" (click) ='onSubmitEdit()'>Save</button>              
                     </div>
                 </div>  
+            </div>
+        </form>
+</div>
+
+<!--rset-->
+<!-- The Modal -->
+<div id="reset" class="modal">
+    <span onclick="document.getElementById('reset').style.display='none'" (click)="clear()" class="close" title="Close Modal">&times;</span>
+        <!-- Modal Content" -->
+        <form [formGroup]="complexForm4" role="form" id="datareset" class="modal-content animate" >
+	        <div class="form-content">
+                <div class="container" align="center"><br><br> 
+                    <div align="left" class="form-group" [ngClass]="{'has-error':!complexForm4.controls['employeeID'].valid}">
+                            <label><b>Customer ID</b></label> 
+                            <input type="text" [formControl]="complexForm4.controls['employeeID']" [value]="empID" [(ngModel)]='empID' name='empID' class="form-control input-underline input-lg" id="empID" placeholder="Enter Employee ID">
+						    <div *ngIf="complexForm4.controls['employeeID'].hasError('required') && complexForm4.controls['employeeID'].touched" class="alert alert-danger">You must enter a Employee ID.</div>                         
+						    <div *ngIf="complexForm4.controls['employeeID'].hasError('pattern') && complexForm4.controls['employeeID'].touched" class="alert alert-danger">Employee ID can only consist of numbers.</div>                         
+					</div>
+                    <div align="left" class="form-group" [ngClass]="{'has-error':!complexForm4.controls['reemployeeID'].valid}">
+                            <label><b>Re-Enter Customer ID</b></label>
+                            <input type="text" [formControl]="complexForm4.controls['reemployeeID']" [value]="reempID" [(ngModel)]='reempID' name='reempID' class="form-control input-underline input-lg" id="reempID" placeholder="Re-enter Employee ID">
+						    <div *ngIf="complexForm4.controls['reemployeeID'].hasError('required') && complexForm4.controls['reemployeeID'].touched" class="alert alert-danger">You must re-enter Employee ID.</div>
+                            <div *ngIf="complexForm4.controls['reemployeeID'].hasError('pattern') && complexForm4.controls['reemployeeID'].touched" class="alert alert-danger">Employee ID can only consist of numbers.</div>
+                    </div>
+                    <div  class="form-group">
+                            <button [disabled]="!complexForm4.valid"  class="btn btn-primary" (click) ='onSubmitEmpPass($event)'>Reset Employee Password</button>                          
+                             <br><br>
+                    </div>
+                    
+                </div>
             </div>
         </form>
 </div>

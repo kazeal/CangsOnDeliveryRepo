@@ -287,6 +287,20 @@ export class EmployeeService{
             });
           
      }
+     changePass(data:any){
+         
+            let headers = new Headers();
+            headers.append('Content-Type', 'application/x-www-form-urlencoded');
+            let reqopt = new RequestOptions({
+                headers: headers
+            })
+            
+            this._http.post(this._apiUrl + '/employee/editEmployee',JSON.stringify(data), reqopt).subscribe(function(res){
+                this.response=res;
+                alert("Your password has been successfully changed!");
+            });
+          
+     }
      resetPass(data:any,pass:any){
          
             let headers = new Headers();

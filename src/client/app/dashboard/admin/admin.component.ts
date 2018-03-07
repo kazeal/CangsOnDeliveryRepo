@@ -65,7 +65,7 @@ export class AdminComponent {
 							'empMiddleName': this.oneEmployee[0]["empMiddleName"],
 							'empFirstName': this.oneEmployee[0]["empFirstName"], 			
 						});
-						this.emp.editEmployee(this.data[0]);
+						this.emp.changePass(this.data[0]);
 						this.newPass='';
 						this.oldPass='';
 						this.newPass2='';

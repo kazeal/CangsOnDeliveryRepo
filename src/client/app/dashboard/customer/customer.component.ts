@@ -10,6 +10,7 @@ import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms'
 import { AnonymousSubscription } from "rxjs/Subscription";
 import { NgZone, ChangeDetectorRef } from '@angular/core';
 import { Observable } from 'rxjs/Rx';
+import { EmployeeService } from '../custservice/employee.service';
 @Component({
 	moduleId: module.id,
 	selector: 'customer-cmp',
@@ -18,6 +19,7 @@ import { Observable } from 'rxjs/Rx';
 
 export class CustomerComponent implements OnInit {
 	
+	verify:boolean=true;
 	addCustomer:boolean=false;
 	editCustomer:boolean=false;
 	delCustomer:boolean=false;
@@ -27,29 +29,59 @@ export class CustomerComponent implements OnInit {
 	cusPassword:string;
 	number:string;
 	address:string;
+	empPassword:string;
 	verificationCode:string;
+	resettemp:boolean=false;
 	public customerID:number;
 	i:number=0;
 	complexForm : FormGroup;
+	complexForm2 : FormGroup;
+	complexForm3 : FormGroup;
+	complexForm4 : FormGroup;
 	public data: any= [];
 	public customers: any= [];
+	customerID4:string='';
+	recustomerID4:string='';
+	customerID2:string='';
+	recustomerID2:string='';
+	customerID3:string='';
+	recustomerID3:string='';
+	oneCustomer:any=[];
+	oneEmployee:any=[];
 	private timerSubscription: AnonymousSubscription;
     private postsSubscription: AnonymousSubscription;
 	filter:string='';
+	barangay:string="Bagacay";
 	constructor(
 		 public cust: CustomerService,
 		 private _http: HttpModule,
 		 public fb: FormBuilder,
 		 private chRef: ChangeDetectorRef,
+		 public emp: EmployeeService,
          private zone: NgZone,
 		 private _cookieService:CookieService
 		 ){
+		var type=this._cookieService.get('employeeType');
+		if(type == "admin" || type == "administrator" || type == "Administrator" || type == "Admin")
+        this.resettemp=true;
          this.complexForm = fb.group({
 				'firstName' : [null, Validators.compose([Validators.required, Validators.pattern("[a-zA-Z][a-zA-Z ]+")])],
 				'lastName': [null, Validators.compose([Validators.required, Validators.pattern("[a-zA-Z][a-zA-Z ]+")])],
 				'number' : [null, Validators.compose([Validators.required, Validators.minLength(11), Validators.maxLength(11), Validators.pattern("[0-9][0-9 ]+")])],
 				'address' : [null, Validators.required],
-		  })
+		  });
+		this.complexForm4 = fb.group({
+				'customerID' : [null, Validators.compose([Validators.required, Validators.pattern("[0-9 ]+")])],
+				'recustomerID' : [null, Validators.compose([Validators.required, Validators.pattern("[0-9 ]+")])],
+		});
+		this.complexForm2 = fb.group({
+				'customerID' : [null, Validators.compose([Validators.required, Validators.pattern("[0-9 ]+")])],
+				'recustomerID' : [null, Validators.compose([Validators.required, Validators.pattern("[0-9 ]+")])],
+		});
+		this.complexForm3 = fb.group({
+				'customerID' : [null, Validators.compose([Validators.required, Validators.pattern("[0-9 ]+")])],
+				'recustomerID' : [null, Validators.compose([Validators.required, Validators.pattern("[0-9 ]+")])],
+		});
 		  this.cust.getCustomers().subscribe(result => {
 				this.customers=result;
     	  });
@@ -60,10 +92,16 @@ export class CustomerComponent implements OnInit {
 		  if(this._cookieService.get('3') == "true")
 			this.delCustomer=true;   
 		 
-		  console.log("5");
+		  console.log("9");
     }
-	click(event:any, id:number,pass:string,fname:string,mname:string,lname:string,number:string,address:string,vercode:string){
+	change()
+	{
+		this.verify=false;
+		console.log("change");
+	}
+	click(event:any, id:number,pass:string,fname:string,mname:string,lname:string,number:string,address:string,vercode:string,bar:string){
 		console.log(id);
+		this.barangay=bar;
 		this.cusPassword=pass;
 		this.cusFirstName=fname;
 		this.cusMiddleName=mname;
@@ -72,6 +110,11 @@ export class CustomerComponent implements OnInit {
 		this.address=address;
 		this.verificationCode=vercode;
 		this.customerID=id;
+		console.log(this.complexForm4);
+		this.complexForm4.controls['customerID'].setValue(id);
+		this.complexForm4.controls['recustomerID'].setValue(id);
+		//this.complexForm4.valid=true;
+		
 	}
 	
 	clear(){
@@ -83,6 +126,11 @@ export class CustomerComponent implements OnInit {
 		this.address="";
 		this.verificationCode="";
 		this.customerID=null;
+		this.complexForm.reset();
+		 this.complexForm4.markAsPristine();
+        this.complexForm4.markAsUntouched();
+		this.barangay="Bagacay";
+		this.verify=true;
   	}
 	onSubmitEdit() {  	
 			this.data.push({
@@ -93,7 +141,8 @@ export class CustomerComponent implements OnInit {
 				'cusLastName': this.cusLastName, 
 				'cusMiddleName': this.cusMiddleName, 
 				'cusFirstName': this.cusFirstName,				
-				'verificationCode': this.verificationCode				
+				'verificationCode': this.verificationCode,
+				'barangay': this.barangay,				
 			});
 			//console.log(this.data[0]);
 			this.cust.editCustomer(this.data[0]);
@@ -106,6 +155,7 @@ export class CustomerComponent implements OnInit {
 			this.address="";
 			this.verificationCode="";
 			this.customerID=null;
+			this.verify=true;
 			this.complexForm.reset();
 			document.getElementById('edit').style.display='none';
 	}
@@ -125,7 +175,8 @@ export class CustomerComponent implements OnInit {
 				'cusLastName': this.cusLastName, 
 				'cusMiddleName': this.cusMiddleName, 
 				'cusFirstName': this.cusFirstName,				
-				'verificationCode': this.verificationCode				
+				'verificationCode': this.verificationCode,
+				'barangay': this.barangay,				
 			});
 			//console.log(this.data[0]);
 			this.cust.addCustomer(this.data[0], this.cusPassword);
@@ -152,7 +203,8 @@ export class CustomerComponent implements OnInit {
 				'cusLastName': this.cusLastName, 
 				'cusMiddleName': this.cusMiddleName, 
 				'cusFirstName': this.cusFirstName,				
-				'verificationCode': this.verificationCode				
+				'verificationCode': this.verificationCode,
+				'barangay': this.barangay,			
 			});
 			console.log(this.data[0]);
 			this.cust.delCustomer(this.data[0]);
@@ -168,6 +220,91 @@ export class CustomerComponent implements OnInit {
 			this.complexForm.reset();		
 			document.getElementById('del').style.display='none';
 	}
+	onSubmitPass(event:any)
+	{
+
+		if(this.customerID4 == this.recustomerID4)
+		{
+			
+			this.cust.getCustomer(this.customerID4).subscribe(result => {
+				this.oneCustomer=result;
+				if(this.oneCustomer.length==0)
+				alert("Customer ID does not exist")
+				console.log(this.oneCustomer); 
+			});
+			
+			setTimeout (() => {
+				let uuid2 = UUID.UUID();
+				
+				this.cusPassword=uuid2.slice(0,-28);
+				this.data.push({
+					'customerID': this.oneCustomer[0].customerID, 
+					'cusPassword': Md5.hashStr(this.cusPassword), 
+					'number': this.oneCustomer[0].number, 
+					'address': this.oneCustomer[0].address,
+					'cusLastName': this.oneCustomer[0].cusLastName, 
+					'cusMiddleName': this.oneCustomer[0].cusMiddleName, 
+					'cusFirstName': this.oneCustomer[0].cusFirstName,				
+					'verificationCode': this.oneCustomer[0].verificationCode,
+					'barangay': this.oneCustomer[0].barangay,				
+				});
+				this.cust.resetPass(this.data[0],this.cusPassword);
+				this.customerID4='';
+				this.recustomerID4='';
+				this.cusPassword='';
+				this.data.pop();
+				this.oneCustomer.pop();
+				this.complexForm.reset();
+			}, 1500)	
+		}
+		else
+		{
+			alert("Customer ID does not match");
+		}
+	}
+	onSubmitCode(event:any)
+	{
+		 
+		if(this.customerID4 == this.recustomerID4)
+		{
+			
+			this.cust.getCustomer(this.customerID4).subscribe(result => {
+				this.oneCustomer=result;
+				if(this.oneCustomer.length==0)
+				alert("Customer ID does not exist")
+				console.log(this.oneCustomer); 
+			});
+			
+			setTimeout (() => {
+				let uuid2 = UUID.UUID();
+				
+				this.verificationCode=uuid2.slice(0,-23);
+				this.data.push({
+					'customerID': this.oneCustomer[0].customerID, 
+					'cusPassword': this.oneCustomer[0].cusPassword, 
+					'number': this.oneCustomer[0].number, 
+					'address': this.oneCustomer[0].address,
+					'cusLastName': this.oneCustomer[0].cusLastName, 
+					'cusMiddleName': this.oneCustomer[0].cusMiddleName, 
+					'cusFirstName': this.oneCustomer[0].cusFirstName,				
+					'verificationCode': this.verificationCode,
+					'barangay': this.oneCustomer[0].barangay,
+									
+				});
+				this.cust.resetCode(this.data[0],this.verificationCode);
+				this.customerID4='';
+				this.recustomerID4='';
+				this.verificationCode='';
+				this.data.pop();
+				this.complexForm2.reset();
+			}, 1500)	
+		}
+		else
+		{
+			alert("Customer ID does not match");
+		}
+	}
+
 	 ngOnInit() {
         this.refreshData();
     }
@@ -178,7 +315,7 @@ export class CustomerComponent implements OnInit {
         this.postsSubscription = this.cust.getCustomers().subscribe(
 
         data  => {
-                    console.log(this.customers.length);
+                   // console.log(this.customers.length);
                     var i =0;
                     for (let customer of data)
                     {
@@ -194,7 +331,8 @@ export class CustomerComponent implements OnInit {
 								'cusLastName': customer.cusLastName, 
 								'cusMiddleName': customer.cusMiddleName, 
 								'cusFirstName': customer.cusFirstName,				
-								'verificationCode': customer.verificationCode 				
+								'verificationCode': customer.verificationCode,
+								'barangay': customer.barangay, 				
                             });
                             i=i+1;//FINISH REFRESH DATA AND ERROR TRAPPING FOR ITEM PRICE
                             
@@ -208,22 +346,24 @@ export class CustomerComponent implements OnInit {
                         for(dif;dif>0;dif--)
                         {
                                 test=this.customers.pop();
-                                console.log(test);
+                             //   console.log(test);
                         }
                     }
                     i=0;   
                     // console.log(this.items.data);                
                     // console.log("latestest");      
             //this.items.data = data;
-			console.log(this.complexForm.controls['number'].hasError('pattern'))
+			console.log(this.complexForm.controls['firstName'].pristine);
+			console.log(this.complexForm.valid);
+			//console.log(this.complexForm.controls['number'].hasError('pattern'))
             this.subscribeToData();
-            console.log(this.customers);
+            //console.log(this.customers);
         },
         function (error) {
             console.log(error);
         },
         function () {
-            console.log("complete");
+          //  console.log("complete");
         }
         );
         });

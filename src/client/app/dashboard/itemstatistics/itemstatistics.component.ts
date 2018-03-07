@@ -26,6 +26,7 @@ export class ItemStatisticsComponent{
     public data:any=[];
     private timerSubscription: AnonymousSubscription;
     private postsSubscription: AnonymousSubscription;
+    public disabled=true;
 	 constructor(
          public Data: ProductService,
          private _http: HttpModule,
@@ -35,7 +36,7 @@ export class ItemStatisticsComponent{
          private chRef: ChangeDetectorRef,
          private location: Location
            ){
-              
+          
             this.Data.getItemStatistics().subscribe(data => {
                     zone.run(() => {
                         this.items.data=data;

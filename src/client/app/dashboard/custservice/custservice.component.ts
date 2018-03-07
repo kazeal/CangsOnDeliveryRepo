@@ -7,6 +7,7 @@ import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms'
 import { Observable } from 'rxjs/Rx';
 import { NgZone, ChangeDetectorRef } from '@angular/core';
 import { AnonymousSubscription } from "rxjs/Subscription";
+import { UUID } from 'angular2-uuid';
 @Component({
 	moduleId: module.id,
 	selector: 'custservice-cmp',
@@ -20,11 +21,14 @@ export class CustServiceComponent implements OnInit {
 		empLastName:string;
 		empPassword:string;
 		empType:string;
+		oneEmployee:any=[];
+		resettemp:boolean=false;
 		addEmployee:boolean=false; 
 		editEmployee:boolean=false;
 		delEmployee:boolean=false;
 		public employeeID:number;
 		i:number=0;
+		verify:boolean=true;
 		edAddCustomer:boolean=false;
 		edEditCustomer:boolean=false;
 		edDelCustomer:boolean=false;
@@ -73,7 +77,10 @@ export class CustServiceComponent implements OnInit {
 		}
 		];
 		complexForm : FormGroup;
+		complexForm4 : FormGroup;
 		complexeditForm : FormGroup;
+		empID:any;
+		reempID:any;
 		private timerSubscription: AnonymousSubscription;
 		private postsSubscription: AnonymousSubscription;
 		constructor(
@@ -98,6 +105,10 @@ export class CustServiceComponent implements OnInit {
 				'lastName': [null, Validators.compose([Validators.required, Validators.pattern("[a-zA-Z][a-zA-Z ]+")])],
 				'type' : [null, Validators.required],
 				})
+				this.complexForm4 = fb.group({
+						'employeeID' : [null, Validators.compose([Validators.required, Validators.pattern("[0-9 ]+")])],
+						'reemployeeID' : [null, Validators.compose([Validators.required, Validators.pattern("[0-9 ]+")])],
+				});
 				if(this._cookieService.get('7') == "true")
 				this.addEmployee=true;
 				if(this._cookieService.get('8') == "true")
@@ -105,11 +116,16 @@ export class CustServiceComponent implements OnInit {
 				if(this._cookieService.get('9') == "true")
 				this.delEmployee=true;
 
+				var type=this._cookieService.get('employeeType');
+				if(type == "admin" || type == "administrator" || type == "Administrator" || type == "Admin")
+				this.resettemp=true;
 				this.emp.getEmployee().subscribe(result => {
 					this.employees=result;
 				});
+				console.log("6");
 		}
 		clickdel(event:any, id:number,fname:string,mname:string,lname:string){
+			
 			this.employeeID=id;
 			this.empFirstName=fname;
 			this.empMiddleName=mname;
@@ -159,8 +175,49 @@ export class CustServiceComponent implements OnInit {
 			}
 			];
 		}
+		onSubmitEmpPass(event:any)
+		{
+			if(this.empID == this.reempID)
+			{
+				
+				this.emp.getOneEmployee(this.empID).then(result => {
+					this.oneEmployee=result;
+					if(this.oneEmployee.length==0)
+					alert("Employee ID does not exist")
+					console.log(this.oneEmployee); 
+				});
+				
+				setTimeout (() => {
+					let uuid2 = UUID.UUID();
+					this.empPassword=uuid2.slice(0,-28);
+					console.log(this.empPassword);
+					this.data.push({
+						'employeeID': this.empID,
+						'empPassword': Md5.hashStr(this.empPassword), 
+						'empType': this.oneEmployee[0].empType, 
+						'empLastName': this.oneEmployee[0].empLastName, 
+						'empMiddleName': this.oneEmployee[0].empMiddleName,
+						'empFirstName': this.oneEmployee[0].empFirstName, 				
+					});
+					this.emp.resetPass(this.data[0],this.empPassword);
+					this.empID='';
+					this.reempID='';
+					this.empPassword='';
+					this.data.pop();
+					this.complexForm4.reset();
+				}, 1500)	
+			}
+			else
+			{
+				alert("Employee ID does not match");
+			}
+		}
 		click(event:any, id:number,pass:string,fname:string,mname:string,lname:string,type:string){
 			console.log(id);
+			this.empID=id;
+			this.reempID=id;
+			this.complexForm4.controls['employeeID'].setValue(id);
+			this.complexForm4.controls['reemployeeID'].setValue(id);
 			this.editRights =[];
 			this.edAddCustomer=false;
 			this.edEditCustomer=false;
@@ -382,6 +439,7 @@ export class CustServiceComponent implements OnInit {
 		}
 		clear(){
 			this.complexForm.reset();
+			this.verify=true;
 				this.editRights =[];
 				this.edAddCustomer=false;
 				this.edEditCustomer=false;
@@ -433,6 +491,7 @@ export class CustServiceComponent implements OnInit {
 				];	
 		}
 		onSubmitEdit() {	
+			this.verify=true;
 				this.data.push({
 					'employeeID': this.employeeID,
 					'empPassword': this.empPassword, 
@@ -557,6 +616,7 @@ export class CustServiceComponent implements OnInit {
 	}
 	onChangeInputEdit(element: HTMLInputElement)
 	{
+		
 		var type:string;
 		type=element.value.toLocaleLowerCase();
 		if(type == "admin" || type == "administrator")
@@ -613,8 +673,13 @@ export class CustServiceComponent implements OnInit {
 		//console.log(element);
 		//console.log("test");
 	}
+	onChangeMiddleName(){
+		this.verify=false;
+		console.log(this.verify);
+	}
 	onChange(element: HTMLInputElement)
 	{
+		this.verify=false;
 		switch(element.value)
 		{
 			case "Add Customer":this.rights[0][0]=element.checked; break;
@@ -631,7 +696,7 @@ export class CustServiceComponent implements OnInit {
 			
 				
 		}
-		
+		console.log(this.verify);
 			//console.log(this.rights[0]);
 	}
 	onChangeEdit(element: HTMLInputElement)

@@ -66,15 +66,16 @@
 		
         <thead>
             <tr>
-                <th>Order Id</th>
-                <th>Customer Id</th>
+                <th >Order ID</th>
+                <th>Customer ID</th>
                 <th>Date</th>
                 <th>Total</th>
                 <th>Status</th>
                 <th>Remarks</th>
                 <th>Delivery Time</th>
                 <th>Packaging</th>
-                <th>Cash Tendered</th>   
+                <th>Location</th>
+                <th>Cash Tendered</th>  
             </tr>
 		
 		
@@ -84,7 +85,7 @@
             <td><button onclick="document.getElementById('details').style.display='block'" class="btn btn-link" (click)="orderDetail(order.orderID,order.orderTotal,order.customerID,order.cashTendered,order.orderTime,order.location,order.packaging,order.orderRemarks)">{{order.orderID}}</button></td>
             <td>{{order.customerID}}</td>
             <td>{{order.orderDate}}</td>
-            <td>{{order.orderTotal | currency:'PHP':true:'1.2-2'}}</td>
+            <td class="price">{{order.orderTotal | currency:'PHP':true:'1.2-2'}}</td>
             <td>
                 <select disabled="true" #stat [(ngModel)]="order.orderStatus" (change)="onChange(stat,$event,order.orderID,order.customerID,order.orderDate,order.orderTotal,order.orderStatus,order.orderRemarks,order.orderTime,order.packaging,order.location,order.cashTendered)">
                     <option  value="cancelled">cancelled</option>
@@ -93,11 +94,11 @@
                     <option value="delivered">delivered</option>        
                 </select>
             </td>
-            <td>{{order.orderRemarks}}</td>
+           <td>{{order.orderRemarks}}</td>
             <td>{{order.orderTime}}</td>
             <td>{{order.packaging}}</td>
             <td>{{order.location}}</td>
-            <td>{{order.cashTendered | currency:'PHP':true:'1.2-2'}}</td>                  
+            <td class="price">{{order.cashTendered | currency:'PHP':true:'1.2-2'}}</td>                
         </tr>
             
         
@@ -130,14 +131,14 @@
                                     <td>{{detail.ordetQuantity}}</td>  
                                     <td>{{detail.itemID}}</td>
                                     <td>{{detail.itemName}} {{detail.itemDescription}} </td>
-                                    <td>{{detail.ordetPrice | currency:'PHP':true:'1.2-2'}}</td>
-                                    <td>{{detail.ordetSubtotal | currency:'PHP':true:'1.2-2'}}</td>        
+                                    <td class="price">{{detail.ordetPrice | currency:'PHP':true:'1.2-2'}}</td>
+                                    <td class="price">{{detail.ordetSubtotal | currency:'PHP':true:'1.2-2'}}</td>        
                                 </tr>    
                     </table>
                     <div align="right">
-                         TOTAL: {{total2 | currency:'PHP':true:'1.2-2'}}&emsp;&emsp;<br>
-                         CASH: {{tender | currency:'PHP':true:'1.2-2'}}&emsp;&emsp;<br>
-                         CHANGE: {{change | currency:'PHP':true:'1.2-2'}}&emsp;&emsp;
+                         TOTAL: {{total2 | currency:'PHP':true:'1.2-2'}}&emsp;<br>
+                         CASH: {{tender | currency:'PHP':true:'1.2-2'}}&emsp;<br>
+                         CHANGE: {{change | currency:'PHP':true:'1.2-2'}}&emsp;
                     </div>
                     <div align="left" *ngFor='let customers of customer'>
                          &emsp;Customer Name: {{customers.cusLastName}}, {{customers.cusFirstName}} {{customers.cusMiddleName}}<br>
@@ -145,7 +146,7 @@
                          &emsp;Customer Number: {{customers.number}}<br>
                     </div>
                      <div align="left">
-                    
+                            <br>
                          &emsp;Delivery Time: {{deltime}}<br>
                          &emsp;Location: {{loc}}<br>
                          &emsp;Packaging: {{pack}}<br>

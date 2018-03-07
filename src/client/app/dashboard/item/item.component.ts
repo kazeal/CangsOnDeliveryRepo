@@ -34,6 +34,7 @@ export class ItemComponent implements OnInit, OnChanges{
     category:string='Dry Goods';
 	purchaseCount:number =0;
 	public itemID:number;
+    verify:boolean=true;
 	i:number=0;
     editItem=false;
     addItem=false;
@@ -100,12 +101,14 @@ export class ItemComponent implements OnInit, OnChanges{
                 if(this._cookieService.get('6') == "true")
                     this.delItem=true;   
                     console.log(this._cookieService.getAll());
-                     console.log("test19");
+                     console.log("test16");
         }
         load() {
             console.log(this.complexForm.controls);
         }
-
+        onChangeCategory(){
+            this.verify=false;
+        }
         clean(){
             document.getElementById("picture").value = "";
             this.filter="";
@@ -118,6 +121,7 @@ export class ItemComponent implements OnInit, OnChanges{
             this.itemPrice=null; 
             this.purchaseCount=0;
             this.itemID=null;
+            this.verify=true;
            
             /*
             this.Data.getProducts().subscribe(data => {
@@ -186,7 +190,8 @@ export class ItemComponent implements OnInit, OnChanges{
 
             if (extension === 'jpg' || extension === 'png' || extension === 'jpeg') {
             //this.complexForm.controls.picture._status
-            console.log("test1");
+           
+           // console.log("test1");
             this.validpic=true;
             }
             else {
@@ -194,12 +199,12 @@ export class ItemComponent implements OnInit, OnChanges{
                 alert('Wrong file extension! Please upload a picture.');
                 this.valid=false;
                 this.validpic=false;
-                console.log("test4");
+             //   console.log("test4");
                 
             }
             if(!this.complexForm.valid)
             {
-                console.log("test2");
+               // console.log("test2");
                 console.log(this.complexForm.controls);
             }
             if(fileInput.target.value == '')
@@ -210,14 +215,14 @@ export class ItemComponent implements OnInit, OnChanges{
                 console.log(this.complexForm.get('itemQuantityStored').status);
                 console.log(this.complexForm.get('itemPrice').status);
                 this.valid=true;
-                console.log("test3");
+              //  console.log("test3");
             }
             else
             this.valid=false; 
         }
 
         onSubmitEdit() { 
-	
+                this.verify=true;
                 this.data.push({
                     'itemID': this.itemID, 
                     'itemName': this.itemName, 
@@ -290,7 +295,7 @@ export class ItemComponent implements OnInit, OnChanges{
                 document.getElementById('del').style.display='none';
         }
         ngOnChanges(changes:any) {
-                console.log(changes);
+               // console.log(changes);
                 if(this.validpic && this.complexForm.get('itemName').status == "VALID" && this.complexForm.get('itemPrice').status == "VALID" && this.complexForm.get('itemQuantityStored').status == "VALID")
                 {
                     console.log(this.complexForm.get('itemName').status);
@@ -311,13 +316,13 @@ export class ItemComponent implements OnInit, OnChanges{
             this.postsSubscription = this.Data.getProducts().subscribe(
 
             data  => {
-                        console.log(this.items.data.length);
+                       // console.log(this.items.data.length);
                         var i =0;
                         for (let item of data)
                         {
                                 if(item.itemQuantityStored < 20)
                                 {
-                                    console.log("INSIDE <20");
+                                //    console.log("INSIDE <20");
                                     for(var v=0;v<this.notif.length;v++)
                                     {
                                         if(this.notif[v].itemID == item.itemID)
@@ -326,12 +331,12 @@ export class ItemComponent implements OnInit, OnChanges{
                                             console.log(item.itemName);
                                             
                                         }
-                                        console.log("INSIDE SEARCH");
-                                        console.log(this.inside);
+                                   //     console.log("INSIDE SEARCH");
+                                      //  console.log(this.inside);
                                     }
                                     if(!this.inside)
                                     {
-                                            console.log("ADDDED TO NOTIF");
+                                         //   console.log("ADDDED TO NOTIF");
                                             if(item.picture.substring(0,2) != "http://")
                                             {
                                                 item.picture="http://"+item.picture;
@@ -354,12 +359,12 @@ export class ItemComponent implements OnInit, OnChanges{
                                 }
                                 else
                                 {
-                                    console.log("INELSE <20");
+                                   // console.log("INELSE <20");
                                     for(var m=0;m<this.notif.length;m++)
                                     {
                                         if(this.notif[m].itemID == item.itemID)
                                         {
-                                            console.log("REMOVED <20");
+                                     //       console.log("REMOVED <20");
                                             this.notif.splice(m,1);
                                         }
                                     }
@@ -391,12 +396,12 @@ export class ItemComponent implements OnInit, OnChanges{
                             for(dif;dif>0;dif--)
                             {
                                     test=this.items.data.pop();
-                                    console.log(test);
+                                 //   console.log(test);
                             }
                         }
                         i=0;                          
                 this.subscribeToData();
-                console.log(this.notif);
+              //  console.log(this.notif);
               //  console.log(this.items.data);
                 for(var b=0;b<this.notif.length;b++)
                 {
