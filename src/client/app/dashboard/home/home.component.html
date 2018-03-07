@@ -67,26 +67,31 @@
     <table class="table table-scroll">
         <thead>
             <tr>
-                <th >Order ID</th>
-                <th>Customer ID</th>
+                <th width="100" >Order ID</th>
+                <th width="100">Customer ID</th>
                 <th>Date</th>
+               <th>Delivery Date</th>
+                <th width="80">Packaging</th>
+                <th width="200">Location</th>
+                  <th>Remarks</th>
+                <th>Cash Tendered</th>
                 <th>Total</th>
                 <th>Status</th>
-                <th>Remarks</th>
-                <th>Delivery Time</th>
-                <th>Packaging</th>
-                <th>Location</th>
-                <th>Cash Tendered</th>
             </tr>
 		
         </thead>
         <tbody>
            <tr *ngFor='let order of orders'>
-                <td><button onclick="document.getElementById('details').style.display='block'" class="btn btn-link" (click)="orderDetail(order.orderID,order.orderTotal,order.customerID,order.cashTendered,order.orderTime,order.location,order.packaging,order.orderRemarks)">{{order.orderID}}</button></td>
-                <td>{{order.customerID}}</td>
+                <td width="100"><button onclick="document.getElementById('details').style.display='block'" class="btn btn-link" (click)="orderDetail(order.orderID,order.orderTotal,order.customerID,order.cashTendered,order.orderTime,order.location,order.packaging,order.orderRemarks)">{{order.orderID}}</button></td>
+                <td width="100">{{order.customerID}}</td>
                 <td>{{order.orderDate}}</td>
+                <td>{{order.orderTime}}</td>
+                <td width="80">{{order.packaging}}</td>
+                <td width="200">{{order.location}}</td>
+                <td>{{order.orderRemarks}}</td>
+                <td class="price">{{order.cashTendered | currency:'PHP':true:'1.2-2'}}</td>
                 <td class="price">{{order.orderTotal | currency:'PHP':true:'1.2-2'}}</td>
-                <td>
+                 <td>
                     <select #stat [(ngModel)]="order.orderStatus" (change)="onChange(stat,$event,order.orderID,order.customerID,order.orderDate,order.orderTotal,order.orderStatus,order.orderRemarks,order.orderTime,order.packaging,order.location,order.cashTendered)">
                         <option  value="cancelled">cancelled</option>
                         <option value="pending">pending</option>
@@ -94,11 +99,6 @@
                         <option value="delivered">delivered</option>        
                     </select>
                 </td>
-                <td>{{order.orderRemarks}}</td>
-                <td>{{order.orderTime}}</td>
-                <td>{{order.packaging}}</td>
-                <td>{{order.location}}</td>
-                <td class="price">{{order.cashTendered | currency:'PHP':true:'1.2-2'}}</td>
             </tr>   
         </tbody>
     </table>
@@ -153,6 +153,29 @@
                     </div>
                 </div>
                 <br><br>
+            </div>
+        </form>
+</div>
+
+<!--cancel-->
+<!-- The Modal -->
+<div id="cancel" class="modal">
+    <span onclick="document.getElementById('cancel').style.display='none'" (click)="clear()" class="close" title="Close Modal">&times;</span>
+        <!-- Modal Content" -->
+        <form [formGroup]="complexForm4" role="form" id="canceldata" class="modal-content animate" >
+	        <div class="form-content">
+                <div class="container" align="center"><br><br> 
+                    <div align="left" class="form-group" [ngClass]="{'has-error':!complexForm4.controls['stat'].valid && complexForm4.controls['stat'].touched }">
+                            <label><b>Reason for cancellation</b></label> 
+                            <input type="text" [formControl]="complexForm4.controls['stat']" [value]="message" [(ngModel)]='message' name='message' class="form-control input-underline input-lg" id="message" placeholder="Please enter reason for cancellation">
+						    <div *ngIf="complexForm4.controls['stat'].hasError('required') && complexForm4.controls['stat'].touched" class="alert alert-danger">You must enter a reason for cancellation.</div>                         
+						    <div *ngIf="complexForm4.controls['stat'].hasError('pattern') && complexForm4.controls['stat'].touched" class="alert alert-danger">Symbols or numbers are not allowed.</div>                         
+					</div>
+                    <div  class="form-group">
+                            <button [disabled]="!complexForm4.valid"  class="btn btn-primary" (click) ='onSubmitReason($event)'>Submit</button>                          
+                    </div>
+                    
+                </div>
             </div>
         </form>
 </div>

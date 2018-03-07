@@ -66,16 +66,16 @@
 		
         <thead>
             <tr>
-                <th >Order ID</th>
-                <th>Customer ID</th>
+                <th width="100">Order ID</th>
+                <th width="100">Customer ID</th>
                 <th>Date</th>
-                <th>Total</th>
-                <th>Status</th>
+                <th>Delivery Date</th>
+                <th width="80">Packaging</th>
+                <th width="200">Location</th>
                 <th>Remarks</th>
-                <th>Delivery Time</th>
-                <th>Packaging</th>
-                <th>Location</th>
                 <th>Cash Tendered</th>  
+                 <th>Total</th>
+                <th>Status</th>
             </tr>
 		
 		
@@ -85,8 +85,16 @@
             <td><button onclick="document.getElementById('details').style.display='block'" class="btn btn-link" (click)="orderDetail(order.orderID,order.orderTotal,order.customerID,order.cashTendered,order.orderTime,order.location,order.packaging,order.orderRemarks)">{{order.orderID}}</button></td>
             <td>{{order.customerID}}</td>
             <td>{{order.orderDate}}</td>
+            <td>{{order.orderTime}}</td>
+           
+           
+            
+            <td width="80">{{order.packaging}}</td>
+            <td width="200">{{order.location}}</td>
+            <td>{{order.orderRemarks}}</td>
+            <td class="price">{{order.cashTendered | currency:'PHP':true:'1.2-2'}}</td>
             <td class="price">{{order.orderTotal | currency:'PHP':true:'1.2-2'}}</td>
-            <td>
+             <td>
                 <select disabled="true" #stat [(ngModel)]="order.orderStatus" (change)="onChange(stat,$event,order.orderID,order.customerID,order.orderDate,order.orderTotal,order.orderStatus,order.orderRemarks,order.orderTime,order.packaging,order.location,order.cashTendered)">
                     <option  value="cancelled">cancelled</option>
                     <option value="pending">pending</option>
@@ -94,11 +102,6 @@
                     <option value="delivered">delivered</option>        
                 </select>
             </td>
-           <td>{{order.orderRemarks}}</td>
-            <td>{{order.orderTime}}</td>
-            <td>{{order.packaging}}</td>
-            <td>{{order.location}}</td>
-            <td class="price">{{order.cashTendered | currency:'PHP':true:'1.2-2'}}</td>                
         </tr>
             
         

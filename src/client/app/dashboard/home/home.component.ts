@@ -9,7 +9,7 @@ import { Observable } from 'rxjs/Rx';
 import { NgZone, ChangeDetectorRef } from '@angular/core';
 import { AnonymousSubscription } from "rxjs/Subscription";
 import { Angular2Csv } from 'angular2-csv/Angular2-csv';
-
+import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 
 
 @Component({
@@ -46,6 +46,9 @@ export class HomeComponent implements OnInit{
     public orders: any= [];
     public details: any= [];
     public ID:any;
+    complexForm4 : FormGroup;
+    message:string="";
+    can:any=[];
 	public statuses: any= [
 		 "pending","verified","canceled","delivered",
 	 ];
@@ -56,15 +59,17 @@ export class HomeComponent implements OnInit{
                 public cus: CustomerService,
 	 			private chRef: ChangeDetectorRef,
          		private zone: NgZone,
-              
+                public fb: FormBuilder,
 				private _http: HttpModule){
          
-       
+          this.complexForm4 = fb.group({
+				'stat' : [null, Validators.compose([Validators.required, Validators.pattern("[a-zA-Z][a-zA-Z ]+")])],
+		  });          
 		  this.ord.getOrders().subscribe(data => {
 				this.orders=data;
 				console.log(this.orders);
     	  });
-          console.log("133");
+          console.log("18");
     }
     
     test(){
@@ -114,21 +119,55 @@ export class HomeComponent implements OnInit{
     }
 	onChange(element: HTMLInputElement,event:any,orderID:number,customerID:number,orderDate:string,orderTotal:number,orderStatus:string,orderRemarks:string,orderTime:string,packaging:string,location:string,cashTendered:any)
 	{
-		this.data.push({
-				'orderID': orderID, 
-				'orderDate': orderDate, 
-				'orderTotal': orderTotal, 
-				'orderStatus': element.value,
-				'orderRemarks': orderRemarks, 
-				'location': location,
-				'orderTime': orderTime,
-				'packaging': packaging, 
-				'customerID': customerID,
-                'cashTendered':cashTendered,  				
-			});
-		this.ord.updateOrderStatus(this.data[0]);
-		this.data.pop();
+        if(element.value == "cancelled")
+        {
+                console.log("cancelled");
+                this.can.push({
+                    'orderID': orderID, 
+                    'orderDate': orderDate, 
+                    'orderTotal': orderTotal, 
+                    'orderStatus': element.value,
+                    'orderRemarks': orderRemarks, 
+                    'location': location,
+                    'orderTime': orderTime,
+                    'packaging': packaging, 
+                    'customerID': customerID,
+                    'cashTendered':cashTendered,  				
+                });
+              document.getElementById('cancel').style.display='block';
+           // this.ord.updateOrderStatus(this.data[0]);
+            //this.data.pop();
+
+        }
+        else
+        {
+            console.log("not cancelled");
+            this.data.push({
+                    'orderID': orderID, 
+                    'orderDate': orderDate, 
+                    'orderTotal': orderTotal, 
+                    'orderStatus': element.value,
+                    'orderRemarks': orderRemarks, 
+                    'location': location,
+                    'orderTime': orderTime,
+                    'packaging': packaging, 
+                    'customerID': customerID,
+                    'cashTendered':cashTendered,  				
+                });
+            this.ord.updateOrderStatus(this.data[0],this.message);
+            this.data.pop();
+        }
 	}
+    onSubmitReason(){
+        document.getElementById('cancel').style.display='none';
+        console.log(this.can);
+        console.log(this.data);
+        this.ord.updateOrderStatus(this.can[0],this.message);
+        this.can.pop();
+        this.message="";
+        this.can=[];
+        this.complexForm4.reset();
+    }
     orderDetail(id:any, total:any,cusID:any, tender2:any,orderTime:any,location:any,packaging:any,orderRemarks:any)
     {
         this.ID=id;
@@ -163,6 +202,9 @@ export class HomeComponent implements OnInit{
         this.customer=[];
         this.details=[];
         this.total2=null;
+        this.can.pop();
+        this.can=[];
+        this.complexForm4.reset();
     }
 	 ngOnInit() {
         this.refreshData();
