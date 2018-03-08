@@ -251,31 +251,45 @@ export class ItemComponent implements OnInit, OnChanges{
 	
         }
         onSubmitAdd() {  
-                                          
-                this.data.push({
-                    'itemName': this.itemName, 
-                    'itemQuantityStored': this.itemQuantityStored, 
-                    'itemPrice': this.itemPrice,
-                    'purchaseCountAllTime': 0, 
-                    'picture': "fileName",
-                    'itemDescription': this.itemDescription,
-                    'category': this.category, 
-                   			
-                });
-                this.Data.addItem(this.data[0],this.picture);   
-                console.log(this.data[0]);
-                this.data.pop();
-                this.picture =null;
-                this.picturestring="";
-                this.itemName="";
-                this.itemDescription="";
-                this.category="";
-                this.itemQuantityStored=null;
-                this.itemPrice=null; 
-                this.purchaseCount=0;
-                this.complexForm.reset();
-                this.filter="";
-                document.getElementById('add').style.display='none';
+                var found=false;
+                for(var i=0;i<this.items.data.length;i++)
+                {
+                    if(this.itemName==this.items.data[i].itemName)
+                    {
+                         found=true;
+                    }
+                }
+                if(!found)
+                {
+                    this.data.push({
+                        'itemName': this.itemName, 
+                        'itemQuantityStored': this.itemQuantityStored, 
+                        'itemPrice': this.itemPrice,
+                        'purchaseCountAllTime': 0, 
+                        'picture': "fileName",
+                        'itemDescription': this.itemDescription,
+                        'category': this.category, 
+                                
+                    });
+                    this.Data.addItem(this.data[0],this.picture);   
+                    console.log(this.data[0]);
+                    this.data.pop();
+                    this.picture =null;
+                    this.picturestring="";
+                    this.itemName="";
+                    this.itemDescription="";
+                    this.category="";
+                    this.itemQuantityStored=null;
+                    this.itemPrice=null; 
+                    this.purchaseCount=0;
+                    this.complexForm.reset();
+                    this.filter="";
+                    document.getElementById('add').style.display='none';
+                }
+                else
+                {
+                    alert("This item already exist. \nPlease use a different item name.")
+                }
            
         }
         onSubmitDel() {

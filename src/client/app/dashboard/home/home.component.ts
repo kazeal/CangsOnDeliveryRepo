@@ -49,6 +49,7 @@ export class HomeComponent implements OnInit{
     complexForm4 : FormGroup;
     message:string="";
     can:any=[];
+    canc:boolean=false;
 	public statuses: any= [
 		 "pending","verified","canceled","delivered",
 	 ];
@@ -69,7 +70,7 @@ export class HomeComponent implements OnInit{
 				this.orders=data;
 				console.log(this.orders);
     	  });
-          console.log("18");
+          console.log("17");
     }
     
     test(){
@@ -121,7 +122,7 @@ export class HomeComponent implements OnInit{
 	{
         if(element.value == "cancelled")
         {
-                console.log("cancelled");
+              // console.log("cancelled");
                 this.can.push({
                     'orderID': orderID, 
                     'orderDate': orderDate, 
@@ -141,7 +142,7 @@ export class HomeComponent implements OnInit{
         }
         else
         {
-            console.log("not cancelled");
+           // console.log("not cancelled");
             this.data.push({
                     'orderID': orderID, 
                     'orderDate': orderDate, 
@@ -166,6 +167,7 @@ export class HomeComponent implements OnInit{
         this.can.pop();
         this.message="";
         this.can=[];
+        this.canc=true
         this.complexForm4.reset();
     }
     orderDetail(id:any, total:any,cusID:any, tender2:any,orderTime:any,location:any,packaging:any,orderRemarks:any)
@@ -237,16 +239,38 @@ export class HomeComponent implements OnInit{
                        /*           
                            
                         */
-                        for(var l=0;l<this.neword.length;l++)
+                        // console.log(this.neword);
+                        if(!this.canc)
                         {
-                            for(var k=0;k<this.orders.length;k++)
+                            for(var l=0;l<this.neword.length;l++)
                             {
-                                if(this.orders[k].orderID == this.neword[l].orderID)
-                                {   
-                                    this.neword.splice(l,1);
+                                for(var k=0;k<this.orders.length;k++)
+                                {
+                                    if(this.orders[k].orderID == this.neword[l].orderID)
+                                    {   
+                                      //   console.log("After 1 splice");
+                                        this.neword.splice(l,1);
+                                     //   console.log(this.neword);
+                                    }
                                 }
                             }
                         }
+                        else
+                        {
+                             for(var l=0;l<this.neword.length;l++)
+                            {
+                                for(var k=0;k<this.orders.length;k++)
+                                {
+                                    if(this.orders[k].orderID == this.neword[l].orderID)
+                                    {   
+                                        this.neword.splice(l,1);
+                                        
+                                    }
+                                }
+                            }
+                            this.canc=false;
+                        }
+                    //  console.log(this.neword);
                       for (let order of data)
                       {   
                          this.orders[i]=({
@@ -287,7 +311,7 @@ export class HomeComponent implements OnInit{
             console.log(error);
         },
         function () {
-            console.log("complete");
+          //  console.log("complete");
         }
         );
         });

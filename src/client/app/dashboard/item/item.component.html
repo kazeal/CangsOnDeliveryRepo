@@ -77,10 +77,10 @@
                 <th >Picture</th>
                 <th>Name</th>
                 <th width="300">Description</th>
-                <th width="100">Qty Stored</th>
+                <th width="80">Qty Stored</th>
                 <th>Category</th>
                 <th>Price</th>                
-                <th *ngIf="editItem || delItem">Options</th>
+                <th *ngIf="editItem || delItem" width="130">Options</th>
             </tr>
         </thead>
         <tbody  class="content">
@@ -89,10 +89,10 @@
                 <td><img src="{{item.picture}}" width="100" height="100"></td>
                 <td>{{item.itemName}}</td>
                 <td width="300">{{item.itemDescription}}</td>
-                <td width="100">{{item.itemQuantityStored}}</td>
+                <td width="80">{{item.itemQuantityStored}}</td>
                 <td>{{item.category}}</td>
                 <td class="price">{{item.itemPrice | currency:'PHP':true:'1.2-2'}}</td>
-                <td *ngIf="editItem || delItem">
+                <td width="130" *ngIf="editItem || delItem">
                     <button *ngIf="editItem" class="btn btn-info" (click)="clickedit($event,item.itemID,item.itemName,item.itemQuantityStored,item.itemPrice,item.purchaseCount,item.picture,item.itemDescription,item.category)" onclick="document.getElementById('edit').style.display='block'">
                         <i class="fa fa-pencil"></i>
                     </button>

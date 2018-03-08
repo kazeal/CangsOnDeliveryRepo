@@ -17,8 +17,10 @@ export class HomeService{
     getOrders(){return this._http.get(this._apiUrl + "/orders/filterStatusPV").map((res:Response) => res.json());}
 
     updateOrderStatus(data:any,message:any){
+        console.log(data);
         if(data['orderStatus'] != "cancelled")
         {
+                console.log("inside cancelled");
                 let headers = new Headers();
                 headers.append('Content-Type', 'application/x-www-form-urlencoded');
                 let reqopt = new RequestOptions({
@@ -44,7 +46,12 @@ export class HomeService{
 
                 this._http.post(this._apiUrl + "/orders/editOrder",JSON.stringify(data), reqopt).subscribe(function(res){
                     this.response=res;
+                    if(data['orderStatus']=="pending")
+                    alert("The order has been updated to "+ data['orderStatus']+"!");
+                    else
                     alert("The order has been successfully "+ data['orderStatus']+"!");
+                   
+
                 });
 
                 this._http.post(this._apiUrl + "/UpdateOrderStatus/addUpdateStatus",JSON.stringify(this.log[0]), reqopt).subscribe(function(res){
@@ -54,6 +61,7 @@ export class HomeService{
         }
         else
         {
+                console.log("inside not cancelled");
                 let headers = new Headers();
                 headers.append('Content-Type', 'application/x-www-form-urlencoded');
                 let reqopt = new RequestOptions({
@@ -76,10 +84,14 @@ export class HomeService{
                     'employeeID':this._cookieService.get('employeeID'),
                     'orderID':data['orderID'],
                 });
-
+                console.log(data);
                 this._http.post(this._apiUrl + "/orders/editOrder",JSON.stringify(data), reqopt).subscribe(function(res){
                     this.response=res;
+                    console.log(data);
+                    
                     alert("The order has been successfully "+ data['orderStatus']+"!");
+                   
+                    
                 });
 
                 this._http.post(this._apiUrl + "/UpdateOrderStatus/addUpdateStatus",JSON.stringify(this.log[0]), reqopt).subscribe(function(res){
