@@ -38,6 +38,7 @@ export class CustomerComponent implements OnInit {
 	complexForm2 : FormGroup;
 	complexForm3 : FormGroup;
 	complexForm4 : FormGroup;
+	complexForm5 : FormGroup;
 	public data: any= [];
 	public customers: any= [];
 	customerID4:string='';
@@ -48,6 +49,7 @@ export class CustomerComponent implements OnInit {
 	recustomerID3:string='';
 	oneCustomer:any=[];
 	oneEmployee:any=[];
+	custservpass:any="";
 	private timerSubscription: AnonymousSubscription;
     private postsSubscription: AnonymousSubscription;
 	filter:string='';
@@ -74,6 +76,9 @@ export class CustomerComponent implements OnInit {
 				'customerID' : [null, Validators.compose([Validators.required, Validators.pattern("[0-9 ]+")])],
 				'recustomerID' : [null, Validators.compose([Validators.required, Validators.pattern("[0-9 ]+")])],
 		});
+		this.complexForm5 = fb.group({
+				'pass' : [null, Validators.required],
+		});
 		this.complexForm2 = fb.group({
 				'customerID' : [null, Validators.compose([Validators.required, Validators.pattern("[0-9 ]+")])],
 				'recustomerID' : [null, Validators.compose([Validators.required, Validators.pattern("[0-9 ]+")])],
@@ -98,6 +103,23 @@ export class CustomerComponent implements OnInit {
 	{
 		this.verify=false;
 		console.log("change");
+	}
+	onSubmitCustServPass(){
+		this.emp.getOneEmployee(this._cookieService.get('employeeID')).subscribe(data => {
+					this.oneEmployee=data;
+		});
+		setTimeout (() => {
+				if(this.oneEmployee[0].password==this.custservpass)
+				{
+					document.getElementById('confirm').style.display='none';
+					document.getElementById('reset').style.display='block';
+				}
+				else
+				{
+					alert("Your password is incorrect!");
+				}
+		}, 1000)	
+
 	}
 	click(event:any, id:number,pass:string,fname:string,mname:string,lname:string,number:string,address:string,vercode:string,bar:string){
 		console.log(id);
