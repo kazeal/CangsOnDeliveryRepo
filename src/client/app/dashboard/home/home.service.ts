@@ -10,7 +10,7 @@ import 'rxjs/add/operator/catch';
 export class HomeService{
     post: any;
     public log:any=[];//192.168.0.24:1025
-  //  private _apiUrl = 'http://192.168.1.219:1025';//
+  //  private _apiUrl = 'http://192.168.0.24:1025';//
     private _apiUrl = 'http://192.168.0.24:1025';//
     constructor(private _http: Http, private _cookieService:CookieService){}
      

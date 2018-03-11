@@ -73,7 +73,7 @@
             <tr>
                 <th width="100">CustomerID</th>
                 <th width="100">Last Name</th>
-                <th>First Name</th>
+                <th width="200">First Name</th>
                 <th width="100">Middle Name</th>
                 <th width="100">Cell Phone Number</th>
                 <th width="100">Barangay</th>
@@ -85,7 +85,7 @@
             <tr *ngFor='let customer of customers | customerFilter : filter'>
                 <td width="100">{{customer.customerID}}</td>
                 <td width="100">{{customer.cusLastName}}</td>
-                <td>{{customer.cusFirstName}}</td>
+                <td width="200">{{customer.cusFirstName}}</td>
                 <td width="100">{{customer.cusMiddleName}}</td>
                 <td width="100">{{customer.number}}</td>
                 <td width="100">{{customer.barangay}}</td>
@@ -98,7 +98,7 @@
                     <button *ngIf="delCustomer" class="btn btn-danger" (click)="click($event,customer.customerID,customer.cusPassword,customer.cusFirstName,customer.cusMiddleName,customer.cusLastName,customer.number,customer.address,customer.verificationCode)" onclick="document.getElementById('del').style.display='block'">
                         <i class="fa fa-remove"></i>
                     </button>
-                    <button class="btn btn-success" (click)="click($event,customer.customerID,customer.cusPassword,customer.cusFirstName,customer.cusMiddleName,customer.cusLastName,customer.number,customer.address,customer.verificationCode)" onclick="document.getElementById('reset').style.display='block'">
+                    <button class="btn btn-success" (click)="click($event,customer.customerID,customer.cusPassword,customer.cusFirstName,customer.cusMiddleName,customer.cusLastName,customer.number,customer.address,customer.verificationCode)" onclick="document.getElementById('confirm').style.display='block'">
                         <i class="fa fa-repeat"></i>
                     </button>
                 </td>
@@ -165,6 +165,14 @@
                             
                             <label><b>Barangay</b></label><br>
                             <select (change)="change()" [ngModelOptions]="{standalone: true}" [(ngModel)]="barangay">
+                                <option value="Barangay 1-Tinago">Barangay 1-Tinago</option>
+                                <option value="Barangay 2-Upper Lukewright">Barangay 2-Upper Lukewright</option>
+                                <option value="Barangay 3-Colon Ext.">Barangay 3-Colon Ext.</option>
+                                <option value="Barangay 4-Rizal Boulevard">Barangay 4-Rizal Boulevard</option>
+                                <option value="Barangay 5-Silliman Area">Barangay 5-Silliman Area</option>
+                                <option value="Barangay 6-Cambagroy">Barangay 6-Cambagroy</option>
+                                <option value="Barangay 7-Mangga">Barangay 7-Mangga</option>
+                                <option value="Barangay 8-Cervantes Street">Barangay 8-Cervantes Street</option>
                                 <option value="Bagacay">Bagacay</option>
                                 <option value="Bajumpandan">Bajumpandan</option>
                                 <option value="Balugo">Balugo</option>
@@ -172,29 +180,21 @@
                                 <option value="Bantayan">Bantayan</option>
                                 <option value="Batinguel">Batinguel</option>
                                 <option value="Buñao">Buñao</option>
-                                <option value="Business District">Business District</option>
                                 <option value="Cadawinonan">Cadawinonan</option>
-                                <option value="Cambagroy">Cambagroy</option>
                                 <option value="Calindagan">Calindagan</option>
                                 <option value="Camanjac">Camanjac</option>
                                 <option value="Candau-ay">Candau-ay</option>
                                 <option value="Cantil-e">Cantil-e</option>
-                                <option value="Cervantes Extension">Cervantes Extension</option>
                                 <option value="Daro">Daro</option>
                                 <option value="Junob">Junob</option>
                                 <option value="Looc">Looc</option>
-                                <option value="Mangga">Mangga</option>
                                 <option value="Mangnao-Canal">Mangnao-Canal</option>
                                 <option value="Motong">Motong</option>
                                 <option value="Piapi">Piapi</option>
                                 <option value="Pulantubig">Pulantubig</option>
-                                <option value="Rizal Boulevard">Rizal Boulevard</option>
-                                <option value="Silliman Area">Silliman Area</option>
                                 <option value="Tabuc-tubig">Tabuc-tubig</option>
                                 <option value="Taclobo">Taclobo</option>
                                 <option value="Talay">Talay</option>
-                                <option value="Tinago">Tinago</option>
-                                <option value="Upper Lukewright">Upper Lukewright</option>
                             </select>
                             <br><br>
                             <label><b>Street Name</b></label>
@@ -246,6 +246,14 @@
                     <div align="left" class="form-group">
                              <label><b>Barangay</b></label><br>
                             <select [ngModelOptions]="{standalone: true}" [(ngModel)]="barangay">
+                               <option value="Barangay 1-Tinago">Barangay 1-Tinago</option>
+                                <option value="Barangay 2-Upper Lukewright">Barangay 2-Upper Lukewright</option>
+                                <option value="Barangay 3-Colon Ext.">Barangay 3-Colon Ext.</option>
+                                <option value="Barangay 4-Rizal Boulevard">Barangay 4-Rizal Boulevard</option>
+                                <option value="Barangay 5-Silliman Area">Barangay 5-Silliman Area</option>
+                                <option value="Barangay 6-Cambagroy">Barangay 6-Cambagroy</option>
+                                <option value="Barangay 7-Mangga">Barangay 7-Mangga</option>
+                                <option value="Barangay 8-Cervantes Street">Barangay 8-Cervantes Street</option>
                                 <option value="Bagacay">Bagacay</option>
                                 <option value="Bajumpandan">Bajumpandan</option>
                                 <option value="Balugo">Balugo</option>
@@ -253,29 +261,21 @@
                                 <option value="Bantayan">Bantayan</option>
                                 <option value="Batinguel">Batinguel</option>
                                 <option value="Buñao">Buñao</option>
-                                <option value="Business District">Business District</option>
                                 <option value="Cadawinonan">Cadawinonan</option>
-                                <option value="Cambagroy">Cambagroy</option>
                                 <option value="Calindagan">Calindagan</option>
                                 <option value="Camanjac">Camanjac</option>
                                 <option value="Candau-ay">Candau-ay</option>
                                 <option value="Cantil-e">Cantil-e</option>
-                                <option value="Cervantes Extension">Cervantes Extension</option>
                                 <option value="Daro">Daro</option>
                                 <option value="Junob">Junob</option>
                                 <option value="Looc">Looc</option>
-                                <option value="Mangga">Mangga</option>
                                 <option value="Mangnao-Canal">Mangnao-Canal</option>
                                 <option value="Motong">Motong</option>
                                 <option value="Piapi">Piapi</option>
                                 <option value="Pulantubig">Pulantubig</option>
-                                <option value="Rizal Boulevard">Rizal Boulevard</option>
-                                <option value="Silliman Area">Silliman Area</option>
                                 <option value="Tabuc-tubig">Tabuc-tubig</option>
                                 <option value="Taclobo">Taclobo</option>
                                 <option value="Talay">Talay</option>
-                                <option value="Tinago">Tinago</option>
-                                <option value="Upper Lukewright">Upper Lukewright</option>
                             </select>
                             <br><br>
                             <label><b>Street Name</b></label>
@@ -295,18 +295,18 @@
 <div id="reset" class="modal">
     <span onclick="document.getElementById('reset').style.display='none'" (click)="clear()" class="close" title="Close Modal">&times;</span>
         <!-- Modal Content" -->
-        <form [formGroup]="complexForm4" role="form" id="dataadd" class="modal-content animate" >
+        <form [formGroup]="complexForm4" role="form" id="datareset" class="modal-content animate" >
 	        <div class="form-content">
                 <div class="container" align="center"><br><br> 
                     <div align="left" class="form-group" [ngClass]="{'has-error':!complexForm4.controls['customerID'].valid}">
                             <label><b>Customer ID</b></label> 
-                            <input type="text" [formControl]="complexForm4.controls['customerID']" [value]="customerID" [(ngModel)]='customerID4' name='customerID4' class="form-control input-underline input-lg" id="customerID4" placeholder="Enter Customer ID">
+                            <input type="text" [formControl]="complexForm4.controls['customerID']"  [(ngModel)]='customerID4' name='customerID4' class="form-control input-underline input-lg" id="customerID4" placeholder="Enter Customer ID">
 						    <div *ngIf="complexForm4.controls['customerID'].hasError('required') && complexForm4.controls['customerID'].touched" class="alert alert-danger">You must enter a Customer ID.</div>                         
 						    <div *ngIf="complexForm4.controls['customerID'].hasError('pattern') && complexForm4.controls['customerID'].touched" class="alert alert-danger">Customer ID can only consist of numbers.</div>                         
 					</div>
                     <div align="left" class="form-group" [ngClass]="{'has-error':!complexForm4.controls['recustomerID'].valid}">
                             <label><b>Re-Enter Customer ID</b></label>
-                            <input type="text" [formControl]="complexForm4.controls['recustomerID']" [value]="customerID" [(ngModel)]='recustomerID4' name='recustomerID4' class="form-control input-underline input-lg" id="recustomerID4" placeholder="Re-enter Customer ID">
+                            <input type="text" [formControl]="complexForm4.controls['recustomerID']" [(ngModel)]='recustomerID4' name='recustomerID4' class="form-control input-underline input-lg" id="recustomerID4" placeholder="Re-enter Customer ID">
 						    <div *ngIf="complexForm4.controls['recustomerID'].hasError('required') && complexForm4.controls['recustomerID'].touched" class="alert alert-danger">You must re-enter Customer ID.</div>
                             <div *ngIf="complexForm4.controls['recustomerID'].hasError('pattern') && complexForm4.controls['recustomerID'].touched" class="alert alert-danger">Customer ID can only consist of numbers.</div>
                     </div>
@@ -325,16 +325,16 @@
 <div id="confirm" class="modal">
     <span onclick="document.getElementById('confirm').style.display='none'" (click)="clear()" class="close" title="Close Modal">&times;</span>
         <!-- Modal Content" -->
-        <form [formGroup]="complexForm5" role="form" id="dataadd" class="modal-content animate" >
+        <form [formGroup]="complexForm5" role="form" id="dataconfirm" class="modal-content animate" >
 	        <div class="form-content">
                 <div class="container" align="center"><br><br> 
                     <div align="left" class="form-group" [ngClass]="{'has-error':!complexForm5.controls['pass'].valid}">
-                            <label><b>Customer service password</b></label> 
-                            <input type="text" [formControl]="complexForm5.controls['pass']" [(ngModel)]='custservpass' name='custservpass' class="form-control input-underline input-lg" id="custservpass" placeholder="Enter customer service password">
-						    <div *ngIf="complexForm5.controls['pass'].hasError('required') && complexForm5.controls['pass'].touched" class="alert alert-danger">You must enter a Customer ID.</div>                         
+                            <label><b>Enter password</b></label> 
+                            <input type="password" [formControl]="complexForm5.controls['pass']" [(ngModel)]='custservpass' name='custservpass' class="form-control input-underline input-lg" id="custservpass" placeholder="Enter password">
+						    <div *ngIf="complexForm5.controls['pass'].hasError('required') && complexForm5.controls['pass'].touched" class="alert alert-danger">You must enter your password.</div>                         
 					</div>
                     <div  class="form-group">
-                            <button [disabled]="!complexForm5.valid"  class="btn btn-primary" (click) ='onSubmitCustServPass($event)'>Reset Password</button>                          
+                            <button [disabled]="!complexForm5.valid"  class="btn btn-primary" (click) ='onSubmitCustServPass($event)'>Submit</button>                          
                     </div>
                     
                 </div>

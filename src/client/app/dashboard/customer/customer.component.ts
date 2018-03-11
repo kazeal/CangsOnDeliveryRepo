@@ -53,7 +53,7 @@ export class CustomerComponent implements OnInit {
 	private timerSubscription: AnonymousSubscription;
     private postsSubscription: AnonymousSubscription;
 	filter:string='';
-	barangay:string="Bagacay";
+	barangay:string="Barangay 1-Tinago";
 	constructor(
 		 public cust: CustomerService,
 		 private _http: HttpModule,
@@ -97,7 +97,7 @@ export class CustomerComponent implements OnInit {
 		  if(this._cookieService.get('3') == "true")
 			this.delCustomer=true;   
 		 
-		  console.log("9");
+		  console.log("8");
     }
 	change()
 	{
@@ -105,11 +105,13 @@ export class CustomerComponent implements OnInit {
 		console.log("change");
 	}
 	onSubmitCustServPass(){
-		this.emp.getOneEmployee(this._cookieService.get('employeeID')).subscribe(data => {
+		this.emp.getOneEmployee(this._cookieService.get('employeeID')).then(data => {
 					this.oneEmployee=data;
 		});
 		setTimeout (() => {
-				if(this.oneEmployee[0].password==this.custservpass)
+				console.log(this.oneEmployee);
+				console.log(Md5.hashStr(this.custservpass));
+				if(this.oneEmployee[0].empPassword==Md5.hashStr(this.custservpass))
 				{
 					document.getElementById('confirm').style.display='none';
 					document.getElementById('reset').style.display='block';
@@ -133,8 +135,8 @@ export class CustomerComponent implements OnInit {
 		this.verificationCode=vercode;
 		this.customerID=id;
 		console.log(this.complexForm4);
-		this.complexForm4.controls['customerID'].setValue(id);
-		this.complexForm4.controls['recustomerID'].setValue(id);
+		//this.complexForm4.controls['customerID'].setValue(id);
+		//this.complexForm4.controls['recustomerID'].setValue(id);
 		//this.complexForm4.valid=true;
 		
 	}
@@ -151,8 +153,10 @@ export class CustomerComponent implements OnInit {
 		this.complexForm.reset();
 		 this.complexForm4.markAsPristine();
         this.complexForm4.markAsUntouched();
-		this.barangay="Bagacay";
+		this.barangay="Barangay 1-Tinago";
 		this.verify=true;
+		this.custservpass="";
+		this.complexForm5.reset();
   	}
 	onSubmitEdit() {  	
 			this.data.push({
@@ -283,6 +287,8 @@ export class CustomerComponent implements OnInit {
 		{
 			alert("Customer ID does not match");
 		}
+		this.custservpass="";
+		this.complexForm5.reset();
 	}
 	onSubmitCode(event:any)
 	{
@@ -325,6 +331,8 @@ export class CustomerComponent implements OnInit {
 		{
 			alert("Customer ID does not match");
 		}
+		this.custservpass="";
+		this.complexForm5.reset();
 	}
 
 	 ngOnInit() {
@@ -375,8 +383,8 @@ export class CustomerComponent implements OnInit {
                     // console.log(this.items.data);                
                     // console.log("latestest");      
             //this.items.data = data;
-			console.log(this.complexForm.controls['firstName'].pristine);
-			console.log(this.complexForm.valid);
+		//	console.log(this.complexForm.controls['firstName'].pristine);
+			//console.log(this.complexForm.valid);
 			//console.log(this.complexForm.controls['number'].hasError('pattern'))
             this.subscribeToData();
             //console.log(this.customers);

@@ -267,14 +267,14 @@
 	        <div class="form-content">
                 <div class="container" align="center"><br><br> 
                     <div align="left" class="form-group" [ngClass]="{'has-error':!complexForm4.controls['employeeID'].valid}">
-                            <label><b>Customer ID</b></label> 
-                            <input type="text" [formControl]="complexForm4.controls['employeeID']" [value]="empID" [(ngModel)]='empID' name='empID' class="form-control input-underline input-lg" id="empID" placeholder="Enter Employee ID">
+                            <label><b>Employee ID</b></label> 
+                            <input type="text" [formControl]="complexForm4.controls['employeeID']"  [(ngModel)]='empID' name='empID' class="form-control input-underline input-lg" id="empID" placeholder="Enter Employee ID">
 						    <div *ngIf="complexForm4.controls['employeeID'].hasError('required') && complexForm4.controls['employeeID'].touched" class="alert alert-danger">You must enter a Employee ID.</div>                         
 						    <div *ngIf="complexForm4.controls['employeeID'].hasError('pattern') && complexForm4.controls['employeeID'].touched" class="alert alert-danger">Employee ID can only consist of numbers.</div>                         
 					</div>
                     <div align="left" class="form-group" [ngClass]="{'has-error':!complexForm4.controls['reemployeeID'].valid}">
-                            <label><b>Re-Enter Customer ID</b></label>
-                            <input type="text" [formControl]="complexForm4.controls['reemployeeID']" [value]="reempID" [(ngModel)]='reempID' name='reempID' class="form-control input-underline input-lg" id="reempID" placeholder="Re-enter Employee ID">
+                            <label><b>Re-Enter Employee ID</b></label>
+                            <input type="text" [formControl]="complexForm4.controls['reemployeeID']" [(ngModel)]='reempID' name='reempID' class="form-control input-underline input-lg" id="reempID" placeholder="Re-enter Employee ID">
 						    <div *ngIf="complexForm4.controls['reemployeeID'].hasError('required') && complexForm4.controls['reemployeeID'].touched" class="alert alert-danger">You must re-enter Employee ID.</div>
                             <div *ngIf="complexForm4.controls['reemployeeID'].hasError('pattern') && complexForm4.controls['reemployeeID'].touched" class="alert alert-danger">Employee ID can only consist of numbers.</div>
                     </div>

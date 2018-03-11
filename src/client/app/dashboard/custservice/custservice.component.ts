@@ -214,10 +214,10 @@ export class CustServiceComponent implements OnInit {
 		}
 		click(event:any, id:number,pass:string,fname:string,mname:string,lname:string,type:string){
 			console.log(id);
-			this.empID=id;
-			this.reempID=id;
-			this.complexForm4.controls['employeeID'].setValue(id);
-			this.complexForm4.controls['reemployeeID'].setValue(id);
+		//	this.empID=id;
+		//	this.reempID=id;
+		//	this.complexForm4.controls['employeeID'].setValue(id);
+		//	this.complexForm4.controls['reemployeeID'].setValue(id);
 			this.editRights =[];
 			this.edAddCustomer=false;
 			this.edEditCustomer=false;

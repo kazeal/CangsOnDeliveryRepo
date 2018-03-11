@@ -95,12 +95,14 @@
             <td class="price">{{order.cashTendered | currency:'PHP':true:'1.2-2'}}</td>
             <td class="price">{{order.orderTotal | currency:'PHP':true:'1.2-2'}}</td>
              <td>
+                 <!--
                 <select disabled="true" #stat [(ngModel)]="order.orderStatus" (change)="onChange(stat,$event,order.orderID,order.customerID,order.orderDate,order.orderTotal,order.orderStatus,order.orderRemarks,order.orderTime,order.packaging,order.location,order.cashTendered)">
                     <option  value="cancelled">cancelled</option>
                     <option value="pending">pending</option>
                     <option value="verified">verified</option>
                     <option value="delivered">delivered</option>        
-                </select>
+                </select>-->
+                {{order.orderStatus}}
             </td>
         </tr>
             
