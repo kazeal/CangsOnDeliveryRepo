@@ -97,7 +97,7 @@ export class CustomerComponent implements OnInit {
 		  if(this._cookieService.get('3') == "true")
 			this.delCustomer=true;   
 		 
-		  console.log("8");
+		  console.log("3");
     }
 	change()
 	{
@@ -113,8 +113,97 @@ export class CustomerComponent implements OnInit {
 				console.log(Md5.hashStr(this.custservpass));
 				if(this.oneEmployee[0].empPassword==Md5.hashStr(this.custservpass))
 				{
-					document.getElementById('confirm').style.display='none';
-					document.getElementById('reset').style.display='block';
+					if(this.customerID4 == this.recustomerID4)
+					{
+						
+						setTimeout (() => {
+							let uuid2 = UUID.UUID();
+							
+							this.cusPassword=uuid2.slice(0,-28);
+							this.data.push({
+								'customerID': this.oneCustomer[0].customerID, 
+								'cusPassword': Md5.hashStr(this.cusPassword), 
+								'number': this.oneCustomer[0].number, 
+								'address': this.oneCustomer[0].address,
+								'cusLastName': this.oneCustomer[0].cusLastName, 
+								'cusMiddleName': this.oneCustomer[0].cusMiddleName, 
+								'cusFirstName': this.oneCustomer[0].cusFirstName,				
+								'verificationCode': this.oneCustomer[0].verificationCode,
+								'barangay': this.oneCustomer[0].barangay,				
+							});
+							this.cust.resetPass(this.data[0],this.cusPassword);
+							this.customerID4='';
+							this.recustomerID4='';
+							this.cusPassword='';
+							this.data.pop();
+							this.oneCustomer.pop();
+							this.complexForm4.reset();
+						//	document.getElementById('reset').style.display='none';
+							document.getElementById('confirm').style.display='none';
+						}, 1500)	
+					}
+					else
+					{
+						alert("Customer ID does not match");
+					}
+					this.custservpass="";
+					this.complexForm5.reset();
+				//	document.getElementById('confirm').style.display='none';
+				//	document.getElementById('reset').style.display='block';
+				}
+				else
+				{
+					alert("Your password is incorrect!");
+				}
+		}, 1000)	
+
+	}
+	onSubmitCustServPass2(){
+		this.emp.getOneEmployee(this._cookieService.get('employeeID')).then(data => {
+					this.oneEmployee=data;
+		});
+		setTimeout (() => {
+				console.log(this.oneEmployee);
+				console.log(Md5.hashStr(this.custservpass));
+				if(this.oneEmployee[0].empPassword==Md5.hashStr(this.custservpass))
+				{
+					if(this.customerID4 == this.recustomerID4)
+					{
+						
+								setTimeout (() => {
+								let uuid2 = UUID.UUID();
+								
+								this.verificationCode=uuid2.slice(0,-23);
+								this.data.push({
+									'customerID': this.oneCustomer[0].customerID, 
+									'cusPassword': this.oneCustomer[0].cusPassword, 
+									'number': this.oneCustomer[0].number, 
+									'address': this.oneCustomer[0].address,
+									'cusLastName': this.oneCustomer[0].cusLastName, 
+									'cusMiddleName': this.oneCustomer[0].cusMiddleName, 
+									'cusFirstName': this.oneCustomer[0].cusFirstName,				
+									'verificationCode': this.verificationCode,
+									'barangay': this.oneCustomer[0].barangay,
+													
+								});
+								this.cust.resetCode(this.data[0],this.verificationCode);
+								this.customerID4='';
+								this.recustomerID4='';
+								this.verificationCode='';
+								this.data.pop();
+								this.complexForm4.reset();
+								//document.getElementById('reset').style.display='none';
+								document.getElementById('confirm2').style.display='none';
+							}, 1500)	
+					}
+					else
+					{
+						alert("Customer ID does not match");
+					}
+					this.custservpass="";
+					this.complexForm5.reset();
+				//	document.getElementById('confirm').style.display='none';
+				//	document.getElementById('reset').style.display='block';
 				}
 				else
 				{
@@ -248,47 +337,29 @@ export class CustomerComponent implements OnInit {
 	}
 	onSubmitPass(event:any)
 	{
-
 		if(this.customerID4 == this.recustomerID4)
 		{
-			
 			this.cust.getCustomer(this.customerID4).subscribe(result => {
 				this.oneCustomer=result;
 				if(this.oneCustomer.length==0)
-				alert("Customer ID does not exist")
+				{
+					alert("Customer ID does not exist")
+				}
+				else{
+					document.getElementById('reset').style.display='none';
+					document.getElementById('confirm').style.display='block';
+				}
 				console.log(this.oneCustomer); 
 			});
 			
-			setTimeout (() => {
-				let uuid2 = UUID.UUID();
-				
-				this.cusPassword=uuid2.slice(0,-28);
-				this.data.push({
-					'customerID': this.oneCustomer[0].customerID, 
-					'cusPassword': Md5.hashStr(this.cusPassword), 
-					'number': this.oneCustomer[0].number, 
-					'address': this.oneCustomer[0].address,
-					'cusLastName': this.oneCustomer[0].cusLastName, 
-					'cusMiddleName': this.oneCustomer[0].cusMiddleName, 
-					'cusFirstName': this.oneCustomer[0].cusFirstName,				
-					'verificationCode': this.oneCustomer[0].verificationCode,
-					'barangay': this.oneCustomer[0].barangay,				
-				});
-				this.cust.resetPass(this.data[0],this.cusPassword);
-				this.customerID4='';
-				this.recustomerID4='';
-				this.cusPassword='';
-				this.data.pop();
-				this.oneCustomer.pop();
-				this.complexForm.reset();
-			}, 1500)	
+			
 		}
 		else
 		{
 			alert("Customer ID does not match");
 		}
-		this.custservpass="";
-		this.complexForm5.reset();
+		
+		
 	}
 	onSubmitCode(event:any)
 	{
@@ -300,32 +371,14 @@ export class CustomerComponent implements OnInit {
 				this.oneCustomer=result;
 				if(this.oneCustomer.length==0)
 				alert("Customer ID does not exist")
+				else
+				{
+					document.getElementById('reset').style.display='none';
+					document.getElementById('confirm2').style.display='block';
+				}
 				console.log(this.oneCustomer); 
 			});
-			
-			setTimeout (() => {
-				let uuid2 = UUID.UUID();
 				
-				this.verificationCode=uuid2.slice(0,-23);
-				this.data.push({
-					'customerID': this.oneCustomer[0].customerID, 
-					'cusPassword': this.oneCustomer[0].cusPassword, 
-					'number': this.oneCustomer[0].number, 
-					'address': this.oneCustomer[0].address,
-					'cusLastName': this.oneCustomer[0].cusLastName, 
-					'cusMiddleName': this.oneCustomer[0].cusMiddleName, 
-					'cusFirstName': this.oneCustomer[0].cusFirstName,				
-					'verificationCode': this.verificationCode,
-					'barangay': this.oneCustomer[0].barangay,
-									
-				});
-				this.cust.resetCode(this.data[0],this.verificationCode);
-				this.customerID4='';
-				this.recustomerID4='';
-				this.verificationCode='';
-				this.data.pop();
-				this.complexForm2.reset();
-			}, 1500)	
 		}
 		else
 		{

@@ -78,6 +78,7 @@ export class CustServiceComponent implements OnInit {
 		];
 		complexForm : FormGroup;
 		complexForm4 : FormGroup;
+		complexForm5 : FormGroup;
 		complexeditForm : FormGroup;
 		empID:any;
 		reempID:any;
@@ -98,7 +99,10 @@ export class CustServiceComponent implements OnInit {
 				'lastName': [null, Validators.compose([Validators.required, Validators.pattern("[a-zA-Z][a-zA-Z ]+")])],
 				'password' : [null, Validators.compose([Validators.required, Validators.minLength(8), Validators.maxLength(16)])],
 				'type' : [null, Validators.required],
-				})
+			})
+					this.complexForm5 = fb.group({
+						'pass' : [null, Validators.required],
+				});
 				this.complexeditForm = fb2.group({
 			
 				'firstName' : [null, Validators.compose([Validators.required, Validators.pattern("[a-zA-Z][a-zA-Z ]+")])],
@@ -122,7 +126,7 @@ export class CustServiceComponent implements OnInit {
 				this.emp.getEmployee().subscribe(result => {
 					this.employees=result;
 				});
-				console.log("6");
+				console.log("2");
 		}
 		clickdel(event:any, id:number,fname:string,mname:string,lname:string){
 			
@@ -180,17 +184,11 @@ export class CustServiceComponent implements OnInit {
 			if(this.empID == this.reempID)
 			{
 				
-				this.emp.getOneEmployee(this.empID).then(result => {
-					this.oneEmployee=result;
-					if(this.oneEmployee.length==0)
-					alert("Employee ID does not exist")
-					console.log(this.oneEmployee); 
-				});
-				
 				setTimeout (() => {
 					let uuid2 = UUID.UUID();
 					this.empPassword=uuid2.slice(0,-28);
 					console.log(this.empPassword);
+					console.log(this.oneEmployee);
 					this.data.push({
 						'employeeID': this.empID,
 						'empPassword': Md5.hashStr(this.empPassword), 
@@ -205,12 +203,40 @@ export class CustServiceComponent implements OnInit {
 					this.empPassword='';
 					this.data.pop();
 					this.complexForm4.reset();
+					this.complexForm5.reset();
+					document.getElementById('confirm').style.display='none';
 				}, 1500)	
 			}
 			else
 			{
 				alert("Employee ID does not match");
 			}
+		}
+		onSubmitConfirm(event:any)
+		{
+			if(this.empID == this.reempID)
+			{
+				this.emp.getOneEmployee(this.empID).then(result => {
+					this.oneEmployee=result;
+					if(this.oneEmployee.length==0)
+					{
+						alert("Employee ID does not exist")
+					}
+					else{
+						document.getElementById('reset').style.display='none';
+						document.getElementById('confirm').style.display='block';
+					}
+					console.log(this.oneEmployee); 
+				});
+				
+				
+			}
+			else
+			{
+				alert("Employee ID does not match");
+			}
+			
+			
 		}
 		click(event:any, id:number,pass:string,fname:string,mname:string,lname:string,type:string){
 			console.log(id);

@@ -98,7 +98,7 @@
                     <button *ngIf="delCustomer" class="btn btn-danger" (click)="click($event,customer.customerID,customer.cusPassword,customer.cusFirstName,customer.cusMiddleName,customer.cusLastName,customer.number,customer.address,customer.verificationCode)" onclick="document.getElementById('del').style.display='block'">
                         <i class="fa fa-remove"></i>
                     </button>
-                    <button class="btn btn-success" (click)="click($event,customer.customerID,customer.cusPassword,customer.cusFirstName,customer.cusMiddleName,customer.cusLastName,customer.number,customer.address,customer.verificationCode)" onclick="document.getElementById('confirm').style.display='block'">
+                    <button class="btn btn-success" (click)="click($event,customer.customerID,customer.cusPassword,customer.cusFirstName,customer.cusMiddleName,customer.cusLastName,customer.number,customer.address,customer.verificationCode)" onclick="document.getElementById('reset').style.display='block'">
                         <i class="fa fa-repeat"></i>
                     </button>
                 </td>
@@ -335,6 +335,28 @@
 					</div>
                     <div  class="form-group">
                             <button [disabled]="!complexForm5.valid"  class="btn btn-primary" (click) ='onSubmitCustServPass($event)'>Submit</button>                          
+                    </div>
+                    
+                </div>
+            </div>
+        </form>
+</div>
+
+<!--confirm2-->
+<!-- The Modal -->
+<div id="confirm2" class="modal">
+    <span onclick="document.getElementById('confirm2').style.display='none'" (click)="clear()" class="close" title="Close Modal">&times;</span>
+        <!-- Modal Content" -->
+        <form [formGroup]="complexForm5" role="form" id="dataconfirm2" class="modal-content animate" >
+	        <div class="form-content">
+                <div class="container" align="center"><br><br> 
+                    <div align="left" class="form-group" [ngClass]="{'has-error':!complexForm5.controls['pass'].valid}">
+                            <label><b>Enter password</b></label> 
+                            <input type="password" [formControl]="complexForm5.controls['pass']" [(ngModel)]='custservpass' name='custservpass' class="form-control input-underline input-lg" id="custservpass" placeholder="Enter password">
+						    <div *ngIf="complexForm5.controls['pass'].hasError('required') && complexForm5.controls['pass'].touched" class="alert alert-danger">You must enter your password.</div>                         
+					</div>
+                    <div  class="form-group">
+                            <button [disabled]="!complexForm5.valid"  class="btn btn-primary" (click) ='onSubmitCustServPass2($event)'>Submit</button>                          
                     </div>
                     
                 </div>
