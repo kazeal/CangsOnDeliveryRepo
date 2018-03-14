@@ -12,7 +12,7 @@ import { NgZone, ChangeDetectorRef } from '@angular/core';
 import { Location } from '@angular/common';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { CookieService } from 'angular2-cookie/services/cookies.service';
-
+import { ItemRestoreService } from '../itemrestore/itemrestore.service';
 @Component({
 	moduleId: module.id,
     selector: 'item-page',
@@ -45,6 +45,7 @@ export class ItemComponent implements OnInit, OnChanges{
 	public customers: any= [];
     public items: any= {data:[]};
     public itemsnew: any= [];
+    public itemsdeleted:any={data:[]};
     public validpic:boolean =false;
     public notif:any=[];
     filesToUpload: File; //192.168.0.24:1025/UploadFile/coco.jpg
@@ -60,11 +61,14 @@ export class ItemComponent implements OnInit, OnChanges{
     public teststring:any;
     private timerSubscription: AnonymousSubscription;
     private postsSubscription: AnonymousSubscription;//FIX RELOAD DATA
+    private timerSubscription2: AnonymousSubscription;
+    private postsSubscription2: AnonymousSubscription;//FIX RELOAD DATA
     complexForm : FormGroup;
     valid:boolean=false;
     filter:string ='';
 	 constructor(
          public Data: ProductService,
+         public Data2: ItemRestoreService,
          private _http: HttpModule,
          private sanitizer:DomSanitizer,
          private chRef: ChangeDetectorRef,
@@ -94,6 +98,16 @@ export class ItemComponent implements OnInit, OnChanges{
                         });
                         
                 });        
+                this.Data2.getProducts().subscribe(data => {
+                        zone.run(() => {
+                            this.itemsdeleted.data=data;
+                            console.log(this.itemsdeleted.data);              
+                            for(var i=0;i<this.itemsdeleted.data.length;i++)
+                            this.itemsdeleted.data[i].picture="http://"+this.itemsdeleted.data[i].picture;
+                            //this.sanitizer.bypassSecurityTrustUrl(this.items.data[i].picture);                       
+                        });
+                        
+                }); 
                  if(this._cookieService.get('4') == "true")
                     this.addItem=true;
                 if(this._cookieService.get('5') == "true")
@@ -252,9 +266,17 @@ export class ItemComponent implements OnInit, OnChanges{
         }
         onSubmitAdd() {  
                 var found=false;
+                var name= this.itemName;
                 for(var i=0;i<this.items.data.length;i++)
                 {
-                    if(this.itemName==this.items.data[i].itemName)
+                    if(name.toLowerCase()==this.items.data[i].itemName.toLowerCase())
+                    {
+                         found=true;
+                    }
+                }
+                for(var i=0;i<this.itemsdeleted.data.length;i++)
+                {
+                    if(name.toLowerCase()==this.itemsdeleted.data[i].itemName.toLowerCase())
                     {
                          found=true;
                     }
@@ -322,6 +344,7 @@ export class ItemComponent implements OnInit, OnChanges{
         }
         ngOnInit() {
             this.refreshData();
+            this.refreshData2();
         }
     
         private refreshData(): void {
@@ -416,7 +439,7 @@ export class ItemComponent implements OnInit, OnChanges{
                         i=0;                          
                 this.subscribeToData();
               //  console.log(this.notif);
-              //  console.log(this.items.data);
+               console.log(this.items.data);
                 for(var b=0;b<this.notif.length;b++)
                 {
                     if(!this.notif[b].display)
@@ -450,7 +473,71 @@ export class ItemComponent implements OnInit, OnChanges{
                 this.timerSubscription.unsubscribe();
                 }
         }  
-        
+
+          private refreshData2(): void {
+            this.zone.run(() => {
+            this.chRef.detectChanges();
+            this.postsSubscription2 = this.Data2.getProducts().subscribe(
+
+            data  => {
+                        console.log(this.itemsdeleted.data.length);
+                        var i =0;
+                        for (let item of data)
+                        {
+                                if(item.picture.substring(0,2) != "http://")
+                                {
+                                    item.picture="http://"+item.picture;
+                                }                           
+                                this.itemsdeleted.data[i]=({
+                                    'itemID': item.itemID, 
+                                    'itemName': item.itemName, 
+                                    'itemQuantityStored': item.itemQuantityStored, 
+                                    'itemPrice': item.itemPrice,
+                                    'purchaseCountAllTime': item.purchaseCountAllTime, 
+                                    'picture': item.picture, 
+                                    'itemDescription': item.itemDescription,
+                                    'category': item.category,				
+                                });
+                                i=i+1;
+                        }
+                        if(i < this.itemsdeleted.data.length)
+                        {
+                            let dif = this.itemsdeleted.data.length - i;
+                            let test;
+                            for(dif;dif>0;dif--)
+                            {
+                                    test=this.itemsdeleted.data.pop();
+                                    console.log(test);
+                            }
+                        }
+                        i=0;                          
+                this.subscribeToData2();
+                console.log(this.itemsdeleted.data);
+            },
+            function (error) {
+                console.log(error);
+            },
+            function () {
+               // console.log("complete");
+            }
+            );
+            });
+        }
+        private subscribeToData2(): void {
+
+                this.timerSubscription2 = Observable.timer(3000)
+                .subscribe(() => this.refreshData2());
+        }
+        public ngOnDestroy2(): void {
+
+                if (this.postsSubscription2) {
+                this.postsSubscription2.unsubscribe();
+                }
+                if (this.timerSubscription2) {
+                this.timerSubscription2.unsubscribe();
+                }
+        }   
+
 }
 
 

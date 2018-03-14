@@ -17,8 +17,8 @@ export class ProductService{
     public static fileName:any;
     public log:any=[];
     public data2:any=[];
-   //  private _apiUrl = 'http://192.168.0.24:1025';//192.168.0.24:1025
-     private _apiUrl = 'http://192.168.0.24:1025';//192.168.0.24:1025
+   //  private _apiUrl = 'http://192.168.1.219:1025';//192.168.1.219:1025
+     private _apiUrl = 'http://192.168.1.219:1025';//192.168.1.219:1025
    
     constructor(private _http: Http,private _cookieService:CookieService){
         //https://cangsapi.000webhostapp.com/index.php/Products/get_products
@@ -56,7 +56,7 @@ export class ProductService{
        this.addPicture(pic);
        setTimeout (() => {
            console.log(ProductService.fileName);
-            data["picture"]="192.168.0.24:1025/UploadFile/"+ProductService.fileName;
+            data["picture"]="192.168.1.219:1025/UploadFile/"+ProductService.fileName;
             console.log(data);
              let headers = new Headers();
             headers.append('Content-Type', 'application/x-www-form-urlencoded');

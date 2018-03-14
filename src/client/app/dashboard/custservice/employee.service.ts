@@ -15,8 +15,8 @@ export class EmployeeService{
     public addRights: any =[];
     public editRights: any =[];
     public static employeeID:any;
-  //  private _apiUrl = 'http://192.168.0.24:1025';//http://192.168.0.24:1025 //http://192.168.1.153:1025
-    private _apiUrl = 'http://192.168.0.24:1025';
+  //  private _apiUrl = 'http://192.168.1.219:1025';//http://192.168.1.219:1025 //http://192.168.1.153:1025
+    private _apiUrl = 'http://192.168.1.219:1025';
     constructor(private _http: Http){}
      
     getEmployee(){
